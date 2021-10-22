@@ -1,8 +1,8 @@
 {
-  "name": "vue-element-admin",
-  "version": "4.4.0",
+  "name": "cdp-web-vue",
+  "version": "0.0.1",
   "description": "A magical vue admin. An out-of-box UI solution for enterprise applications. Newest development stack of vue. Lots of awesome features",
-  "author": "Pan <panfree23@gmail.com>",
+  "author": "kushu001 <yj_tao123@sina.com>",
   "scripts": {
     "dev": "vue-cli-service serve",
     "lint": "eslint --ext .js,.vue src",
@@ -77,7 +77,7 @@
     "last 2 versions"
   ],
   "bugs": {
-    "url": "https://github.com/PanJiaChen/vue-element-admin/issues"
+    "url": "https://github.com/kushu001/cdp-web-vue/issues"
   },
   "engines": {
     "node": ">=8.9",
@@ -106,6 +106,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/PanJiaChen/vue-element-admin.git"
+    "url": "git+https://github.com/kushu001/cdp-web-vue.git"
   }
 }
