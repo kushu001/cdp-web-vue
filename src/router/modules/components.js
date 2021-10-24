@@ -8,7 +8,7 @@ const componentsRouter = {
   redirect: 'noRedirect',
   name: 'ComponentDemo',
   meta: {
-    title: 'Components',
+    title: '组件',
     icon: 'component'
   },
   children: [
@@ -28,19 +28,19 @@ const componentsRouter = {
       path: 'json-editor',
       component: () => import('@/views/components-demo/json-editor'),
       name: 'JsonEditorDemo',
-      meta: { title: 'JSON Editor' }
+      meta: { title: 'JSON 编辑器' }
     },
     {
       path: 'split-pane',
       component: () => import('@/views/components-demo/split-pane'),
       name: 'SplitpaneDemo',
-      meta: { title: 'SplitPane' }
+      meta: { title: '拆分面板' }
     },
     {
       path: 'avatar-upload',
       component: () => import('@/views/components-demo/avatar-upload'),
       name: 'AvatarUploadDemo',
-      meta: { title: 'Upload' }
+      meta: { title: '上传' }
     },
     {
       path: 'dropzone',
@@ -70,19 +70,19 @@ const componentsRouter = {
       path: 'back-to-top',
       component: () => import('@/views/components-demo/back-to-top'),
       name: 'BackToTopDemo',
-      meta: { title: 'Back To Top' }
+      meta: { title: '回到顶部' }
     },
     {
       path: 'drag-dialog',
       component: () => import('@/views/components-demo/drag-dialog'),
       name: 'DragDialogDemo',
-      meta: { title: 'Drag Dialog' }
+      meta: { title: '拖拽弹窗' }
     },
     {
       path: 'drag-select',
       component: () => import('@/views/components-demo/drag-select'),
       name: 'DragSelectDemo',
-      meta: { title: 'Drag Select' }
+      meta: { title: '拖拽 Select' }
     },
     {
       path: 'dnd-list',
@@ -94,7 +94,7 @@ const componentsRouter = {
       path: 'drag-kanban',
       component: () => import('@/views/components-demo/drag-kanban'),
       name: 'DragKanbanDemo',
-      meta: { title: 'Drag Kanban' }
+      meta: { title: '拖拽看板' }
     }
   ]
 }

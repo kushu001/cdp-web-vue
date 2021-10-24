@@ -44,7 +44,7 @@
 export default {
   data() {
     return {
-      currentPage:10,
+      currentPage: 10,
       formInline: {
         user: '',
         region: ''

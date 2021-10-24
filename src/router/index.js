@@ -79,19 +79,31 @@ export const constantRoutes = [
         path: 'dashboard',
         component: () => import('@/views/dashboard/index'),
         name: 'Dashboard',
-        meta: { title: 'Dashboard', icon: 'dashboard', affix: true }
+        meta: { title: '仪表盘', icon: 'dashboard', affix: true }
       }
     ]
   },
   {
-    path: '/users',
+    path: '/system',
     component: Layout,
+    name: 'System',
+    redirect: '/system/user',
+    meta: {
+      title: '系统管理',
+      icon: 'setting'
+    },
     children: [
       {
-        path: 'index',
-        component: () => import('@/views/users/index'),
-        name: 'Users',
+        path: 'user',
+        component: () => import('@/views/system/users/index'),
+        name: 'User',
         meta: { title: '用户管理', icon: 'user' }
+      },
+      {
+        path: 'role',
+        component: () => import('@/views/system/roles/index'),
+        name: 'Role',
+        meta: { title: '角色管理', icon: 'user-role' }
       }
     ]
   },
@@ -103,7 +115,7 @@ export const constantRoutes = [
         path: 'index',
         component: () => import('@/views/documentation/index'),
         name: 'Documentation',
-        meta: { title: 'Documentation', icon: 'documentation' }
+        meta: { title: '文档', icon: 'documentation' }
       }
     ]
   },
@@ -116,7 +128,7 @@ export const constantRoutes = [
         path: 'index',
         component: () => import('@/views/guide/index'),
         name: 'Guide',
-        meta: { title: 'Guide', icon: 'guide', noCache: true }
+        meta: { title: '指南', icon: 'guide', noCache: true }
       }
     ]
   },
@@ -130,7 +142,7 @@ export const constantRoutes = [
         path: 'index',
         component: () => import('@/views/profile/index'),
         name: 'Profile',
-        meta: { title: 'Profile', icon: 'user', noCache: true }
+        meta: { title: '简介', icon: 'user', noCache: true }
       }
     ]
   }
@@ -148,7 +160,7 @@ export const asyncRoutes = [
     alwaysShow: true, // will always show the root menu
     name: 'Permission',
     meta: {
-      title: 'Permission',
+      title: '权限',
       icon: 'lock',
       roles: ['admin', 'editor'] // you can set roles in root nav
     },
@@ -158,7 +170,7 @@ export const asyncRoutes = [
         component: () => import('@/views/permission/page'),
         name: 'PagePermission',
         meta: {
-          title: 'Page Permission',
+          title: '页面权限',
           roles: ['admin'] // or you can only set roles in sub nav
         }
       },
@@ -167,7 +179,7 @@ export const asyncRoutes = [
         component: () => import('@/views/permission/directive'),
         name: 'DirectivePermission',
         meta: {
-          title: 'Directive Permission'
+          title: '控制权限'
           // if do not set roles, means: this page does not require permission
         }
       },
@@ -176,7 +188,7 @@ export const asyncRoutes = [
         component: () => import('@/views/permission/role'),
         name: 'RolePermission',
         meta: {
-          title: 'Role Permission',
+          title: '角色权限',
           roles: ['admin']
         }
       }
@@ -191,7 +203,7 @@ export const asyncRoutes = [
         path: 'index',
         component: () => import('@/views/icons/index'),
         name: 'Icons',
-        meta: { title: 'Icons', icon: 'icon', noCache: true }
+        meta: { title: '图标', icon: 'icon', noCache: true }
       }
     ]
   },
@@ -208,7 +220,7 @@ export const asyncRoutes = [
     redirect: '/example/list',
     name: 'Example',
     meta: {
-      title: 'Example',
+      title: '案例',
       icon: 'el-icon-s-help'
     },
     children: [
@@ -242,7 +254,7 @@ export const asyncRoutes = [
         path: 'index',
         component: () => import('@/views/tab/index'),
         name: 'Tab',
-        meta: { title: 'Tab', icon: 'tab' }
+        meta: { title: '标签', icon: 'tab' }
       }
     ]
   },
@@ -253,7 +265,7 @@ export const asyncRoutes = [
     redirect: 'noRedirect',
     name: 'ErrorPages',
     meta: {
-      title: 'Error Pages',
+      title: '错误页面',
       icon: '404'
     },
     children: [
@@ -280,7 +292,7 @@ export const asyncRoutes = [
         path: 'log',
         component: () => import('@/views/error-log/index'),
         name: 'ErrorLog',
-        meta: { title: 'Error Log', icon: 'bug' }
+        meta: { title: '错误日志', icon: 'bug' }
       }
     ]
   },
@@ -299,25 +311,25 @@ export const asyncRoutes = [
         path: 'export-excel',
         component: () => import('@/views/excel/export-excel'),
         name: 'ExportExcel',
-        meta: { title: 'Export Excel' }
+        meta: { title: '导出 Excel' }
       },
       {
         path: 'export-selected-excel',
         component: () => import('@/views/excel/select-excel'),
         name: 'SelectExcel',
-        meta: { title: 'Export Selected' }
+        meta: { title: '导出选中项' }
       },
       {
         path: 'export-merge-header',
         component: () => import('@/views/excel/merge-header'),
         name: 'MergeHeader',
-        meta: { title: 'Merge Header' }
+        meta: { title: '多表头' }
       },
       {
         path: 'upload-excel',
         component: () => import('@/views/excel/upload-excel'),
         name: 'UploadExcel',
-        meta: { title: 'Upload Excel' }
+        meta: { title: '上传 Excel' }
       }
     ]
   },
@@ -334,7 +346,7 @@ export const asyncRoutes = [
         path: 'download',
         component: () => import('@/views/zip/index'),
         name: 'ExportZip',
-        meta: { title: 'Export Zip' }
+        meta: { title: '导出 Zip' }
       }
     ]
   },
@@ -366,7 +378,7 @@ export const asyncRoutes = [
         path: 'index',
         component: () => import('@/views/theme/index'),
         name: 'Theme',
-        meta: { title: 'Theme', icon: 'theme' }
+        meta: { title: '主题', icon: 'theme' }
       }
     ]
   },
@@ -379,7 +391,7 @@ export const asyncRoutes = [
         path: 'index',
         component: () => import('@/views/clipboard/index'),
         name: 'ClipboardDemo',
-        meta: { title: 'Clipboard', icon: 'clipboard' }
+        meta: { title: '剪贴板', icon: 'clipboard' }
       }
     ]
   },
@@ -390,7 +402,7 @@ export const asyncRoutes = [
     children: [
       {
         path: 'https://github.com/PanJiaChen/vue-element-admin',
-        meta: { title: 'External Link', icon: 'link' }
+        meta: { title: '外链', icon: 'link' }
       }
     ]
   },
