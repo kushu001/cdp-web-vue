@@ -104,6 +104,12 @@ export const constantRoutes = [
         component: () => import('@/views/system/roles/index'),
         name: 'Role',
         meta: { title: '角色管理', icon: 'user-role' }
+      },
+      {
+        path: 'org',
+        component: () => import('@/views/system/orgs/index'),
+        name: 'Org',
+        meta: { title: '部门管理', icon: 'org' }
       }
     ]
   },
