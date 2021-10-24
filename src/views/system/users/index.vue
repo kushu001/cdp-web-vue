@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import TableArea from './components/table-area'
+import TableArea from '../components/table-area'
 
 export default {
   components: {
