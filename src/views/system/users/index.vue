@@ -9,9 +9,9 @@
           <el-button type="primary" @click="onSubmit">查询</el-button>
         </el-form-item>
       </el-form>
-      <el-tree :data="data" :expand-on-click-node="false" :props="defaultProps" @node-click="handleNodeClick" />
+      <el-tree :data="treeData" :expand-on-click-node="false" :props="defaultProps" @node-click="handleNodeClick" />
     </el-aside>
-    <table-area />
+    <table-area :data="tableData" :columns="columns" />
   </el-container>
 </template>
 
@@ -24,11 +24,59 @@ export default {
   },
   data() {
     return {
+      text: 'hello',
       formInline: {
         user: '',
         region: ''
       },
-      data: [{
+      columns: [
+        {
+          name: 'account',
+          type: 'input',
+          label: '账号',
+          width: 180,
+          defaultValue: ''
+        },
+        {
+          name: 'name',
+          type: 'input',
+          label: '姓名',
+          width: 180
+        },
+        {
+          name: 'address',
+          type: 'input',
+          label: '地址'
+        },
+        {
+          name: 'date',
+          type: 'date',
+          label: '创建日期',
+          width: 180
+        }
+      ],
+      tableData: [{
+        account: 'admin',
+        date: '2016-05-02',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1518 弄'
+      }, {
+        account: 'admin',
+        date: '2016-05-04',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1517 弄'
+      }, {
+        account: 'admin',
+        date: '2016-05-01',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1519 弄'
+      }, {
+        account: 'admin',
+        date: '2016-05-03',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1516 弄'
+      }],
+      treeData: [{
         label: '一级 1',
         children: [{
           label: '二级 1-1',

@@ -1,76 +1,90 @@
 <template>
   <el-container>
-    <el-main>
-      <el-form :inline="true" :model="formInline" class="demo-form-inline">
-        <el-form-item label="审批人">
-          <el-input v-model="formInline.user" placeholder="审批人" />
-        </el-form-item>
-        <el-form-item label="活动区域">
-          <el-select v-model="formInline.region" placeholder="活动区域">
-            <el-option label="区域一" value="shanghai" />
-            <el-option label="区域二" value="beijing" />
-          </el-select>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="onSubmit">查询</el-button>
-        </el-form-item>
-      </el-form>
-      <el-table
-        :data="tableData"
-        style="width: 100%;margin-bottom: 20px;"
-        row-key="id"
-        border
-        default-expand-all
-        :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
-      >
-        <el-table-column prop="name" label="姓名" sortable width="180" />
-        <el-table-column prop="address" label="地址" />
-        <el-table-column prop="date" label="日期" sortable width="180" />
-      </el-table>
-    </el-main>
-    <el-footer>
-      <el-pagination :current-page.sync="currentPage" background layout="->, prev, pager, next, jumper, sizes, total" :total="1000" :page-size="50" :page-sizes="[100, 200, 300, 400]" @size-change="sizeChangeHandler" @current-change="currentChangeHandler" @prev-click="preClickHandler" @next-click="nextClickHandler" />
-    </el-footer>
+    <table-area :data="tableData" :columns="columns" />
   </el-container>
 </template>
 <script>
+
+import TableArea from '../components/table-area'
+
 export default {
+  components: {
+    TableArea
+  },
   data() {
     return {
       formInline: {
         user: '',
         region: ''
       },
+      columns: [
+        {
+          name: 'name',
+          type: 'input',
+          label: '公司/部门名称',
+          width: 180,
+          defaultValue: ''
+        },
+        {
+          name: 'code',
+          type: 'input',
+          label: '部门代码',
+          width: 180
+        },
+        {
+          name: 'leader',
+          type: 'input',
+          label: '部门负责人'
+        },
+        {
+          name: 'date',
+          type: 'date',
+          label: '创建日期',
+          width: 180
+        }
+      ],
       tableData: [{
         id: 1,
         date: '2016-05-02',
-        name: '王小虎',
+        leader: '王小虎',
+        code: 'D0001',
+        name: '部门一',
         address: '上海市普陀区金沙江路 1518 弄'
       }, {
         id: 2,
         date: '2016-05-04',
-        name: '王小虎',
+        leader: '王小虎',
+        code: 'D0002',
+        name: '部门二',
         address: '上海市普陀区金沙江路 1517 弄'
       }, {
         id: 3,
         date: '2016-05-01',
-        name: '王小虎',
+        leader: '王小虎',
+        code: 'D0003',
+        name: '部门三',
         address: '上海市普陀区金沙江路 1519 弄',
         children: [{
           id: 31,
           date: '2016-05-01',
-          name: '王小虎',
+          leader: '王小虎',
+          code: 'D0031',
+          name: '部门四',
           address: '上海市普陀区金沙江路 1519 弄'
         }, {
           id: 32,
           date: '2016-05-01',
-          name: '王小虎',
+          leader: '王小虎',
+          code: 'D0032',
+          name: '部门五',
           address: '上海市普陀区金沙江路 1519 弄'
         }]
       }, {
         id: 4,
         date: '2016-05-03',
-        name: '王小虎',
+        leader: '王小虎',
+        code: 'D0004',
+        name: '部门六',
         address: '上海市普陀区金沙江路 1516 弄'
       }]
     }
@@ -94,3 +108,5 @@ export default {
   }
 }
 </script>
+
+    TableArea

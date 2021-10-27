@@ -12,9 +12,11 @@
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="onSubmit">查询</el-button>
+          <el-button type="success" plain>新增</el-button>
+          <el-button type="danger" plain>批量删除</el-button>
         </el-form-item>
       </el-form>
-      <el-table :data="data" border style="width: 100%">
+      <el-table :data="data" :row-key="key" border style="width: 100%">
         <el-table-column type="selection" width="55" />
         <el-table-column v-for="column in columns" :key="column.name" :prop="column.name" :label="column.label" :width="column.width" />
         <el-table-column fixed="right" label="操作" width="120">
@@ -43,57 +45,24 @@
 
 <script>
 export default {
+  props: {
+    'columns': {
+      type: Object,
+      default: null
+    },
+    'data': {
+      type: Object,
+      default: null
+    },
+    'key': {
+      type: String|Number,
+      default: "id"
+    }
+  },
   data() {
     return {
       formInline: {
-      },
-      columns: [
-        {
-          name: 'account',
-          type: 'input',
-          label: '账号',
-          width: 180,
-          defaultValue: ''
-        },
-        {
-          name: 'name',
-          type: 'input',
-          label: '姓名',
-          width: 180
-        },
-        {
-          name: 'address',
-          type: 'input',
-          label: '地址'
-        },
-        {
-          name: 'date',
-          type: 'date',
-          label: '创建日期',
-          width: 180
-        }
-      ],
-      data: [{
-        account: 'admin',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        account: 'admin',
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        account: 'admin',
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        account: 'admin',
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄'
-      }]
+      }
     }
   },
   methods: {

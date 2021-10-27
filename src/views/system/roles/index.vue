@@ -1,6 +1,6 @@
 <template>
   <el-container>
-    <table-area />
+    <table-area :data="data" :columns="columns" />
   </el-container>
 </template>
 <script>
@@ -19,50 +19,38 @@ export default {
       },
       columns: [
         {
-          name: 'account',
+          name: 'name',
           type: 'input',
-          label: '账号',
-          width: 180,
+          label: '角色名称',
           defaultValue: ''
         },
         {
-          name: 'name',
+          name: 'code',
           type: 'input',
-          label: '姓名',
-          width: 180
-        },
-        {
-          name: 'address',
-          type: 'input',
-          label: '地址'
+          label: '代码'
         },
         {
           name: 'date',
           type: 'date',
-          label: '创建日期',
-          width: 180
+          label: '创建日期'
         }
       ],
       data: [{
-        account: 'admin',
         date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
+        name: '管理员',
+        code: '0001'
       }, {
-        account: 'admin',
         date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
+        name: '测试员',
+        code: '0002'
       }, {
-        account: 'admin',
         date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
+         name: '测试员2',
+         code: '0003'
       }, {
-        account: 'admin',
         date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄'
+        name: '测试员4',
+        code: '0003'
       }]
     }
   },
