@@ -45,8 +45,8 @@ export default {
         code: '0002'
       }, {
         date: '2016-05-01',
-         name: '测试员2',
-         code: '0003'
+        name: '测试员2',
+        code: '0003'
       }, {
         date: '2016-05-03',
         name: '测试员4',

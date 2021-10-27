@@ -4,7 +4,6 @@
   </el-container>
 </template>
 <script>
-
 import TableArea from '../components/table-area'
 
 export default {
@@ -108,5 +107,3 @@ export default {
   }
 }
 </script>
-
-    TableArea

@@ -55,8 +55,8 @@ export default {
       default: null
     },
     'key': {
-      type: String|Number,
-      default: "id"
+      type: String,
+      default: 'id'
     }
   },
   data() {
