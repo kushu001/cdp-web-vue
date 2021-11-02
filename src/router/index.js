@@ -110,6 +110,12 @@ export const constantRoutes = [
         component: () => import('@/views/system/orgs/index'),
         name: 'Org',
         meta: { title: '部门管理', icon: 'org' }
+      },
+      {
+        path: 'log',
+        component: () => import('@/views/system/logs/index'),
+        name: 'Log',
+        meta: { title: '日志管理', icon: 'log' }
       }
     ]
   },
