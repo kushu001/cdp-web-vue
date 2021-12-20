@@ -16,7 +16,7 @@
           <el-button type="danger" plain>批量删除</el-button>
         </el-form-item>
       </el-form>
-      <el-table :data="data" :row-key="key" border style="width: 100%">
+      <el-table :data="data" row-key="code" border style="width: 100%">
         <el-table-column type="selection" width="55" />
         <el-table-column v-for="column in columns" :key="column.name" :prop="column.name" :label="column.label" :width="column.width" />
         <el-table-column fixed="right" label="操作" width="120">
@@ -47,27 +47,28 @@
 export default {
   props: {
     'columns': {
-      type: Object,
+      type: Array,
       default: null
     },
     'data': {
-      type: Object,
+      type: Array,
       default: null
     },
-    'key': {
+    'id': {
       type: String,
-      default: 'id'
+      default: null
     }
   },
   data() {
     return {
+      currentPage: 1,
       formInline: {
       }
     }
   },
   methods: {
-    onSubmit() {
-
+    onSubmit(data) {
+      console.log(data)
     },
     sizeChangeHandler(pageSize) {
       console.log(`每页条数:${pageSize}`)
