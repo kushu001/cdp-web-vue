@@ -12,7 +12,7 @@
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="onSubmit">查询</el-button>
-          <el-button type="success" plain>新增</el-button>
+          <el-button type="success" plain @click="dialogFormVisible=true">新增</el-button>
           <el-button type="danger" plain>批量删除</el-button>
         </el-form-item>
       </el-form>
@@ -37,6 +37,7 @@
         </el-table-column>
       </el-table>
     </el-main>
+    <table-form :dialog-form-visible.sync="dialogFormVisible" />
     <el-footer>
       <el-pagination :current-page.sync="currentPage" background layout="->, prev, pager, next, jumper, sizes, total" :total="1000" :page-size="50" :page-sizes="[100, 200, 300, 400]" @size-change="sizeChangeHandler" @current-change="currentChangeHandler" @prev-click="preClickHandler" @next-click="nextClickHandler" />
     </el-footer>
@@ -44,7 +45,11 @@
 </template>
 
 <script>
+import TableForm from '../components/table-form.vue'
 export default {
+  components: {
+    TableForm
+  },
   props: {
     'columns': {
       type: Array,
@@ -63,7 +68,8 @@ export default {
     return {
       currentPage: 1,
       formInline: {
-      }
+      },
+      dialogFormVisible: false
     }
   },
   methods: {
