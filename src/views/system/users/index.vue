@@ -11,7 +11,7 @@
       </el-form>
       <el-tree :data="treeData" :expand-on-click-node="false" :props="defaultProps" @node-click="handleNodeClick" />
     </el-aside>
-    <table-area :data="tableData" :columns="columns" />
+    <table-area :data="tableData" :columns="columns" :title="title" />
   </el-container>
 </template>
 
@@ -24,11 +24,11 @@ export default {
   },
   data() {
     return {
-      text: 'hello',
       formInline: {
         user: '',
         region: ''
       },
+      title: '用户',
       columns: [
         {
           name: 'account',

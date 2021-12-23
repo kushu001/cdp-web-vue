@@ -1,6 +1,6 @@
 <template>
   <el-container>
-    <table-area :data="tableData" :columns="columns" />
+    <table-area :data="tableData" :columns="columns" :title="title" />
   </el-container>
 </template>
 <script>
@@ -12,6 +12,7 @@ export default {
   },
   data() {
     return {
+      title: '日志',
       columns: [
         {
           name: 'module',
@@ -37,7 +38,8 @@ export default {
           label: '创建日期',
           width: 180
         }
-      ]
+      ],
+      tableData: []
     }
   }
 }

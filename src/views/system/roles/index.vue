@@ -1,6 +1,6 @@
 <template>
   <el-container>
-    <table-area :data="data" :columns="columns" />
+    <table-area :data="data" :columns="columns" :title="title" />
   </el-container>
 </template>
 <script>
@@ -17,6 +17,7 @@ export default {
         user: '',
         region: ''
       },
+      title: '角色',
       columns: [
         {
           name: 'name',

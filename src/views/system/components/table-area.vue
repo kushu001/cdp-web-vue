@@ -20,8 +20,8 @@
         <el-table-column type="selection" width="55" />
         <el-table-column v-for="column in columns" :key="column.name" :prop="column.name" :label="column.label" :width="column.width" />
         <el-table-column fixed="right" label="操作" width="120">
-          <template>
-            <el-button type="text" size="small">
+          <template slot-scope="scope">
+            <el-button type="text" size="small" @click="handleClick(scope.row)">
               编辑
             </el-button>
             <el-button type="text" size="small">
@@ -37,10 +37,11 @@
         </el-table-column>
       </el-table>
     </el-main>
-    <table-form :dialog-form-visible.sync="dialogFormVisible" />
     <el-footer>
       <el-pagination :current-page.sync="currentPage" background layout="->, prev, pager, next, jumper, sizes, total" :total="1000" :page-size="50" :page-sizes="[100, 200, 300, 400]" @size-change="sizeChangeHandler" @current-change="currentChangeHandler" @prev-click="preClickHandler" @next-click="nextClickHandler" />
     </el-footer>
+    <!-- 弹窗 -->
+    <table-form :dialog-form-visible.sync="dialogFormVisible" :columns="columns" :title="title" />
   </el-container>
 </template>
 
@@ -62,6 +63,10 @@ export default {
     'id': {
       type: String,
       default: null
+    },
+    'title': {
+      type: String,
+      default: null
     }
   },
   data() {
@@ -75,6 +80,9 @@ export default {
   methods: {
     onSubmit(data) {
       console.log(data)
+    },
+    handleClick(row) {
+      console.log(row.name)
     },
     sizeChangeHandler(pageSize) {
       console.log(`每页条数:${pageSize}`)
