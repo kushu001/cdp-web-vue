@@ -40,7 +40,8 @@ export default {
           name: 'date',
           type: 'date',
           label: '创建日期',
-          width: 180
+          width: 180,
+          formHidden: true
         }
       ],
       tableData: [{

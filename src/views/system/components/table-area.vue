@@ -12,16 +12,16 @@
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="onSubmit">查询</el-button>
-          <el-button type="success" plain @click="dialogFormVisible=true">新增</el-button>
+          <el-button type="success" plain @click="dialogFormVisible=true,opt='新增'">新增</el-button>
           <el-button type="danger" plain>批量删除</el-button>
         </el-form-item>
       </el-form>
-      <el-table :data="data" row-key="code" border style="width: 100%">
+      <el-table :data="data" row-key="id" border style="width: 100%">
         <el-table-column type="selection" width="55" />
         <el-table-column v-for="column in columns" :key="column.name" :prop="column.name" :label="column.label" :width="column.width" />
         <el-table-column fixed="right" label="操作" width="120">
           <template slot-scope="scope">
-            <el-button type="text" size="small" @click="handleClick(scope.row)">
+            <el-button type="text" size="small" @click="editFormHandler(scope.row)">
               编辑
             </el-button>
             <el-button type="text" size="small">
@@ -41,7 +41,7 @@
       <el-pagination :current-page.sync="currentPage" background layout="->, prev, pager, next, jumper, sizes, total" :total="1000" :page-size="50" :page-sizes="[100, 200, 300, 400]" @size-change="sizeChangeHandler" @current-change="currentChangeHandler" @prev-click="preClickHandler" @next-click="nextClickHandler" />
     </el-footer>
     <!-- 弹窗 -->
-    <table-form :dialog-form-visible.sync="dialogFormVisible" :columns="columns" :title="title" />
+    <table-form :ids="ids" :item="item" :dialog-form-visible.sync="dialogFormVisible" :columns="columns" :opt="opt" :title="title" />
   </el-container>
 </template>
 
@@ -60,10 +60,6 @@ export default {
       type: Array,
       default: null
     },
-    'id': {
-      type: String,
-      default: null
-    },
     'title': {
       type: String,
       default: null
@@ -72,17 +68,22 @@ export default {
   data() {
     return {
       currentPage: 1,
-      formInline: {
-      },
-      dialogFormVisible: false
+      opt: '新增',
+      formInline: {},
+      dialogFormVisible: false,
+      ids: 1,
+      item: {}
     }
   },
   methods: {
     onSubmit(data) {
       console.log(data)
     },
-    handleClick(row) {
-      console.log(row.name)
+    editFormHandler(row) {
+      this.dialogFormVisible = true
+      this.ids = row.id
+      this.item = { ...row }
+      this.opt = '修改'
     },
     sizeChangeHandler(pageSize) {
       console.log(`每页条数:${pageSize}`)
