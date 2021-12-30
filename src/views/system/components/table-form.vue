@@ -14,7 +14,7 @@
           </el-form-item>
         </div>
         <el-form-item>
-          <el-button type="primary" @click="onSubmit">立即创建</el-button>
+          <el-button type="primary" @click="onSubmit">保存</el-button>
           <el-button @click="closeHandler">取消</el-button>
         </el-form-item>
       </el-form>
@@ -55,7 +55,6 @@ export default {
       obj[cur] = ''
       return obj
     }, {})
-    console.log({ ...form })
     return {
       form
     }
@@ -64,6 +63,9 @@ export default {
     item() {
       this.form = { ...this.item }
     }
+  },
+  created() {
+    console.log('created')
   },
   methods: {
     closeHandler() {

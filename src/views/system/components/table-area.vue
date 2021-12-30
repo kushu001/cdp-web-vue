@@ -1,14 +1,14 @@
 <template>
   <el-container>
     <el-main>
-      <el-form :inline="true" :model="formInline">
+      <el-form ref="form" :inline="true" :model="formInline">
         <el-form-item v-for="column in columns" :key="column.name" :label="column.label">
-          <el-input v-if="column.type=='input'" v-model="column.defaultValue" :name="column.name" :placeholder="`请输入${column.label}`" />
+          <el-input v-if="column.type=='input'" v-model="formInline[column.name]" :name="column.name" :placeholder="`请输入${column.label}`" />
           <el-select v-if="column.type=='select'" v-model="formInline.region" :placeholder="`请选择${column.label}`">
             <el-option label="区域一" value="shanghai" />
             <el-option label="区域二" value="beijing" />
           </el-select>
-          <el-date-picker v-if="column.type=='date'" v-model="column.defaultValue" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" />
+          <el-date-picker v-if="column.type=='date'" v-model="formInline[column.name]" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" />
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="onSubmit">查询</el-button>
@@ -16,7 +16,7 @@
           <el-button type="danger" plain>批量删除</el-button>
         </el-form-item>
       </el-form>
-      <el-table :data="data" row-key="id" border style="width: 100%">
+      <el-table v-loading="loading" :data="tableData" row-key="id" border style="width: 100%">
         <el-table-column type="selection" width="55" />
         <el-table-column v-for="column in columns" :key="column.name" :prop="column.name" :label="column.label" :width="column.width" />
         <el-table-column fixed="right" label="操作" width="120">
@@ -38,7 +38,7 @@
       </el-table>
     </el-main>
     <el-footer>
-      <el-pagination :current-page.sync="currentPage" background layout="->, prev, pager, next, jumper, sizes, total" :total="1000" :page-size="50" :page-sizes="[100, 200, 300, 400]" @size-change="sizeChangeHandler" @current-change="currentChangeHandler" @prev-click="preClickHandler" @next-click="nextClickHandler" />
+      <el-pagination :current-page.sync="currentPage" background layout="->, prev, pager, next, jumper, sizes, total" :total="total" :page-size="10" :page-sizes="[10, 20, 30, 40]" @size-change="sizeChangeHandler" @current-change="currentChangeHandler" @prev-click="preClickHandler" @next-click="nextClickHandler" />
     </el-footer>
     <!-- 弹窗 -->
     <table-form :ids="ids" :item="item" :dialog-form-visible.sync="dialogFormVisible" :columns="columns" :opt="opt" :title="title" />
@@ -47,6 +47,8 @@
 
 <script>
 import TableForm from '../components/table-form.vue'
+import { fetchList } from '@/api/api'
+
 export default {
   components: {
     TableForm
@@ -58,9 +60,17 @@ export default {
     },
     'data': {
       type: Array,
-      default: null
+      default: () => ([])
     },
     'title': {
+      type: String,
+      default: null
+    },
+    'query': {
+      type: Object,
+      default: () => ({})
+    },
+    'url': {
       type: String,
       default: null
     }
@@ -71,13 +81,36 @@ export default {
       opt: '新增',
       formInline: {},
       dialogFormVisible: false,
+      listQuery: {
+        page: 1,
+        limit: 10
+      },
       ids: 1,
-      item: {}
+      item: {},
+      tableData: [],
+      total: 0,
+      loading: true
+    }
+  },
+  created() {
+    this.tableData = [...this.data]
+    console.log(this.total)
+    if (this.tableData.length === 0 && this.url) {
+      this.getList(this.listQuery, this.url)
+    } else {
+      this.loading = false
     }
   },
   methods: {
+    getList(listQuery, url) {
+      fetchList(listQuery, url).then(response => {
+        this.tableData = [...response.data.items]
+        this.total = response.data.total
+        this.loading = false
+      })
+    },
     onSubmit(data) {
-      console.log(data)
+      console.log({ ...this.formInline })
     },
     editFormHandler(row) {
       this.dialogFormVisible = true
@@ -90,12 +123,18 @@ export default {
     },
     currentChangeHandler(currentPage) {
       console.log(`当前页:${currentPage}`)
+      this.listQuery.page = currentPage
+      this.getList(this.listQuery, this.url)
     },
     preClickHandler(currentPage) {
       console.log(`上一页:${currentPage}`)
+      this.listQuery.page = currentPage
+      this.getList(this.listQuery, this.url)
     },
     nextClickHandler(currentPage) {
       console.log(`下一页:${currentPage}`)
+      this.listQuery.page = currentPage
+      this.getList(this.listQuery, this.url)
     }
   }
 }

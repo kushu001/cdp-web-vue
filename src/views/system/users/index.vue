@@ -11,7 +11,7 @@
       </el-form>
       <el-tree :data="treeData" :expand-on-click-node="false" :props="defaultProps" @node-click="handleNodeClick" />
     </el-aside>
-    <table-area :data="tableData" :columns="columns" :title="title" />
+    <table-area :columns="columns" :title="title" url="/vue-element-admin/users/list" />
   </el-container>
 </template>
 
@@ -56,31 +56,7 @@ export default {
           formHidden: true
         }
       ],
-      tableData: [{
-        id: 1,
-        account: 'admin',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        id: 2,
-        account: 'admin',
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        id: 3,
-        account: 'admin',
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        id: 4,
-        account: 'admin',
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄'
-      }],
+      tableData: [],
       treeData: [{
         label: '一级 1',
         children: [{
