@@ -1,8 +1,8 @@
 <template>
   <el-container>
     <el-main>
-      <el-form ref="form" :inline="true" :model="formInline">
-        <el-form-item v-for="column in columns" :key="column.name" :label="column.label">
+      <el-form ref="formInline" :inline="true" :model="formInline">
+        <el-form-item v-for="column in columns" :key="column.name" :label="column.label" :prop="column.name">
           <el-input v-if="column.type=='input'" v-model="formInline[column.name]" :name="column.name" :placeholder="`请输入${column.label}`" />
           <el-select v-if="column.type=='select'" v-model="formInline.region" :placeholder="`请选择${column.label}`">
             <el-option label="区域一" value="shanghai" />
@@ -12,6 +12,7 @@
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="onSubmit">查询</el-button>
+          <el-button type="primary" plain @click="onReset">重置</el-button>
           <el-button type="success" plain @click="dialogFormVisible=true,opt='新增'">新增</el-button>
           <el-button type="danger" plain>批量删除</el-button>
         </el-form-item>
@@ -103,6 +104,10 @@ export default {
   },
   methods: {
     getList(listQuery, url) {
+      listQuery = {
+        ...listQuery,
+        ...this.formInline
+      }
       fetchList(listQuery, url).then(response => {
         this.tableData = [...response.data.items]
         this.total = response.data.total
@@ -111,6 +116,10 @@ export default {
     },
     onSubmit(data) {
       console.log({ ...this.formInline })
+      this.getList(this.listQuery, this.url)
+    },
+    onReset() {
+      this.$refs.formInline.resetFields()
     },
     editFormHandler(row) {
       this.dialogFormVisible = true

@@ -56,6 +56,16 @@ module.exports = [
         }
       }
     }
+  },
+  {
+    url: '/vue-element-admin/orgs/[A-Za-z0-9]',
+    type: 'delete',
+    response: {
+      code: 20000,
+      data: {
+        status: 'success'
+      }
+    }
   }
 ]
 
