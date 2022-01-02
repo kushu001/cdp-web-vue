@@ -1,6 +1,6 @@
 <template>
   <el-container>
-    <table-area url="/vue-element-admin/roles/list" :columns="columns" :title="title" />
+    <table-area url="/vue-element-admin/roles/list" :columns="columns" :title="title" :query="query" />
   </el-container>
 </template>
 <script>
@@ -16,6 +16,9 @@ export default {
       formInline: {
         user: '',
         region: ''
+      },
+      query: {
+        limit: 20
       },
       title: '角色',
       columns: [

@@ -39,7 +39,7 @@
       </el-table>
     </el-main>
     <el-footer>
-      <el-pagination :current-page.sync="currentPage" background layout="->, prev, pager, next, jumper, sizes, total" :total="total" :page-size="10" :page-sizes="[10, 20, 30, 40]" @size-change="sizeChangeHandler" @current-change="currentChangeHandler" @prev-click="preClickHandler" @next-click="nextClickHandler" />
+      <el-pagination :current-page.sync="currentPage" background layout="->, prev, pager, next, jumper, sizes, total" :total="listQuery.total" :page-size="10" :page-sizes="[10, 20, 30, 40]" @size-change="sizeChangeHandler" @current-change="currentChangeHandler" @prev-click="preClickHandler" @next-click="nextClickHandler" />
     </el-footer>
     <!-- 弹窗 -->
     <table-form :ids="ids" :item="item" :dialog-form-visible.sync="dialogFormVisible" :columns="columns" :opt="opt" :title="title" />
@@ -84,18 +84,21 @@ export default {
       dialogFormVisible: false,
       listQuery: {
         page: 1,
-        limit: 10
+        limit: 10,
+        total: 0
       },
       ids: 1,
       item: {},
       tableData: [],
-      total: 0,
       loading: true
     }
   },
   created() {
     this.tableData = [...this.data]
-    console.log(this.total)
+    this.listQuery = {
+      ...this.listQuery,
+      ...this.query
+    }
     if (this.tableData.length === 0 && this.url) {
       this.getList(this.listQuery, this.url)
     } else {
@@ -110,7 +113,7 @@ export default {
       }
       fetchList(listQuery, url).then(response => {
         this.tableData = [...response.data.items]
-        this.total = response.data.total
+        this.listQuery.total = response.data.total
         this.loading = false
       })
     },
@@ -129,6 +132,8 @@ export default {
     },
     sizeChangeHandler(pageSize) {
       console.log(`每页条数:${pageSize}`)
+      this.listQuery.limit = pageSize
+      this.getList(this.listQuery, this.url)
     },
     currentChangeHandler(currentPage) {
       console.log(`当前页:${currentPage}`)
