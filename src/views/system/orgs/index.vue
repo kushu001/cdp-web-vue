@@ -1,6 +1,6 @@
 <template>
   <el-container>
-    <table-area :data="tableData" :columns="columns" :title="title" />
+    <table-area url="/vue-element-admin/orgs/list" :columns="columns" :title="title" />
   </el-container>
 </template>
 <script>
