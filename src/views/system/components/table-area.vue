@@ -10,32 +10,36 @@
           </el-select>
           <el-date-picker v-if="column.type=='date'" v-model="formInline[column.name]" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" />
         </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="onSubmit">查询</el-button>
-          <el-button type="primary" plain @click="onReset">重置</el-button>
-          <el-button type="success" plain @click="dialogFormVisible=true,opt='新增'">新增</el-button>
-          <el-button type="danger" plain>批量删除</el-button>
-        </el-form-item>
+        <slot name="operation">
+          <el-form-item>
+            <el-button type="primary" @click="onSubmit">查询</el-button>
+            <el-button type="primary" plain @click="onReset">重置</el-button>
+            <el-button type="success" plain @click="dialogFormVisible=true,opt='新增'">新增</el-button>
+            <el-button type="danger" plain>批量删除</el-button>
+          </el-form-item>
+        </slot>
       </el-form>
       <el-table v-loading="loading" :data="tableData" row-key="id" border style="width: 100%">
         <el-table-column type="selection" width="55" />
         <el-table-column v-for="column in columns" :key="column.name" :prop="column.name" :label="column.label" :width="column.width" />
-        <el-table-column fixed="right" label="操作" width="120">
-          <template slot-scope="scope">
-            <el-button type="text" size="small" @click="editFormHandler(scope.row)">
+        <slot name="fixed-operation">
+          <el-table-column fixed="right" label="操作" width="120">
+            <template slot-scope="scope">
+              <el-button type="text" size="small" @click="editFormHandler(scope.row)">
+                编辑
+              </el-button>
+              <el-button type="text" size="small">
+                删除
+              </el-button>
+              <!-- <el-button @click.native.prevent="deleteRow(scope.$index, tableData)" type="text" size="small">
               编辑
-            </el-button>
-            <el-button type="text" size="small">
+              </el-button>
+              <el-button @click.native.prevent="deleteRow(scope.$index, tableData)" type="text" size="small">
               删除
-            </el-button>
-            <!-- <el-button @click.native.prevent="deleteRow(scope.$index, tableData)" type="text" size="small">
-            编辑
-            </el-button>
-            <el-button @click.native.prevent="deleteRow(scope.$index, tableData)" type="text" size="small">
-            删除
-            </el-button> -->
-          </template>
-        </el-table-column>
+              </el-button> -->
+            </template>
+          </el-table-column>
+        </slot>
       </el-table>
     </el-main>
     <el-footer>

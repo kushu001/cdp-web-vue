@@ -112,6 +112,12 @@ export const constantRoutes = [
         meta: { title: '部门管理', icon: 'org' }
       },
       {
+        path: 'dict',
+        component: () => import('@/views/system/dicts/index'),
+        name: 'Dict',
+        meta: { title: '字典管理', icon: 'el-icon-notebook-2' }
+      },
+      {
         path: 'log',
         component: () => import('@/views/system/logs/index'),
         name: 'Log',

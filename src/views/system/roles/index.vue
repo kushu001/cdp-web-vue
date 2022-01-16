@@ -1,18 +1,34 @@
 <template>
   <el-container>
-    <table-area url="/vue-element-admin/roles/list" :columns="columns" :title="title" :query="query" />
+    <table-area url="/vue-element-admin/roles/list" :columns="columns" :title="title" :query="query">
+      <template v-slot:operation>
+        <el-form-item>
+          <el-button type="primary" @click="onSubmit">查询</el-button>
+          <el-button type="primary" plain @click="onReset">重置</el-button>
+          <el-button type="success" plain @click="dialogFormVisible=true,opt='新增'">新增</el-button>
+          <el-button type="danger" plain>批量删除</el-button>
+          <el-button type="danger" plain>导入</el-button>
+          <el-button type="danger" plain>导出</el-button>
+        </el-form-item>
+      </template>
+    </table-area>
+    <!-- 弹窗 -->
+    <table-form :ids="ids" :item="item" :dialog-form-visible.sync="dialogFormVisible" :columns="columns" :opt="opt" :title="title" />
   </el-container>
 </template>
 <script>
 import TableArea from '../components/table-area'
+import TableForm from '../components/table-form.vue'
 
 export default {
   components: {
-    TableArea
+    TableArea,
+    TableForm
   },
   data() {
     return {
       currentPage: 10,
+      dialogFormVisible: false,
       formInline: {
         user: '',
         region: ''
