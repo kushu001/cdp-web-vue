@@ -42,10 +42,6 @@ export default {
       type: String,
       default: null
     },
-    'ids': {
-      type: [Number, String],
-      default: null
-    },
     'item': {
       type: Object,
       default: () => ({})

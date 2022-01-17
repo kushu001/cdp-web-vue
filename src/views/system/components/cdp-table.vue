@@ -8,8 +8,8 @@
           <slot v-else-if="innerRowOperationConfig.visible" name="tableOperation" />
         </el-button-group>
         <el-button-group v-if="innerTableOperationConfig.append">
-          <el-button size="mini" type="success" icon="el-icon-plus">新增</el-button>
-          <el-button size="mini" type="primary" icon="el-icon-delete">批量删除</el-button>
+          <el-button size="mini" type="success" icon="el-icon-plus" @click="addHandler()">新增</el-button>
+          <el-button size="mini" type="primary" icon="el-icon-delete" @click="deleteMultiHandler()">批量删除</el-button>
           <slot v-if="!innerRowOperationConfig.visible" />
           <slot v-else-if="innerRowOperationConfig.visible" name="tableOperation" />
           <el-button size="mini" type="primary" icon="el-icon-bottom">导入</el-button>
@@ -18,7 +18,7 @@
         </el-button-group>
       </el-row>
       <el-row>
-        <el-table :data="data" border>
+        <el-table :data="data" border @select="select" @select-all="selectAll">
           <el-table-column type="selection" width="55" />
           <el-table-column v-for="column in columns" :key="column.name" :align="column.align" :prop="column.name" :label="column.label" :width="column.width">
             <template slot-scope="scope">
@@ -38,7 +38,7 @@
                 <el-button type="text" size="small" @click="editHandler(scope)">
                   编辑
                 </el-button>
-                <el-button type="text" size="small">
+                <el-button type="text" size="small" @click="deleteHandler(scope)">
                   删除
                 </el-button>
                 <slot v-if="!innerTableOperationConfig.visible" :scope="scope" />
@@ -52,7 +52,7 @@
     <el-footer>
       <el-pagination :current-page.sync="currentPage" background layout="->, prev, pager, next, jumper, sizes, total" :total="listQuery.total" :page-size="10" :page-sizes="[10, 20, 30, 40]" @size-change="sizeChangeHandler" @current-change="currentChangeHandler" @prev-click="preClickHandler" @next-click="nextClickHandler" />
     </el-footer>
-    <cdp-table-form :ids="ids" :item="item" :dialog-form-visible.sync="dialogFormVisible" :columns="columns" :opt="opt" :title="title" />
+    <cdp-table-form :item="item" :dialog-form-visible.sync="dialogFormVisible" :columns="columns" :opt="opt" :title="title" />
   </el-container>
 </template>
 <script>
@@ -87,7 +87,7 @@ export default {
   },
   data() {
     return {
-      ids: 1,
+      ids: [],
       item: {},
       opt: '新增',
       title: '',
@@ -120,8 +120,62 @@ export default {
     },
     editHandler(scope) {
       this.item = { ...scope.row }
+      this.opt = '编辑'
       this.dialogFormVisible = true
-      console.log({ ...scope.row, test: '测试' })
+    },
+    addHandler() {
+      this.opt = '新增'
+      this.dialogFormVisible = true
+      console.log(this.$refs.tag)
+    },
+    deleteHandler() {
+      this.$confirm('确认删除记录, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$message({
+          type: 'success',
+          message: '删除成功!'
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
+      })
+    },
+    deleteMultiHandler() {
+      if (this.ids.length === 0) {
+        this.$message({
+          type: 'warning',
+          message: '请勾选要删除的记录'
+        })
+        return
+      }
+      this.$confirm('确认删除记录, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$message({
+          type: 'success',
+          message: '删除成功!'
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
+      })
+    },
+    select(selection, row) {
+      this.ids = selection.map(item => item.id)
+      console.log(this.ids)
+    },
+    selectAll(selection) {
+      this.ids = selection.map(item => item.id)
+      console.log(this.ids)
     },
     sizeChangeHandler(pageSize) {
       console.log(`每页条数:${pageSize}`)
