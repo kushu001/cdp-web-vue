@@ -81,7 +81,7 @@ export default {
       default: () => ({})
     },
     'urls': {
-      type: Array,
+      type: Object,
       default: () => ({})
     }
   },

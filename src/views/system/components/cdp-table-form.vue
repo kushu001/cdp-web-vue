@@ -72,9 +72,7 @@ export default {
   methods: {
     closeHandler() {
       this.$nextTick(function() {
-        debugger
         this.$refs['form'].resetFields()
-        debugger
         for (var key in this.form) {
           if (Object.prototype.hasOwnProperty.call(this.form, key)) {
             this.form[key] = ''
