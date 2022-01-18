@@ -2,7 +2,7 @@
   <el-container direction="vertical">
     <cdp-search-form class="search-form" :columns="columns" :callback="onSearch" />
     <el-main>
-      <el-row v-if="innerTableOperationConfig.visible">
+      <el-row>
         <el-button-group v-if="!innerTableOperationConfig.append">
           <slot v-if="!innerRowOperationConfig.visible" />
           <slot v-else-if="innerRowOperationConfig.visible" name="tableOperation" />
@@ -24,13 +24,14 @@
             <template slot-scope="scope">
               <span v-if="column.type!='select'" style="text-align: center;">{{ scope.row[column.name] }}</span>
               <span v-else-if="column.type=='select'" style="text-align: center;">
-                <el-tag size="medium" :type="column.data.find(item=>item.key==scope.row[column.name]).type">
+                <el-tag v-if="column.data.find(item=>item.key==scope.row[column.name]).type" size="medium" :type="column.data.find(item=>item.key==scope.row[column.name]).type">
                   {{ column.data.find(item=>item.key==scope.row[column.name]).value }}
                 </el-tag>
+                <span v-else-if="!column.data.find(item=>item.key==scope.row[column.name]).type">{{ column.data.find(item=>item.key==scope.row[column.name]).value }}</span>
               </span>
             </template>
           </el-table-column>
-          <el-table-column v-if="innerRowOperationConfig.visible" fixed="right" label="操作" width="200">
+          <el-table-column fixed="right" label="操作" width="200">
             <template slot-scope="scope">
               <slot v-if="!innerRowOperationConfig.append && !innerTableOperationConfig.visible" />
               <slot v-else-if="!innerRowOperationConfig.append && innerTableOperationConfig.visible" name="rowOperation" />
