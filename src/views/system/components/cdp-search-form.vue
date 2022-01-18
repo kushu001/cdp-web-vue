@@ -1,12 +1,14 @@
 <template>
   <el-form ref="searchForm" :inline="true" :model="searchForm">
-    <el-form-item v-for="column in columns" :key="column.name" :label="column.label" :prop="column.name">
-      <el-input v-if="column.type=='input'" v-model="searchForm[column.name]" :name="column.name" :placeholder="`请输入${column.label}`" />
-      <el-select v-if="column.type=='select'" v-model="searchForm[column.name]" :placeholder="`请选择${column.label}`">
-        <el-option v-for="item in column.data" :key="item.key" :label="item.value" :value="item.key" />
-      </el-select>
-      <el-date-picker v-if="column.type=='date'" v-model="searchForm[column.name]" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" />
-    </el-form-item>
+    <span v-for="column in columns" :key="column.name">
+      <el-form-item v-if="!column.searchHidden" :label="column.label" :prop="column.name">
+        <el-input v-if="column.type=='input'" v-model="searchForm[column.name]" :name="column.name" :placeholder="`请输入${column.label}`" />
+        <el-select v-if="column.type=='select'" v-model="searchForm[column.name]" :placeholder="`请选择${column.label}`">
+          <el-option v-for="item in column.data" :key="item.key" :label="item.value" :value="item.key" />
+        </el-select>
+        <el-date-picker v-if="column.type=='date'" v-model="searchForm[column.name]" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" />
+      </el-form-item>
+    </span>
     <el-form-item>
       <el-button type="primary" icon="el-icon-search" @click="onSearchHandler">查询</el-button>
       <el-button type="primary" plain @click="onReset">重置</el-button>
@@ -37,6 +39,7 @@ export default {
     },
     onReset() {
       this.$refs.searchForm.resetFields()
+      this.searchForm = {}
     }
   }
 }

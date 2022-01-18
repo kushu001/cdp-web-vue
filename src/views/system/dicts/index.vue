@@ -1,6 +1,6 @@
 <template>
   <el-container>
-    <cdp-table :columns="columns" :data="data" />
+    <cdp-table :columns="columns" url="/vue-element-admin/roles/list" />
   </el-container>
 </template>
 
@@ -13,12 +13,6 @@ export default {
   },
   data() {
     return {
-      formInline: {},
-      item: {},
-      dialogEditFormVisible: false,
-      opt: '新增',
-      title: '字典',
-      row: {},
       columns: [
         {
           name: 'name',
@@ -47,34 +41,10 @@ export default {
           name: 'date',
           type: 'date',
           label: '创建日期',
+          searchHidden: true,
           formHidden: true
         }
-      ],
-      data: [{
-        id: 1,
-        date: '2016-05-02',
-        name: '管理员',
-        code: '0001',
-        status: 1
-      }, {
-        id: 2,
-        date: '2016-05-04',
-        name: '测试员',
-        code: '0002',
-        status: 2
-      }, {
-        id: 3,
-        date: '2016-05-01',
-        name: '测试员2',
-        code: '0003',
-        status: 1
-      }, {
-        id: 4,
-        date: '2016-05-03',
-        name: '测试员4',
-        code: '0004',
-        status: 4
-      }]
+      ]
     }
   },
   methods: {

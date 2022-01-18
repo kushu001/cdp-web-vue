@@ -18,7 +18,7 @@
         </el-button-group>
       </el-row>
       <el-row>
-        <el-table :data="data" border @select="select" @select-all="selectAll">
+        <el-table :data="tableData" border @select="select" @select-all="selectAll">
           <el-table-column type="selection" width="55" />
           <el-table-column v-for="column in columns" :key="column.name" :align="column.align" :prop="column.name" :label="column.label" :width="column.width">
             <template slot-scope="scope">
@@ -58,6 +58,7 @@
 <script>
 import CdpSearchForm from '../components/cdp-search-form.vue'
 import CdpTableForm from '../components/cdp-table-form.vue'
+import { fetchList } from '@/api/api'
 export default {
   components: {
     CdpSearchForm,
@@ -70,7 +71,7 @@ export default {
     },
     'data': {
       type: Array,
-      default: null
+      default: () => ([])
     },
     'tableOptConfig': {
       type: Object,
@@ -83,6 +84,10 @@ export default {
     'urls': {
       type: Object,
       default: () => ({})
+    },
+    'url': {
+      type: String,
+      default: null
     }
   },
   data() {
@@ -110,13 +115,41 @@ export default {
       dialogFormVisible: false,
       currentPage: 1,
       listQuery: {
-        total: 101
-      }
+        page: 1,
+        limit: 10,
+        total: 0
+      },
+      tableData: []
+    }
+  },
+  created() {
+    this.tableData = [...this.data]
+    this.listQuery = {
+      ...this.listQuery,
+      ...this.query
+    }
+    if (this.tableData.length === 0 && this.url) {
+      this.getList(this.listQuery, this.url)
+    } else {
+      this.loading = false
     }
   },
   methods: {
+    getList(listQuery, url) {
+      listQuery = {
+        ...listQuery,
+        ...this.formInline
+      }
+      fetchList(listQuery, url).then(response => {
+        this.tableData = [...response.data.items]
+        this.listQuery.total = response.data.total
+        this.loading = false
+      })
+    },
     onSearch(data) {
       console.log({ ...data })
+      this.listQuery = { ...this.listQuery, ...data }
+      this.getList(this.listQuery, this.url)
     },
     editHandler(scope) {
       this.item = { ...scope.row }
@@ -180,18 +213,22 @@ export default {
     sizeChangeHandler(pageSize) {
       console.log(`每页条数:${pageSize}`)
       this.listQuery.limit = pageSize
+      this.getList(this.listQuery, this.url)
     },
     currentChangeHandler(currentPage) {
       console.log(`当前页:${currentPage}`)
       this.listQuery.page = currentPage
+      this.getList(this.listQuery, this.url)
     },
     preClickHandler(currentPage) {
       console.log(`上一页:${currentPage}`)
       this.listQuery.page = currentPage
+      this.getList(this.listQuery, this.url)
     },
     nextClickHandler(currentPage) {
       console.log(`下一页:${currentPage}`)
       this.listQuery.page = currentPage
+      this.getList(this.listQuery, this.url)
     }
   }
 }
