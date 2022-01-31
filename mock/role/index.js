@@ -42,7 +42,7 @@ module.exports = [
     type: 'get',
     response: _ => {
       return {
-        code: 20000,
+        code: 200,
         data: routes
       }
     }
@@ -54,7 +54,7 @@ module.exports = [
     type: 'get',
     response: _ => {
       return {
-        code: 20000,
+        code: 200,
         data: roles
       }
     }
@@ -65,7 +65,7 @@ module.exports = [
     url: '/vue-element-admin/role',
     type: 'post',
     response: {
-      code: 20000,
+      code: 200,
       data: {
         key: Mock.mock('@integer(300, 5000)')
       }
@@ -77,7 +77,7 @@ module.exports = [
     url: '/vue-element-admin/role/[A-Za-z0-9]',
     type: 'put',
     response: {
-      code: 20000,
+      code: 200,
       data: {
         status: 'success'
       }
@@ -89,7 +89,7 @@ module.exports = [
     url: '/vue-element-admin/role/[A-Za-z0-9]',
     type: 'delete',
     response: {
-      code: 20000,
+      code: 200,
       data: {
         status: 'success'
       }

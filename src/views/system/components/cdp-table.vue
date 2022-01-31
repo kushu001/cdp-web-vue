@@ -53,7 +53,7 @@
     <el-footer>
       <el-pagination :current-page.sync="currentPage" background layout="->, prev, pager, next, jumper, sizes, total" :total="listQuery.total" :page-size="10" :page-sizes="[10, 20, 30, 40]" @size-change="sizeChangeHandler" @current-change="currentChangeHandler" @prev-click="preClickHandler" @next-click="nextClickHandler" />
     </el-footer>
-    <cdp-table-form :item="item" :dialog-form-visible.sync="dialogFormVisible" :columns="columns" :opt="opt" :title="title" />
+    <cdp-table-form :item="item" :dialog-form-visible.sync="dialogFormVisible" :columns="columns" :opt="opt" :title="title" :callback="callback" />
   </el-container>
 </template>
 <script>
@@ -68,7 +68,7 @@ export default {
   props: {
     'columns': {
       type: Array,
-      default: null
+      default: () => ([])
     },
     'data': {
       type: Array,
@@ -160,7 +160,6 @@ export default {
     addHandler() {
       this.opt = '新增'
       this.dialogFormVisible = true
-      console.log(this.$refs.tag)
     },
     deleteHandler() {
       this.$confirm('确认删除记录, 是否继续?', '提示', {
@@ -210,6 +209,19 @@ export default {
     selectAll(selection) {
       this.ids = selection.map(item => item.id)
       console.log(this.ids)
+    },
+    callback(data) {
+      if (Object.keys(data).length === 0) {
+        console.log('add')
+        // add(data, this.urls.addUrl).then(response => {
+
+        // })
+      } else {
+        console.log('update')
+        // update(data, this.urls.addUrl).then(response => {
+
+        // })
+      }
     },
     sizeChangeHandler(pageSize) {
       console.log(`每页条数:${pageSize}`)

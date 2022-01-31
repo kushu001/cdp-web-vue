@@ -116,8 +116,8 @@ export default {
         ...this.formInline
       }
       fetchList(listQuery, url).then(response => {
-        this.tableData = [...response.data.items]
-        this.listQuery.total = response.data.total
+        this.tableData = [...response.data.data.items]
+        this.listQuery.total = response.data.data.total
         this.loading = false
       })
     },

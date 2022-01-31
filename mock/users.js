@@ -31,7 +31,7 @@ module.exports = [
       const pageList = mockList.filter((item, index) => index < limit * page && index >= limit * (page - 1))
 
       return {
-        code: 20000,
+        code: 200,
         data: {
           total: mockList.length,
           items: pageList

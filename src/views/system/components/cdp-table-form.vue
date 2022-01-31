@@ -45,6 +45,10 @@ export default {
     'item': {
       type: Object,
       default: () => ({})
+    },
+    'callback': {
+      type: Function,
+      default: () => ({})
     }
   },
   data() {
@@ -77,7 +81,9 @@ export default {
       })
       this.$emit('update:dialogFormVisible', !this.dialogFormVisible)
     },
-    onSubmit() {}
+    onSubmit() {
+      this.callback({})
+    }
   }
 }
 </script>

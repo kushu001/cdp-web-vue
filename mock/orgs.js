@@ -52,7 +52,7 @@ module.exports = [
       const pageList = mockList.filter((item, index) => index < limit * page && index >= limit * (page - 1))
 
       return {
-        code: 20000,
+        code: 200,
         data: {
           total: mockList.length,
           items: pageList
@@ -64,7 +64,7 @@ module.exports = [
     url: '/vue-element-admin/orgs/[A-Za-z0-9]',
     type: 'delete',
     response: {
-      code: 20000,
+      code: 200,
       data: {
         status: 'success'
       }
