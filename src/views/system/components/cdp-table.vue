@@ -24,10 +24,10 @@
             <template slot-scope="scope">
               <span v-if="column.type!='select'" style="text-align: center;">{{ scope.row[column.name] }}</span>
               <span v-else-if="column.type=='select'" style="text-align: center;">
-                <el-tag v-if="column.data.find(item=>item.key==scope.row[column.name]).type" size="medium" :type="column.data.find(item=>item.key==scope.row[column.name]).type">
+                <el-tag v-if="scope.row[column.name] && column.data.find(item=>item.key==scope.row[column.name]).type" size="medium" :type="column.data.find(item=>item.key==scope.row[column.name]).type">
                   {{ column.data.find(item=>item.key==scope.row[column.name]).value }}
                 </el-tag>
-                <span v-else-if="!column.data.find(item=>item.key==scope.row[column.name]).type">{{ column.data.find(item=>item.key==scope.row[column.name]).value }}</span>
+                <span v-else-if="scope.row[column.name] && !column.data.find(item=>item.key==scope.row[column.name]).type">{{ column.data.find(item=>item.key==scope.row[column.name]).value }}</span>
               </span>
             </template>
           </el-table-column>
@@ -142,8 +142,8 @@ export default {
         ...this.formInline
       }
       fetchList(listQuery, url).then(response => {
-        this.tableData = [...response.data.items]
-        this.listQuery.total = response.data.total
+        this.tableData = [...response.data.data.records]
+        this.listQuery.total = response.data.data.total
         this.loading = false
       })
     },
