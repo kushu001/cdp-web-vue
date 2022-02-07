@@ -39,7 +39,11 @@ export default {
     },
     onReset() {
       this.$refs.searchForm.resetFields()
-      this.searchForm = {}
+      for (var key in this.searchForm) {
+        if (Object.prototype.hasOwnProperty.call(this.searchForm, key)) {
+          this.searchForm[key] = ''
+        }
+      }
     }
   }
 }

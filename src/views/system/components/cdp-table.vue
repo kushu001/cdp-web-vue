@@ -59,7 +59,7 @@
 <script>
 import CdpSearchForm from '../components/cdp-search-form.vue'
 import CdpTableForm from '../components/cdp-table-form.vue'
-import { fetchList } from '@/api/api'
+import { fetchList, get, add, update, deleteById } from '@/api/api'
 export default {
   components: {
     CdpSearchForm,
@@ -94,6 +94,7 @@ export default {
   data() {
     return {
       ids: [],
+      id: null,
       item: {},
       opt: '新增',
       title: '',
@@ -148,28 +149,46 @@ export default {
       })
     },
     onSearch(data) {
-      console.log({ ...data })
       this.listQuery = { ...this.listQuery, ...data }
       this.getList(this.listQuery, this.url)
     },
     editHandler(scope) {
-      this.item = { ...scope.row }
-      this.opt = '编辑'
-      this.dialogFormVisible = true
+      get(`${this.url}\\${scope.row.id}`).then(({ data }) => {
+        if (data.code === 200) {
+          this.item = { ...data.data }
+          this.opt = '编辑'
+          this.dialogFormVisible = true
+        } else {
+          this.$message({
+            type: 'error',
+            message: '查询失败!'
+          })
+        }
+      })
     },
     addHandler() {
       this.opt = '新增'
       this.dialogFormVisible = true
     },
-    deleteHandler() {
+    deleteHandler(scope) {
       this.$confirm('确认删除记录, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$message({
-          type: 'success',
-          message: '删除成功!'
+        deleteById(`${this.url}\\${scope.row.id}`).then(({ data }) => {
+          if (data.code === 200) {
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            })
+            this.getList(this.listQuery, this.url)
+          } else {
+            this.$message({
+              type: 'danger',
+              message: '删除失败!'
+            })
+          }
         })
       }).catch(() => {
         this.$message({
@@ -191,9 +210,19 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$message({
-          type: 'success',
-          message: '删除成功!'
+        deleteById(`${this.url}\\${this.ids.join(',')}`).then(({ data }) => {
+          if (data.code === 200) {
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            })
+            this.getList(this.listQuery, this.url)
+          } else {
+            this.$message({
+              type: 'danger',
+              message: '删除失败!'
+            })
+          }
         })
       }).catch(() => {
         this.$message({
@@ -211,16 +240,40 @@ export default {
       console.log(this.ids)
     },
     callback(data) {
-      if (Object.keys(data).length === 0) {
-        console.log('add')
-        // add(data, this.urls.addUrl).then(response => {
-
-        // })
+      if (!data.id) {
+        add(data, this.url).then(({ data }) => {
+          if (data.code === 200) {
+            this.$message({
+              type: 'success',
+              message: '新建成功'
+            })
+            this.dialogFormVisible = false
+            this.item = {}
+            this.getList(this.listQuery, this.url)
+          } else {
+            this.$message({
+              type: 'danger',
+              message: '新建失败'
+            })
+          }
+        })
       } else {
-        console.log('update')
-        // update(data, this.urls.addUrl).then(response => {
-
-        // })
+        update(data, this.url).then(({ data }) => {
+          if (data.code === 200) {
+            this.$message({
+              type: 'success',
+              message: '修改成功'
+            })
+            this.dialogFormVisible = false
+            this.item = {}
+            this.getList(this.listQuery, this.url)
+          } else {
+            this.$message({
+              type: 'danger',
+              message: '修改失败'
+            })
+          }
+        })
       }
     },
     sizeChangeHandler(pageSize) {

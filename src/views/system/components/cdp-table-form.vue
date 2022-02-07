@@ -82,7 +82,7 @@ export default {
       this.$emit('update:dialogFormVisible', !this.dialogFormVisible)
     },
     onSubmit() {
-      this.callback({})
+      this.callback(this.form)
     }
   }
 }

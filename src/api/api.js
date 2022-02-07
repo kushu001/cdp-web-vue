@@ -41,3 +41,27 @@ export function update(data, url) {
     params: data
   })
 }
+
+/**
+ * 通用查询信息
+ * @param {*} url
+ * @returns
+ */
+export function get(url) {
+  return request({
+    url,
+    method: 'get'
+  })
+}
+
+/**
+ * 通用删除操作
+ * @param {*} url
+ * @returns
+ */
+export function deleteById(url) {
+  return request({
+    url,
+    method: 'delete'
+  })
+}

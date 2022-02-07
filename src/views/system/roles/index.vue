@@ -21,6 +21,12 @@ export default {
           defaultValue: ''
         },
         {
+          name: 'code',
+          type: 'input',
+          label: '角色编码',
+          defaultValue: ''
+        },
+        {
           name: 'status',
           type: 'select',
           label: '状态',
@@ -31,13 +37,6 @@ export default {
             { key: 3, value: '通过', type: 'warning' },
             { key: 4, value: '拒绝', type: 'danger' }
           ]
-        },
-        {
-          name: 'create_time',
-          type: 'date',
-          label: '创建日期',
-          searchHidden: true,
-          formHidden: true
         }
       ]
     }
