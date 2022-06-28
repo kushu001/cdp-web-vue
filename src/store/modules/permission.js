@@ -1,4 +1,6 @@
 import { asyncRoutes, constantRoutes } from '@/router'
+import { get } from '@/api/api'
+import { buildTree, generaMenu } from '@/utils/tools'
 
 /**
  * Use meta.role to determine if the current user has permission
@@ -47,17 +49,33 @@ const mutations = {
 }
 
 const actions = {
-  generateRoutes({ commit }, roles) {
-    return new Promise(resolve => {
-      let accessedRoutes
-      if (roles.includes('admin')) {
-        accessedRoutes = asyncRoutes || []
-      } else {
-        accessedRoutes = filterAsyncRoutes(asyncRoutes, roles)
-      }
+  async generateRoutes({ commit }, roles) {
+    const loadMenuData = []
+    const res = await get('/api/v1/user/menu')
+    let accessedRoutes
+    let permissions
+    const tempAsyncRoutes = Object.assign([], asyncRoutes)
+    if (res.data.code === 200) {
+      permissions = buildTree({
+        data: res.data.data
+      })
+      Object.assign(loadMenuData, permissions)
+      generaMenu(tempAsyncRoutes, loadMenuData)
+      accessedRoutes = filterAsyncRoutes(tempAsyncRoutes, roles)
       commit('SET_ROUTES', accessedRoutes)
-      resolve(accessedRoutes)
-    })
+    }
+    return accessedRoutes
+
+    // return new Promise(resolve => {
+    //   let accessedRoutes
+    //   if (roles.includes('admin')) {
+    //     accessedRoutes = asyncRoutes || []
+    //   } else {
+    //     accessedRoutes = filterAsyncRoutes(asyncRoutes, roles)
+    //   }
+    //   commit('SET_ROUTES', accessedRoutes)
+    //   resolve(accessedRoutes)
+    // })
   }
 }
 

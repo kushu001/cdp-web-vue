@@ -21,10 +21,11 @@ export function fetchList(query, url) {
  * @returns
  */
 export function add(data, url) {
+  delete data.id
   return request({
     url,
     method: 'post',
-    params: data
+    data
   })
 }
 
@@ -38,7 +39,7 @@ export function update(data, url) {
   return request({
     url,
     method: 'put',
-    params: data
+    data
   })
 }
 

@@ -12,14 +12,14 @@
           <el-button size="mini" type="primary" icon="el-icon-delete" @click="deleteMultiHandler()">批量删除</el-button>
           <slot v-if="!innerRowOperationConfig.visible" />
           <slot v-else-if="innerRowOperationConfig.visible" name="tableOperation" />
-          <el-button size="mini" type="primary" icon="el-icon-bottom">导入</el-button>
+          <!-- <el-button size="mini" type="primary" icon="el-icon-bottom">导入</el-button>
           <el-button size="mini" type="primary" icon="el-icon-top">导出</el-button>
-          <el-button size="mini" type="primary" plain icon="el-icon-document">导入模板</el-button>
+          <el-button size="mini" type="primary" plain icon="el-icon-document">导入模板</el-button> -->
         </el-button-group>
       </el-row>
       <el-row>
-        <el-table :data="tableData" border @select="select" @select-all="selectAll">
-          <el-table-column type="selection" width="55" />
+        <el-table :data="tableData" border row-key="id" @select="select" @select-all="selectAll">
+          <el-table-column v-if="!isTree" type="selection" width="55" />
           <el-table-column v-for="column in columns" :key="column.name" :align="column.align" :prop="column.name" :label="column.label" :width="column.width">
             <template slot-scope="scope">
               <span v-if="column.type!='select'" style="text-align: center;">{{ scope.row[column.name] }}</span>
@@ -50,25 +50,39 @@
         </el-table>
       </el-row>
     </el-main>
-    <el-footer>
-      <el-pagination :current-page.sync="currentPage" background layout="->, prev, pager, next, jumper, sizes, total" :total="listQuery.total" :page-size="10" :page-sizes="[10, 20, 30, 40]" @size-change="sizeChangeHandler" @current-change="currentChangeHandler" @prev-click="preClickHandler" @next-click="nextClickHandler" />
+    <el-footer v-if="hasPage">
+      <el-pagination :current-page.sync="listQuery.page" background layout="->, prev, pager, next, jumper, sizes, total" :total="listQuery.total" :page-size="10" :page-sizes="[10, 20, 30, 40]" @size-change="sizeChangeHandler" @current-change="currentChangeHandler" @prev-click="preClickHandler" @next-click="nextClickHandler" />
     </el-footer>
-    <cdp-table-form :item="item" :dialog-form-visible.sync="dialogFormVisible" :columns="columns" :opt="opt" :title="title" :callback="callback" />
+    <cdp-table-form :item="item" :dialog-form-visible.sync="dialogFormVisible" :columns="columns" :rules="rules" :opt="opt" :title="title" :callback="callback" />
   </el-container>
 </template>
 <script>
 import CdpSearchForm from '../components/cdp-search-form.vue'
 import CdpTableForm from '../components/cdp-table-form.vue'
 import { fetchList, get, add, update, deleteById } from '@/api/api'
+import { buildTree } from '@/utils/tools'
+
 export default {
   components: {
     CdpSearchForm,
     CdpTableForm
   },
   props: {
+    'isTree': {
+      type: Boolean,
+      default: false
+    },
+    'hasPage': {
+      type: Boolean,
+      default: true
+    },
     'columns': {
       type: Array,
       default: () => ([])
+    },
+    'rules': {
+      type: Object,
+      default: () => ({})
     },
     'data': {
       type: Array,
@@ -115,13 +129,17 @@ export default {
         ...this.urls
       },
       dialogFormVisible: false,
-      currentPage: 1,
       listQuery: {
         page: 1,
         limit: 10,
         total: 0
       },
       tableData: []
+    }
+  },
+  watch: {
+    url(val) {
+      this.getList(this.listQuery, val)
     }
   },
   created() {
@@ -143,8 +161,15 @@ export default {
         ...this.formInline
       }
       fetchList(listQuery, url).then(response => {
-        this.tableData = [...response.data.data.records]
-        this.listQuery.total = response.data.data.total
+        if (!this.isTree) {
+          this.tableData = [...response.data.data.records]
+          this.listQuery.total = response.data.data.total
+        } else {
+          this.tableData = [...response.data.data]
+          this.tableData = buildTree({
+            data: this.tableData
+          })
+        }
         this.loading = false
       })
     },

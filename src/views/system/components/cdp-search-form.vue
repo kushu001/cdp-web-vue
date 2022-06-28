@@ -10,7 +10,7 @@
       </el-form-item>
     </span>
     <el-form-item>
-      <el-button type="primary" icon="el-icon-search" @click="onSearchHandler" @keyup.enter.native="onSearchHandler">查询</el-button>
+      <el-button type="primary" icon="el-icon-search" @click="onSearchHandler">查询</el-button>
       <el-button type="primary" plain @click="onReset">重置</el-button>
     </el-form-item>
   </el-form>
@@ -29,8 +29,12 @@ export default {
     }
   },
   data() {
+    const searchForm = [...this.columns].map(item => item.name).reduce((obj, cur, index) => {
+      obj[cur] = ''
+      return obj
+    }, {})
     return {
-      'searchForm': {}
+      searchForm
     }
   },
   methods: {

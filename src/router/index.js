@@ -6,12 +6,6 @@ Vue.use(Router)
 /* Layout */
 import Layout from '@/layout'
 
-/* Router Modules */
-import componentsRouter from './modules/components'
-import chartsRouter from './modules/charts'
-import tableRouter from './modules/table'
-import nestedRouter from './modules/nested'
-
 /**
  * Note: sub-menu only appear when route children.length >= 1
  * Detail see: https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
@@ -82,352 +76,74 @@ export const constantRoutes = [
         meta: { title: '仪表盘', icon: 'dashboard', affix: true }
       }
     ]
-  },
-  {
-    path: '/system',
-    component: Layout,
-    name: 'System',
-    redirect: '/system/user',
-    meta: {
-      title: '系统管理',
-      icon: 'setting'
-    },
-    children: [
-      {
-        path: 'user',
-        component: () => import('@/views/system/users/index'),
-        name: 'User',
-        meta: { title: '用户管理', icon: 'user' }
-      },
-      {
-        path: 'role',
-        component: () => import('@/views/system/roles/index'),
-        name: 'Role',
-        meta: { title: '角色管理', icon: 'user-role' }
-      },
-      {
-        path: 'org',
-        component: () => import('@/views/system/orgs/index'),
-        name: 'Org',
-        meta: { title: '部门管理', icon: 'org' }
-      },
-      {
-        path: 'dict',
-        component: () => import('@/views/system/dicts/index'),
-        name: 'Dict',
-        meta: { title: '字典管理', icon: 'el-icon-notebook-2' }
-      },
-      {
-        path: 'log',
-        component: () => import('@/views/system/logs/index'),
-        name: 'Log',
-        meta: { title: '日志管理', icon: 'log' }
-      }
-    ]
-  },
-  {
-    path: '/documentation',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/documentation/index'),
-        name: 'Documentation',
-        meta: { title: '文档', icon: 'documentation' }
-      }
-    ]
-  },
-  {
-    path: '/guide',
-    component: Layout,
-    redirect: '/guide/index',
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/guide/index'),
-        name: 'Guide',
-        meta: { title: '指南', icon: 'guide', noCache: true }
-      }
-    ]
-  },
-  {
-    path: '/profile',
-    component: Layout,
-    redirect: '/profile/index',
-    hidden: true,
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/profile/index'),
-        name: 'Profile',
-        meta: { title: '简介', icon: 'user', noCache: true }
-      }
-    ]
-  }
+  }//,
+  // {
+  //   path: '/system',
+  //   component: Layout,
+  //   name: 'System',
+  //   redirect: '/system/user',
+  //   meta: {
+  //     title: '系统管理',
+  //     icon: 'setting'
+  //   },
+  //   children: [
+  //     {
+  //       path: '/system/account',
+  //       component: () => import('@/views/system/account/index'),
+  //       name: 'Account',
+  //       meta: { title: '账户管理', icon: 'user', noCache: true }
+  //     },
+  //     {
+  //       path: 'user',
+  //       component: () => import('@/views/system/user/index'),
+  //       name: 'User',
+  //       meta: { title: '用户管理', icon: 'people', noCache: true }
+  //     },
+  //     {
+  //       path: 'role',
+  //       component: () => import('@/views/system/role/index'),
+  //       name: 'Role',
+  //       meta: { title: '角色管理', icon: 'user-role', noCache: true }
+  //     },
+  //     {
+  //       path: 'org',
+  //       component: () => import('@/views/system/org/index'),
+  //       name: 'Org',
+  //       meta: { title: '部门管理', icon: 'org', noCache: true }
+  //     },
+  //     {
+  //       path: 'menu',
+  //       component: () => import('@/views/system/menu/index'),
+  //       name: 'Menu',
+  //       meta: { title: '菜单管理', icon: 'el-icon-menu', noCache: false }
+  //     },
+  //     {
+  //       path: 'dict',
+  //       component: () => import('@/views/system/dict/index'),
+  //       name: 'Dict',
+  //       meta: { title: '字典管理', icon: 'el-icon-notebook-2', noCache: false }
+  //     },
+  //     {
+  //       path: 'post',
+  //       component: () => import('@/views/system/post/index'),
+  //       name: 'Post',
+  //       meta: { title: '岗位管理', icon: 'example', noCache: false }
+  //     },
+  //     {
+  //       path: 'log',
+  //       component: () => import('@/views/system/log/index'),
+  //       name: 'Log',
+  //       meta: { title: '日志管理', icon: 'log', noCache: false }
+  //     }
+  //   ]
+  // }
 ]
 
 /**
  * asyncRoutes
  * the routes that need to be dynamically loaded based on user roles
  */
-export const asyncRoutes = [
-  {
-    path: '/permission',
-    component: Layout,
-    redirect: '/permission/page',
-    alwaysShow: true, // will always show the root menu
-    name: 'Permission',
-    meta: {
-      title: '权限',
-      icon: 'lock',
-      roles: ['admin', 'editor'] // you can set roles in root nav
-    },
-    children: [
-      {
-        path: 'page',
-        component: () => import('@/views/permission/page'),
-        name: 'PagePermission',
-        meta: {
-          title: '页面权限',
-          roles: ['admin'] // or you can only set roles in sub nav
-        }
-      },
-      {
-        path: 'directive',
-        component: () => import('@/views/permission/directive'),
-        name: 'DirectivePermission',
-        meta: {
-          title: '控制权限'
-          // if do not set roles, means: this page does not require permission
-        }
-      },
-      {
-        path: 'role',
-        component: () => import('@/views/permission/role'),
-        name: 'RolePermission',
-        meta: {
-          title: '角色权限',
-          roles: ['admin']
-        }
-      }
-    ]
-  },
-
-  {
-    path: '/icon',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/icons/index'),
-        name: 'Icons',
-        meta: { title: '图标', icon: 'icon', noCache: true }
-      }
-    ]
-  },
-
-  /** when your routing map is too long, you can split it into small modules **/
-  componentsRouter,
-  chartsRouter,
-  nestedRouter,
-  tableRouter,
-
-  {
-    path: '/example',
-    component: Layout,
-    redirect: '/example/list',
-    name: 'Example',
-    meta: {
-      title: '案例',
-      icon: 'el-icon-s-help'
-    },
-    children: [
-      {
-        path: 'create',
-        component: () => import('@/views/example/create'),
-        name: 'CreateArticle',
-        meta: { title: 'Create Article', icon: 'edit' }
-      },
-      {
-        path: 'edit/:id(\\d+)',
-        component: () => import('@/views/example/edit'),
-        name: 'EditArticle',
-        meta: { title: 'Edit Article', noCache: true, activeMenu: '/example/list' },
-        hidden: true
-      },
-      {
-        path: 'list',
-        component: () => import('@/views/example/list'),
-        name: 'ArticleList',
-        meta: { title: 'Article List', icon: 'list' }
-      }
-    ]
-  },
-
-  {
-    path: '/tab',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/tab/index'),
-        name: 'Tab',
-        meta: { title: '标签', icon: 'tab' }
-      }
-    ]
-  },
-
-  {
-    path: '/error',
-    component: Layout,
-    redirect: 'noRedirect',
-    name: 'ErrorPages',
-    meta: {
-      title: '错误页面',
-      icon: '404'
-    },
-    children: [
-      {
-        path: '401',
-        component: () => import('@/views/error-page/401'),
-        name: 'Page401',
-        meta: { title: '401', noCache: true }
-      },
-      {
-        path: '404',
-        component: () => import('@/views/error-page/404'),
-        name: 'Page404',
-        meta: { title: '404', noCache: true }
-      }
-    ]
-  },
-
-  {
-    path: '/error-log',
-    component: Layout,
-    children: [
-      {
-        path: 'log',
-        component: () => import('@/views/error-log/index'),
-        name: 'ErrorLog',
-        meta: { title: '错误日志', icon: 'bug' }
-      }
-    ]
-  },
-
-  {
-    path: '/excel',
-    component: Layout,
-    redirect: '/excel/export-excel',
-    name: 'Excel',
-    meta: {
-      title: 'Excel',
-      icon: 'excel'
-    },
-    children: [
-      {
-        path: 'export-excel',
-        component: () => import('@/views/excel/export-excel'),
-        name: 'ExportExcel',
-        meta: { title: '导出 Excel' }
-      },
-      {
-        path: 'export-selected-excel',
-        component: () => import('@/views/excel/select-excel'),
-        name: 'SelectExcel',
-        meta: { title: '导出选中项' }
-      },
-      {
-        path: 'export-merge-header',
-        component: () => import('@/views/excel/merge-header'),
-        name: 'MergeHeader',
-        meta: { title: '多表头' }
-      },
-      {
-        path: 'upload-excel',
-        component: () => import('@/views/excel/upload-excel'),
-        name: 'UploadExcel',
-        meta: { title: '上传 Excel' }
-      }
-    ]
-  },
-
-  {
-    path: '/zip',
-    component: Layout,
-    redirect: '/zip/download',
-    alwaysShow: true,
-    name: 'Zip',
-    meta: { title: 'Zip', icon: 'zip' },
-    children: [
-      {
-        path: 'download',
-        component: () => import('@/views/zip/index'),
-        name: 'ExportZip',
-        meta: { title: '导出 Zip' }
-      }
-    ]
-  },
-
-  {
-    path: '/pdf',
-    component: Layout,
-    redirect: '/pdf/index',
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/pdf/index'),
-        name: 'PDF',
-        meta: { title: 'PDF', icon: 'pdf' }
-      }
-    ]
-  },
-  {
-    path: '/pdf/download',
-    component: () => import('@/views/pdf/download'),
-    hidden: true
-  },
-
-  {
-    path: '/theme',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/theme/index'),
-        name: 'Theme',
-        meta: { title: '主题', icon: 'theme' }
-      }
-    ]
-  },
-
-  {
-    path: '/clipboard',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/clipboard/index'),
-        name: 'ClipboardDemo',
-        meta: { title: '剪贴板', icon: 'clipboard' }
-      }
-    ]
-  },
-
-  {
-    path: 'external-link',
-    component: Layout,
-    children: [
-      {
-        path: 'https://github.com/PanJiaChen/vue-element-admin',
-        meta: { title: '外链', icon: 'link' }
-      }
-    ]
-  },
-
-  // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
-]
+export const asyncRoutes = []
 
 const createRouter = () => new Router({
   mode: 'history', // require service support

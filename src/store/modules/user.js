@@ -1,4 +1,4 @@
-import { login, logout, getInfo } from '@/api/user'
+import { login, logout, getProfile } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import router, { resetRouter } from '@/router'
 
@@ -36,8 +36,8 @@ const actions = {
       login({ username: username.trim(), password: password }).then(response => {
         const { headers } = response
         console.log(headers['authorization'].split(' ')[1])
-        commit('SET_TOKEN', headers['authorization'].split(' ')[1])
-        setToken(headers['authorization'].split(' ')[1])
+        commit('SET_TOKEN', headers['authorization'])
+        setToken(headers['authorization'])
         resolve()
       }).catch(error => {
         reject(error)
@@ -46,9 +46,9 @@ const actions = {
   },
 
   // get user info
-  getInfo({ commit, state }) {
+  getProfile({ commit, state }) {
     return new Promise((resolve, reject) => {
-      getInfo(state.token).then(response => {
+      getProfile(state.token).then(response => {
         const { data } = response
 
         if (!data) {
@@ -59,7 +59,7 @@ const actions = {
 
         // roles must be a non-empty array
         if (!roles || roles.length <= 0) {
-          reject('getInfo:角色必须是非空数组！')
+          reject('getProfile:角色必须是非空数组！')
         }
 
         commit('SET_ROLES', roles)
@@ -110,7 +110,7 @@ const actions = {
     commit('SET_TOKEN', token)
     setToken(token)
 
-    const { roles } = await dispatch('getInfo')
+    const { roles } = await dispatch('getProfile')
 
     resetRouter()
 

@@ -1,38 +1,25 @@
 import request from '@/utils/request'
 
-export function getRoutes() {
+/**
+ * 授权
+ * @returns
+ */
+export function authorized(roleId, data) {
   return request({
-    url: '/vue-element-admin/routes',
-    method: 'get'
-  })
-}
-
-export function getRoles() {
-  return request({
-    url: '/vue-element-admin/roleses',
-    method: 'get'
-  })
-}
-
-export function addRole(data) {
-  return request({
-    url: '/vue-element-admin/role',
+    url: `/api/v1/role/${roleId}/authorized`,
     method: 'post',
     data
   })
 }
 
-export function updateRole(id, data) {
+/**
+ * 获取权限
+ * @param {*} roleId
+ * @returns
+ */
+export function permission(roleId) {
   return request({
-    url: `/vue-element-admin/role/${id}`,
-    method: 'put',
-    data
-  })
-}
-
-export function deleteRole(id) {
-  return request({
-    url: `/vue-element-admin/role/${id}`,
-    method: 'delete'
+    url: `/api/v1/role/${roleId}/permission`,
+    method: 'get'
   })
 }

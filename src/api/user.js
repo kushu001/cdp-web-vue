@@ -8,9 +8,9 @@ export function login(data) {
   })
 }
 
-export function getInfo() {
+export function getProfile() {
   return request({
-    url: '/api/v1/account',
+    url: '/api/v1/account/get',
     method: 'get'
   })
 }

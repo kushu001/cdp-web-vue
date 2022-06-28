@@ -19,7 +19,7 @@
           </el-form-item>
         </slot>
       </el-form>
-      <el-table v-loading="loading" :data="tableData" row-key="id" border style="width: 100%">
+      <el-table v-loading="loading" :data="tableData" row-key="id" :tree-props="{ children: 'children', hasChildren: !'hasChildren' }" border style="width: 100%">
         <el-table-column type="selection" width="55" />
         <el-table-column v-for="column in columns" :key="column.name" :prop="column.name" :label="column.label" :width="column.width" />
         <slot name="fixed-operation">
