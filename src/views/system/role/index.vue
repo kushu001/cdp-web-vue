@@ -1,16 +1,10 @@
 <template>
   <div class="page">
-    <el-row>
-      <cdp-search-region class="search" :conditions="columns" :search="searchHandler" />
-    </el-row>
-    <el-row>
-      <cdp-operation-region :title="title" :columns="columns" :url="url" />
-    </el-row>
-    <el-row>
-      <cdp-table-region ref="table" v-slot:default="slotProps" :title="title" :columns="columns" :url="url">
+    <cdp-table :table-config="tableConfig">
+      <template v-slot:tableOperations="slotProps">
         <el-button type="text" size="small" @click="authorizedDialog(slotProps)">授 权</el-button>
-      </cdp-table-region>
-    </el-row>
+      </template>
+    </cdp-table>
     <el-drawer title="授权" :visible.sync="drawer">
       <div style="margin: 20px;">
         <cdp-search-tree v-model="permissions" :default-keys="defaultKeys" placeholder="输入关键字进行过滤" :props="{label:'title'}" url="/api/v1/menu" :show-checkbox="true" />
@@ -25,17 +19,13 @@
 </template>
 
 <script>
-import CdpSearchRegion from '@/components/cdp-ui/cdp-template/cdp-table/CdpSearchRegion'
-import CdpOperationRegion from '@/components/cdp-ui/cdp-template/cdp-table/CdpOperationRegion'
-import CdpTableRegion from '@/components/cdp-ui/cdp-template/cdp-table/CdpTableRegion'
+import CdpTable from '@/components/cdp-ui/cdp-template/cdp-table'
 import { authorized, permission } from '@/api/role'
 
 export default {
   name: 'Role',
   components: {
-    CdpSearchRegion,
-    CdpOperationRegion,
-    CdpTableRegion,
+    CdpTable,
     CdpSearchTree: resolve => require(['@/components/cdp-ui/CdpSearchTree'], resolve)
   },
   data() {
@@ -45,55 +35,55 @@ export default {
         halfCheckedKeys: []
       },
       defaultKeys: [],
-      title: '角色',
-      url: '/api/v1/role',
-      columns: [
-        {
-          name: 'name',
-          type: 'input',
-          label: '角色名称',
-          defaultValue: ''
-        },
-        {
-          name: 'code',
-          type: 'input',
-          label: '角色编码',
-          defaultValue: ''
-        },
-        {
-          name: 'status',
-          label: '状态',
-          align: 'center',
-          formConfig: {
-            type: 'select'
+      tableConfig: {
+        title: '角色',
+        url: '/api/v1/role',
+        columns: [
+          {
+            name: 'name',
+            type: 'input',
+            label: '角色名称',
+            defaultValue: '',
+            formConfig: {
+              rules: [{ required: true, message: '请输入角色名称', trigger: 'blur' }]
+            }
           },
-          searchConfig: {
-            type: 'select'
+          {
+            name: 'code',
+            type: 'input',
+            label: '角色编码',
+            defaultValue: '',
+            formConfig: {
+              rules: [{ required: true, message: '请输入角色编码', trigger: 'blur' }]
+            }
           },
-          data: [
-            { key: 1, value: '新建', type: 'success' },
-            { key: 2, value: '进行中', type: 'info' },
-            { key: 3, value: '通过', type: 'warning' },
-            { key: 4, value: '拒绝', type: 'danger' }
-          ]
-        },
-        {
-          name: 'remark',
-          label: '备注',
-          formConfig: {
-            type: 'textarea'
+          {
+            name: 'status',
+            label: '状态',
+            align: 'center',
+            formConfig: {
+              type: 'select'
+            },
+            searchConfig: {
+              type: 'select'
+            },
+            data: [
+              { key: 1, value: '新建', type: 'success' },
+              { key: 2, value: '进行中', type: 'info' },
+              { key: 3, value: '通过', type: 'warning' },
+              { key: 4, value: '拒绝', type: 'danger' }
+            ]
           },
-          searchConfig: {
-            hidden: true
+          {
+            name: 'remark',
+            label: '备注',
+            formConfig: {
+              type: 'textarea'
+            },
+            searchConfig: {
+              hidden: true
+            }
           }
-        }
-      ],
-      rules: {
-        name: [
-          { required: true, message: '请输入角色名称', trigger: 'blur' }
-        ],
-        code: [
-          { required: true, message: '请输入角色编码', trigger: 'blur' }
         ]
       },
       drawer: false
@@ -101,12 +91,9 @@ export default {
   },
 
   methods: {
-    searchHandler(form) {
-      this.$refs.table.searchHandler(form)
-    },
-    async authorizedDialog({ scope }) {
+    async authorizedDialog({ row }) {
       this.drawer = true
-      this.item = { ...scope.row }
+      this.item = { ...row }
       this.defaultKeys = []
       const res = await permission(this.item.id)
       if (res.data.code === 200) {
@@ -135,10 +122,6 @@ export default {
         })
         this.drawer = false
       }
-    },
-    dialog(scope) {
-      this.dialogEditFormVisible = true
-      this.row = { ...scope.row }
     }
   }
 }
