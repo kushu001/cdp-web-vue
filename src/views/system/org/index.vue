@@ -1,13 +1,13 @@
 <template>
   <div>
     <el-row>
-      <cdp-search-region :conditions="columns" />
+      <cdp-search-region :conditions="columns" :search="searchHandler" />
     </el-row>
     <el-row>
-      <cdp-operation-region title="公司/部门" :columns="columns" url="/api/v1/org" :operations="['add', 'import', 'export']" />
+      <cdp-operation-region ref="table" title="公司/部门" :columns="columns" url="/api/v1/org" :operations="['add', 'import', 'export']" :search="searchHandler" />
     </el-row>
     <el-row>
-      <cdp-table-region v-slot:default="slotProps" title="公司/部门" :selection="false" :pagination="false" :columns="columns" url="/api/v1/org">
+      <cdp-table-region ref="table" v-slot:default="slotProps" title="公司/部门" :selection="false" :pagination="false" :columns="columns" url="/api/v1/org">
         <el-button type="text" style="margin-left:10px" size="small" @click="dialogFormHandler(slotProps)">新 增</el-button>
       </cdp-table-region>
       <el-dialog title="新增子公司/部门" :visible.sync="dialogVisible">
@@ -31,7 +31,6 @@
   </div>
 </template>
 <script>
-import { eventBus } from '@/components/cdp-ui/cdp-template/cdp-table/bus'
 import CdpSearchRegion from '@/components/cdp-ui/cdp-template/cdp-table/CdpSearchRegion'
 import CdpOperationRegion from '@/components/cdp-ui/cdp-template/cdp-table/CdpOperationRegion'
 import CdpTableRegion from '@/components/cdp-ui/cdp-template/cdp-table/CdpTableRegion'
@@ -62,11 +61,18 @@ export default {
           name: 'manager',
           formConfig: {
             name: 'manager_id',
-            type: 'select',
-            key: 'id',
-            value: 'name',
-            filterable: true,
-            url: '/api/v1/user'
+            type: 'select-table',
+            url: '/api/v1/user',
+            columns: [
+              {
+                name: 'name',
+                label: '姓名'
+              },
+              {
+                name: 'phone',
+                label: '电话'
+              }
+            ]
           },
           label: '部门负责人'
         },
@@ -84,6 +90,9 @@ export default {
     }
   },
   methods: {
+    searchHandler(form) {
+      this.$refs.table.searchHandler(form)
+    },
     onSubmit() {
       add(this.form, '/api/v1/org').then(({ data }) => {
         if (data.code === 200) {
@@ -93,7 +102,7 @@ export default {
           })
           this.$refs.form.resetFields()
           this.dialogVisible = false
-          eventBus.$emit('searchHandler', {})
+          this.searchHandler({})
         } else {
           this.$message({
             type: 'danger',

@@ -1,6 +1,9 @@
 <template>
   <div>
     <cdp-table :table-config="tableConfig">
+      <template v-slot:operations="slotProps">
+        <el-button type="primary" size="mini" icon="el-icon-delete">自定义扩展{{ slotProps.selectIds }}</el-button>
+      </template>
       <template v-slot:tableOperations="slotProps">
         <el-dropdown size="small" :hide-on-click="false" trigger="click">
           <el-button type="text" style="margin-left:10px" size="small">
@@ -29,10 +32,7 @@ export default {
           {
             name: 'username',
             type: 'input',
-            label: '账号',
-            formConfig: {
-              rules: [{ required: true, message: '账号不能为空' }]
-            }
+            label: '账号'
           },
           {
             name: 'name',

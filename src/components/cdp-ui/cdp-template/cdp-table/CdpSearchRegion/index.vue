@@ -16,12 +16,15 @@
   </el-form>
 </template>
 <script>
-import { eventBus } from '@/components/cdp-ui/cdp-template/cdp-table/bus'
 export default {
   props: {
     conditions: {
       type: Array,
       default: () => ([])
+    },
+    search: {
+      type: Function,
+      default: () => ({})
     }
   },
   data() {
@@ -51,10 +54,11 @@ export default {
   },
   methods: {
     searchHandler() {
-      eventBus.$emit('searchHandler', this.form)
+      this.search(this.form)
     },
     resetHandler() {
       this.$refs.form.resetFields()
+      this.search(this.form)
     }
   }
 }

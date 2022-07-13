@@ -1,13 +1,13 @@
 <template>
   <div class="page">
     <el-row>
-      <cdp-search-region class="search" :conditions="columns" />
+      <cdp-search-region class="search" :conditions="columns" :search="searchHandler" />
     </el-row>
     <el-row>
       <cdp-operation-region :title="title" :columns="columns" :url="url" />
     </el-row>
     <el-row>
-      <cdp-table-region :title="title" :columns="columns" :url="url" />
+      <cdp-table-region ref="table" :title="title" :columns="columns" :url="url" />
     </el-row>
     <!-- <test /> -->
   </div>
@@ -49,6 +49,11 @@ export default {
           }
         }
       ]
+    }
+  },
+  methods: {
+    searchHandler(form) {
+      this.$refs.table.searchHandler(form)
     }
   }
 }

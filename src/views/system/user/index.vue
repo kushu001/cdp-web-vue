@@ -17,13 +17,13 @@
     <div style="width:70%">
       <el-card style="margin-top: 20px;">
         <el-row>
-          <cdp-search-region class="search" :conditions="columns" />
+          <cdp-search-region class="search" :conditions="columns" :search="searchHandler" />
         </el-row>
         <el-row>
           <cdp-operation-region :title="title" :columns="columns" :url="url.addUrl" />
         </el-row>
         <el-row v-if="url.queryUrl">
-          <cdp-table-region :title="title" :columns="columns" :url="url" />
+          <cdp-table-region ref="table" :title="title" :columns="columns" :url="url" />
         </el-row>
         <!-- <test /> -->
       </el-card>
@@ -128,6 +128,9 @@ export default {
 
   },
   methods: {
+    searchHandler(form) {
+      this.$refs.table.searchHandler(form)
+    },
     filterNode(value, data) {
       if (!value) return true
       return data[this.defaultProps.label].indexOf(value) !== -1

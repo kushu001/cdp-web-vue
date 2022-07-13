@@ -25,7 +25,6 @@
   </div>
 </template>
 <script>
-import { eventBus } from '@/components/cdp-ui/cdp-template/cdp-table/bus'
 import CdpTableOperation from '@/components/cdp-ui/cdp-template/cdp-table/CdpTableRegion/CdpTableOperation'
 import CdpEditForm from '@/components/cdp-ui/cdp-template/cdp-table/CdpTableRegion/CdpEditForm'
 import { buildTree } from '@/utils/tools'
@@ -36,6 +35,14 @@ export default {
     CdpEditForm
   },
   props: {
+    value: {
+      type: Array,
+      default: () => ([])
+    },
+    form: {
+      type: Object,
+      default: () => ({})
+    },
     title: {
       type: String,
       default: null
@@ -85,40 +92,11 @@ export default {
   },
   watch: {
     url(val) {
-      this.searchHandler(this.searchForm)
+      this.searchHandler(this.form)
     }
   },
   created() {
-    this.created = true
-    eventBus.$on('searchHandler', (searchForm) => {
-      this.searchForm = searchForm
-      this.searchHandler(searchForm)
-    })
-    eventBus.$on('deleteHandler', () => {
-      this.deleteHandler(this.ids)
-    })
-    this.searchHandler(this.searchForm)
-  },
-  activated() {
-    if (!this.created) {
-      eventBus.$on('searchHandler', (searchForm) => {
-        this.searchForm = searchForm
-        this.searchHandler(searchForm)
-      })
-      eventBus.$on('deleteHandler', () => {
-        this.deleteHandler(this.ids)
-      })
-    }
-    this.created = false
-  },
-  deactivated() {
-    eventBus.$off('searchHandler')
-    eventBus.$off('deleteHandler')
-    this.created = false
-  },
-  destroyed() {
-    eventBus.$off('searchHandler')
-    eventBus.$off('deleteHandler')
+    this.searchHandler(this.form)
   },
   methods: {
     searchHandler(searchForm) {
@@ -167,9 +145,15 @@ export default {
         }
       })
     },
-    deleteHandler(ids) {
-      console.log('删除', ids)
-      if (ids === null || ids.length === 0) {
+    deleteHandler(id) {
+      const ids = this.ids
+      const arr = []
+      if (id) {
+        arr.push(id)
+      } else if (ids) {
+        arr.push(...ids)
+      }
+      if (arr.length === 0) {
         this.$message({
           type: 'warning',
           message: '请勾选要删除的记录'
@@ -182,12 +166,6 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        const arr = []
-        if (ids.length > 0) {
-          arr.push(...ids)
-        } else {
-          arr.push(ids)
-        }
         deleteById(`${this.deleteUrl}\\${arr.join(',')}`).then(({ data }) => {
           if (data.code === 200) {
             this.$message({
@@ -211,31 +189,25 @@ export default {
     },
     select(selection, row) {
       this.ids = selection.map(item => item.id)
-      eventBus.$emit('selectHandler', selection)
-      console.log(this.ids)
+      this.$emit('input', this.ids)
     },
     selectAll(selection) {
       this.ids = selection.map(item => item.id)
-      eventBus.$emit('selectHandler', selection)
-      console.log(this.ids)
+      this.$emit('input', this.ids)
     },
     sizeChangeHandler(pageSize) {
-      console.log(`每页条数:${pageSize}`)
       this.paginationConfig.limit = pageSize
       this.searchHandler(this.searchForm)
     },
     currentChangeHandler(currentPage) {
-      console.log(`当前页:${currentPage}`)
       this.paginationConfig.page = currentPage
       this.searchHandler(this.searchForm)
     },
     preClickHandler(currentPage) {
-      console.log(`上一页:${currentPage}`)
       this.paginationConfig.page = currentPage
       this.searchHandler(this.searchForm)
     },
     nextClickHandler(currentPage) {
-      console.log(`下一页:${currentPage}`)
       this.paginationConfig.page = currentPage
       this.searchHandler(this.searchForm)
     }

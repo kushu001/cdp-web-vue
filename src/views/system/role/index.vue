@@ -1,13 +1,13 @@
 <template>
   <div class="page">
     <el-row>
-      <cdp-search-region class="search" :conditions="columns" />
+      <cdp-search-region class="search" :conditions="columns" :search="searchHandler" />
     </el-row>
     <el-row>
       <cdp-operation-region :title="title" :columns="columns" :url="url" />
     </el-row>
     <el-row>
-      <cdp-table-region v-slot:default="slotProps" :title="title" :columns="columns" :url="url">
+      <cdp-table-region ref="table" v-slot:default="slotProps" :title="title" :columns="columns" :url="url">
         <el-button type="text" size="small" @click="authorizedDialog(slotProps)">授 权</el-button>
       </cdp-table-region>
     </el-row>
@@ -101,6 +101,9 @@ export default {
   },
 
   methods: {
+    searchHandler(form) {
+      this.$refs.table.searchHandler(form)
+    },
     async authorizedDialog({ scope }) {
       this.drawer = true
       this.item = { ...scope.row }

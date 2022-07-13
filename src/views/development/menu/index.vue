@@ -11,6 +11,9 @@
           <el-form-item label="菜单名称">
             <el-input v-model="form.title" style="width:300px" />
           </el-form-item>
+          <el-form-item label="属性名称">
+            <el-input v-model="form.name" style="width:300px" />
+          </el-form-item>
           <el-form-item label="URL">
             <el-input v-model="form.url" style="width:300px" />
           </el-form-item>

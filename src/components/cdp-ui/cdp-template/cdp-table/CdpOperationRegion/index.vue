@@ -14,7 +14,6 @@
 </template>
 <script>
 import CdpAddForm from '@/components/cdp-ui/cdp-template/cdp-table/CdpOperationRegion/CdpAddForm'
-import { eventBus } from '@/components/cdp-ui/cdp-template/cdp-table/bus'
 import { add } from '@/api/api'
 
 export default {
@@ -22,6 +21,14 @@ export default {
     CdpAddForm
   },
   props: {
+    search: {
+      type: Function,
+      default: () => {}
+    },
+    delete: {
+      type: Function,
+      default: () => {}
+    },
     title: {
       type: String,
       default: null
@@ -44,14 +51,6 @@ export default {
       visible: false
     }
   },
-  created() {
-    eventBus.$on('selectHandler', function(selection) {
-      console.log(selection)
-    })
-  },
-  beforeDestroy() {
-    eventBus.$off('selectHandler')
-  },
   methods: {
     addDialogHandler() {
       this.visible = true
@@ -65,7 +64,7 @@ export default {
           })
           this.visible = false
           this.$refs.child.resetHandler()
-          eventBus.$emit('searchHandler', {})
+          this.search()
         } else {
           this.$message({
             type: 'danger',
@@ -75,7 +74,7 @@ export default {
       })
     },
     deleteHandler() {
-      eventBus.$emit('deleteHandler')
+      this.delete()
     }
   }
 }

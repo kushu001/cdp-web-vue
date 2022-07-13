@@ -1,0 +1,42 @@
+<template>
+  <cdp-select-table v-model="userId" :columns="columns" :url="url" style="width:200px" />
+</template>
+<script>
+import CdpSelectTable from '@/components/cdp-ui/CdpSelectTable'
+
+export default {
+  components: {
+    CdpSelectTable
+  },
+  props: {
+    value: {
+      type: [String, Number],
+      default: null
+    }
+  },
+  data() {
+    return {
+      url: '/api/v1/user',
+      userId: this.value,
+      columns: [
+        {
+          name: 'name',
+          label: '姓名'
+        },
+        {
+          name: 'phone',
+          label: '电话'
+        }
+      ]
+    }
+  },
+  watch: {
+    userId(val) {
+      this.$emit('input', val)
+    },
+    value(val) {
+      this.userId = val
+    }
+  }
+}
+</script>
