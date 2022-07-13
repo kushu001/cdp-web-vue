@@ -66,11 +66,13 @@ export default {
         },
         {
           name: 'phone',
-          label: '电话'
+          label: '电话',
+          width: 200
         },
         {
           name: 'company',
-          label: '单位'
+          label: '单位',
+          width: 200
         },
         {
           name: 'address',
