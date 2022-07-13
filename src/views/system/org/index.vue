@@ -61,23 +61,12 @@ export default {
           name: 'manager',
           formConfig: {
             name: 'manager_id',
-            type: 'select-table',
-            url: '/api/v1/user',
-            columns: [
-              {
-                name: 'name',
-                label: '姓名'
-              },
-              {
-                name: 'phone',
-                label: '电话'
-              }
-            ]
+            type: 'user-select-table'
           },
           label: '部门负责人'
         },
         {
-          name: 'date',
+          name: 'create_time',
           label: '创建日期',
           formConfig: {
             hidden: true
