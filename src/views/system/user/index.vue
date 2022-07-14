@@ -16,81 +16,73 @@
     </el-aside>
     <div style="width:70%">
       <el-card style="margin-top: 20px;">
-        <el-row>
-          <cdp-search-region class="search" :conditions="columns" :search="searchHandler" />
-        </el-row>
-        <el-row>
-          <cdp-operation-region :title="title" :columns="columns" :url="url.addUrl" />
-        </el-row>
-        <el-row v-if="url.queryUrl">
-          <cdp-table-region ref="table" :title="title" :columns="columns" :url="url" />
-        </el-row>
-        <!-- <test /> -->
+        <cdp-table :table-config="tableConfig" />
       </el-card>
     </div>
   </el-container>
 </template>
 
 <script>
-import CdpSearchRegion from '@/components/cdp-ui/cdp-template/cdp-table/CdpSearchRegion'
-import CdpOperationRegion from '@/components/cdp-ui/cdp-template/cdp-table/CdpOperationRegion'
-import CdpTableRegion from '@/components/cdp-ui/cdp-template/cdp-table/CdpTableRegion'
+import CdpTable from '@/components/cdp-ui/cdp-template/cdp-table'
 import { fetchList } from '@/api/api'
 import { buildTree } from '@/utils/tools'
 
 export default {
   name: 'User',
   components: {
-    CdpSearchRegion,
-    CdpOperationRegion,
-    CdpTableRegion
+    CdpTable
   },
   data() {
     return {
+      tableConfig: {
+        title: '用户',
+        url: {
+          queryUrl: '',
+          addUrl: '',
+          editUrl: '',
+          deleteUrl: ''
+        },
+        columns: [
+          {
+            name: 'name',
+            label: '姓名',
+            formConfig: {
+              rules: [{ required: true, message: '请输入姓名', trigger: 'blur' }]
+            }
+          },
+          {
+            name: 'phone',
+            label: '电话',
+            width: 200
+          },
+          {
+            name: 'company',
+            label: '单位',
+            width: 200
+          },
+          {
+            name: 'address',
+            label: '地址',
+            width: 200
+          },
+          {
+            name: 'create_time',
+            label: '创建日期',
+            width: 180,
+            formConfig: {
+              hidden: true
+            },
+            searchConfig: {
+              hidden: true
+            }
+          }
+        ]
+      },
       filterText: '',
       formInline: {
         user: '',
         region: ''
       },
-      title: '用户',
-      url: {
-        queryUrl: '',
-        addUrl: '',
-        editUrl: '',
-        deleteUrl: ''
-      },
-      columns: [
-        {
-          name: 'name',
-          label: '姓名'
-        },
-        {
-          name: 'phone',
-          label: '电话',
-          width: 200
-        },
-        {
-          name: 'company',
-          label: '单位',
-          width: 200
-        },
-        {
-          name: 'address',
-          label: '地址',
-          width: 200
-        },
-        {
-          name: 'create_time',
-          label: '创建日期',
-          width: 180,
-          formConfig: {
-            hidden: true
-          },
-          searchConfig: {
-            hidden: true
-          }
-        }
-      ],
       rules: {
         name: [
           { required: true, message: '请输入姓名', trigger: 'blur' }
@@ -117,8 +109,8 @@ export default {
         this.treeData = buildTree({
           data: data
         })
-        this.url = {
-          queryUrl: `/api/v1/user/org/${data[0].code}?v=${new Date().getTime()}`,
+        this.tableConfig.url = {
+          queryUrl: `/api/v1/user/org/${data[0].code}`,
           addUrl: `/api/v1/user/org/${data[0].id}`,
           editUrl: `/api/v1/user`,
           deleteUrl: `/api/v1/org/${data[0].code}/user`
@@ -126,20 +118,14 @@ export default {
       }
     })
   },
-  created() {
-
-  },
   methods: {
-    searchHandler(form) {
-      this.$refs.table.searchHandler(form)
-    },
     filterNode(value, data) {
       if (!value) return true
       return data[this.defaultProps.label].indexOf(value) !== -1
     },
     handleNodeClick(data) {
-      this.url = {
-        queryUrl: `/api/v1/user/org/${data['code']}?v=${new Date().getTime()}`,
+      this.tableConfig.url = {
+        queryUrl: `/api/v1/user/org/${data['code']}`,
         addUrl: `/api/v1/user/org/${data['id']}`,
         editUrl: `/api/v1/user`,
         deleteUrl: `/api/v1/org/${data['code']}/user`

@@ -9,7 +9,7 @@
       </el-upload>
       <el-button v-if="operations.includes('export')" type="primary" size="mini" icon="el-icon-download">导出</el-button>
     </el-button-group>
-    <cdp-add-form ref="child" :visible.sync="visible" :title="title" :url="url" :columns="columns" @addHandler="addHandler" />
+    <cdp-add-form ref="child" :visible.sync="visible" :title="title" :url="addUrl" :columns="columns" @addHandler="addHandler" />
   </div>
 </template>
 <script>
@@ -34,7 +34,7 @@ export default {
       default: null
     },
     url: {
-      type: String,
+      type: [String, Object],
       default: null
     },
     columns: {
@@ -48,7 +48,24 @@ export default {
   },
   data() {
     return {
-      visible: false
+      visible: false,
+      addUrl: ''
+    }
+  },
+  watch: {
+    url(val) {
+      if (val.constructor === Object) {
+        this.addUrl = this.url.addUrl
+      } else {
+        this.addUrl = this.url
+      }
+    }
+  },
+  created() {
+    if (this.url.constructor === Object) {
+      this.addUrl = this.url.addUrl
+    } else {
+      this.addUrl = this.url
     }
   },
   methods: {
@@ -56,7 +73,7 @@ export default {
       this.visible = true
     },
     addHandler(form) {
-      add(form, this.url).then(({ data }) => {
+      add(form, this.addUrl).then(({ data }) => {
         if (data.code === 200) {
           this.$message({
             type: 'success',

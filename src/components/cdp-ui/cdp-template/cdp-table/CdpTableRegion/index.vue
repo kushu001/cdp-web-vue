@@ -115,14 +115,16 @@ export default {
         ...this.paginationConfig,
         ...searchForm
       }
-      fetchList(this.paginationConfig, this.queryUrl).then(response => {
-        if (this.pagination) {
-          this.tableData = [...response.data.data.records]
-          this.paginationConfig.total = response.data.data.total
-        } else {
-          this.tableData = buildTree({ data: [...response.data.data] })
-        }
-      })
+      if (this.queryUrl) {
+        fetchList(this.paginationConfig, this.queryUrl).then(response => {
+          if (this.pagination) {
+            this.tableData = [...response.data.data.records]
+            this.paginationConfig.total = response.data.data.total
+          } else {
+            this.tableData = buildTree({ data: [...response.data.data] })
+          }
+        })
+      }
     },
     editDialogHandler(scope) {
       this.dialogFormVisible = true
