@@ -9,7 +9,7 @@
           </el-select>
           <el-date-picker v-if="item.formConfig.type=='date'" v-model="form[item.formConfig.name]" type="date" />
           <el-input v-if="item.formConfig.type=='textarea'" v-model="form[item.formConfig.name]" style="width:530px;" :rows="5" type="textarea" />
-          <user-select-table v-if="item.formConfig.type=='user-select-table'" v-model="form[item.formConfig.name]" style="width:200px" />
+          <cdp-user-select-table v-if="item.formConfig.type=='user-select-table'" v-model="form[item.formConfig.name]" style="width:200px" />
           <cdp-select-table v-if="item.formConfig.type=='select-table'" v-model="form[item.formConfig.name]" :columns="item.formConfig.columns" :url="item.formConfig.url" style="width:200px" />
         </el-form-item>
       </span>
@@ -22,12 +22,12 @@
 </template>
 <script>
 import CdpSelectTable from '@/components/cdp-ui/CdpSelectTable'
-import UserSelectTable from '@/views/components/user-select-table'
+import CdpUserSelectTable from '@/views/components/cdp-user-select-table'
 import { fetchList } from '@/api/api'
 
 export default {
   components: {
-    UserSelectTable,
+    CdpUserSelectTable,
     CdpSelectTable
   },
   props: {

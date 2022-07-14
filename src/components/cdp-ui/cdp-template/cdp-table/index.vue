@@ -1,10 +1,10 @@
 <template>
   <div>
     <cdp-search-region v-if="layout.includes('search')" :conditions="tableConfig.columns" :search="searchHandler" />
-    <cdp-operation-region v-if="layout.includes('operation')" :columns="tableConfig.columns" :url="tableConfig.url" :title="tableConfig.title" :search="searchHandler" :delete="deleteHandler">
+    <cdp-operation-region v-if="layout.includes('operation')" :columns="tableConfig.columns" :url="tableConfig.url" :title="tableConfig.title" :operations="operations" :search="searchHandler" :delete="deleteHandler">
       <slot name="operations" :selectIds="selectIds" />
     </cdp-operation-region>
-    <cdp-table-region v-if="layout.includes('table')" ref="table" v-slot:default="slotProps" v-model="selectIds" style="margin-top: 10px" :columns="tableConfig.columns" :title="tableConfig.title" :url="tableConfig.url" :pagination="tableConfig.pagination">
+    <cdp-table-region v-if="layout.includes('table')" ref="table" v-slot:default="slotProps" v-model="selectIds" style="margin-top: 10px" :columns="tableConfig.columns" :title="tableConfig.title" :operations="tableOperations" :url="tableConfig.url" :pagination="tableConfig.pagination">
       <slot name="tableOperations" :row="slotProps.scope.row" />
     </cdp-table-region>
   </div>
@@ -27,9 +27,13 @@ export default {
   },
   data() {
     const layout = ['search', 'operation', 'table']
+    const operations = ['add', 'delete', 'import', 'export']
+    const tableOperations = ['edit', 'delete']
     return {
       selectIds: [],
-      layout: !this.tableConfig.layout ? layout : this.tableConfig.layout
+      layout: !this.tableConfig.layout ? layout : this.tableConfig.layout,
+      operations: !this.tableConfig.operations ? operations : this.tableConfig.operations,
+      tableOperations: !this.tableConfig.tableOperations ? tableOperations : this.tableConfig.tableOperations
     }
   },
   methods: {
