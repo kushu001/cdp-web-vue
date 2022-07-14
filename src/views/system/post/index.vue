@@ -1,54 +1,39 @@
 <template>
-  <div class="page">
-    <el-row>
-      <cdp-search-region class="search" :conditions="columns" :search="searchHandler" />
-    </el-row>
-    <el-row>
-      <cdp-operation-region :title="title" :columns="columns" :url="url" />
-    </el-row>
-    <el-row>
-      <cdp-table-region ref="table" :title="title" :columns="columns" :url="url" />
-    </el-row>
-    <!-- <test /> -->
-  </div>
+  <cdp-table :table-config="tableConfig" />
 </template>
 <script>
-import CdpSearchRegion from '@/components/cdp-ui/cdp-template/cdp-table/CdpSearchRegion'
-import CdpOperationRegion from '@/components/cdp-ui/cdp-template/cdp-table/CdpOperationRegion'
-import CdpTableRegion from '@/components/cdp-ui/cdp-template/cdp-table/CdpTableRegion'
-// import test from './test'
+import CdpTable from '@/components/cdp-ui/cdp-template/cdp-table'
 
 export default {
   components: {
-    CdpSearchRegion,
-    CdpOperationRegion,
-    CdpTableRegion
-    // ,test
+    CdpTable
   },
   data() {
     return {
-      title: '岗位信息',
-      url: '/api/v1/post',
-      columns: [
-        {
-          name: 'name',
-          label: '岗位名称'
-        },
-        {
-          name: 'code',
-          label: '岗位编码'
-        },
-        {
-          name: 'create_time',
-          label: '创建日期',
-          formConfig: {
-            hidden: true
+      tableConfig: {
+        title: '岗位信息',
+        url: '/api/v1/post',
+        columns: [
+          {
+            name: 'name',
+            label: '岗位名称'
           },
-          searchConfig: {
-            hidden: true
+          {
+            name: 'code',
+            label: '岗位编码'
+          },
+          {
+            name: 'create_time',
+            label: '创建日期',
+            formConfig: {
+              hidden: true
+            },
+            searchConfig: {
+              hidden: true
+            }
           }
-        }
-      ]
+        ]
+      }
     }
   },
   methods: {
