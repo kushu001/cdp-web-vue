@@ -7,7 +7,7 @@
     </cdp-table>
     <el-drawer title="授权" :visible.sync="drawer">
       <div style="margin: 20px;">
-        <cdp-search-tree v-model="permissions" :default-keys="defaultKeys" placeholder="输入关键字进行过滤" :props="{label:'title'}" url="/api/v1/menu" :show-checkbox="true" />
+        <cdp-search-tree v-model="permissions" :default-keys="checkedKeys" placeholder="输入关键字进行过滤" :props="{label:'title'}" url="/api/v1/menu" :show-checkbox="true" />
         <div class="footer">
           <el-row :gutter="20">
             <el-col :span="12" :offset="6"><el-button type="primary" @click="authorized">保存</el-button></el-col>
@@ -34,7 +34,7 @@ export default {
         checkedKeys: [],
         halfCheckedKeys: []
       },
-      defaultKeys: [],
+      checkedKeys: [],
       tableConfig: {
         title: '角色',
         url: '/api/v1/role',
@@ -94,11 +94,19 @@ export default {
     async authorizedDialog({ row }) {
       this.drawer = true
       this.item = { ...row }
-      this.defaultKeys = []
+      this.checkedKeys = []
+      const halfCheckedKeys = []
       const res = await permission(this.item.id)
       if (res.data.code === 200) {
-        this.defaultKeys = res.data.data.map(item => item.menu_id)
-        this.permissions['checkedKeys'] = this.defaultKeys
+        for (let i = 0; i < res.data.data.length; i++) {
+          if (res.data.data[i].is_half_key) {
+            halfCheckedKeys.push(res.data.data[i].menu_id)
+          } else {
+            this.checkedKeys.push(res.data.data[i].menu_id)
+          }
+        }
+        this.permissions['checkedKeys'] = this.checkedKeys
+        this.permissions['halfCheckedKeys'] = halfCheckedKeys
       }
     },
     async authorized() {
