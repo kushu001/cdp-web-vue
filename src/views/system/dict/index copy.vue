@@ -34,14 +34,14 @@
     </el-aside>
     <el-main>
       <el-card v-if="tempFormData.id">
-        <cdp-table :table-config="tableConfig" />
+        <cdp-table :columns="columns" :number="tempFormData.id" :url="`/api/v1/dict/item/${tempFormData.id}`" />
       </el-card>
     </el-main>
   </el-container>
 </template>
 
 <script>
-import CdpTable from '@/components/cdp-ui/cdp-template/cdp-table'
+import CdpTable from '../components/cdp-table.vue'
 import { fetchList, add, get, update, deleteById } from '@/api/dict'
 
 export default {
@@ -59,75 +59,62 @@ export default {
         code: '',
         sort: 0
       },
-      tableConfig: {
-        title: '字典项',
-        url: '',
-        columns: [
-          {
-            name: 'name',
-            label: '字典项名称',
-            formConfig: {
-              rules: [
-                { required: true, message: '请输入字典名称', trigger: 'blur' },
-                { min: 1, max: 10, message: '长度在 1 到 10 个字符', trigger: 'blur' }
-              ]
-            }
-          },
-          {
-            name: 'code',
-            label: '编码',
-            formConfig: {
-              rules: [
-                { required: true, message: '请输入字典编码', trigger: 'blur' },
-                { min: 1, max: 10, message: '长度在 1 到 10 个字符', trigger: 'blur' }
-              ]
-            }
-          },
-          {
-            name: 'value',
-            label: '值',
-            searchConfig: {
-              hidden: true
-            }
-          },
-          {
-            name: 'sort',
-            label: '排序',
-            searchConfig: {
-              hidden: true
-            }
-          },
-          {
-            name: 'status',
-            label: '状态',
-            align: 'center',
-            searchConfig: {
-              hidden: true
-            },
-            formConfig: {
-              type: 'select'
-            },
-            data: [
-              { key: 1, value: '新建', type: 'success' },
-              { key: 2, value: '进行中', type: 'info' },
-              { key: 3, value: '通过', type: 'warning' },
-              { key: 4, value: '拒绝', type: 'danger' }
-            ]
-          },
-          {
-            name: 'create_time',
-            type: 'date',
-            label: '创建时间',
-            width: 180,
-            searchConfig: {
-              hidden: true
-            },
-            formConfig: {
-              hidden: true
-            }
-          }
+      rules: {
+        name: [
+          { required: true, message: '请输入字典名称', trigger: 'blur' },
+          { min: 1, max: 10, message: '长度在 1 到 10 个字符', trigger: 'blur' }
+        ],
+        code: [
+          { required: true, message: '请输入字典编码', trigger: 'blur' },
+          { min: 1, max: 10, message: '长度在 1 到 10 个字符', trigger: 'blur' }
         ]
       },
+      columns: [
+        {
+          name: 'name',
+          type: 'input',
+          label: '字典项名称',
+          defaultValue: ''
+        },
+        {
+          name: 'code',
+          type: 'input',
+          label: '编码'
+        },
+        {
+          name: 'value',
+          type: 'input',
+          label: '值',
+          searchHidden: true
+        },
+        {
+          name: 'sort',
+          type: 'input',
+          label: '排序',
+          searchHidden: true
+        },
+        {
+          name: 'status',
+          type: 'select',
+          label: '状态',
+          align: 'center',
+          searchHidden: true,
+          data: [
+            { key: 1, value: '新建', type: 'success' },
+            { key: 2, value: '进行中', type: 'info' },
+            { key: 3, value: '通过', type: 'warning' },
+            { key: 4, value: '拒绝', type: 'danger' }
+          ]
+        },
+        {
+          name: 'create_time',
+          type: 'date',
+          label: '创建时间',
+          width: 180,
+          searchHidden: true,
+          formHidden: true
+        }
+      ],
       checked: false,
       data: [],
       query: {
@@ -148,7 +135,6 @@ export default {
         this.query.total = response.data.data.total
         if (this.data.length > 0) {
           this.tempFormData = this.data[0]
-          this.tableConfig.url = `/api/v1/dict/item/${this.tempFormData.id}`
           this.$refs.singleTable.setCurrentRow(this.data[0])
         }
       })
@@ -158,7 +144,6 @@ export default {
     },
     handleCurrentChange(val) {
       this.tempFormData = val
-      this.tableConfig.url = `/api/v1/dict/item/${this.tempFormData.id}`
     },
     addDictHandler() {
       this.dialogFormVisible = true
