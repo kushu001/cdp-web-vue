@@ -53,7 +53,10 @@ export default {
           {
             name: 'dept_name',
             label: '部门',
-            width: 200
+            width: 200,
+            searchConfig: {
+              hidden: true
+            }
           },
           {
             name: 'id_number',
