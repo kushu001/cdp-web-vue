@@ -51,13 +51,24 @@ export default {
             }
           },
           {
-            name: 'phone',
-            label: '电话',
+            name: 'dept_name',
+            label: '部门',
             width: 200
           },
           {
-            name: 'company',
-            label: '单位',
+            name: 'id_number',
+            label: '身份证号',
+            width: 200,
+            formConfig: {
+              rules: [
+                { required: true, message: '请输入身份证', trigger: 'blur' },
+                { pattern: /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/, message: '请输入正确的身份证号' }
+              ]
+            }
+          },
+          {
+            name: 'phone',
+            label: '电话',
             width: 200
           },
           {

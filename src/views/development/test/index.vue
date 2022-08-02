@@ -28,7 +28,7 @@
         <custom-input v-model="userInfo.randomValue" />
       </el-form-item>
       <el-form-item label="自定义" prop="userId">
-        <user-select-table v-model="userInfo.userId" />
+        <cdp-user-select-table v-model="userInfo.userId" />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="handleSubmitInfo">提交</el-button>
@@ -38,11 +38,11 @@
 </template>
 <script>
 import CustomInput from '@/components/cdp-ui/custom-input'
-import UserSelectTable from '@/views/components/user-select-table'
+import CdpUserSelectTable from '@/views/components/cdp-user-select-table'
 export default {
   components: {
     CustomInput,
-    UserSelectTable
+    CdpUserSelectTable
   },
   data() {
     function validateAge(rule, value, callback) {
