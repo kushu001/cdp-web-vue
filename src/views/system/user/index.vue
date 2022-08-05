@@ -56,6 +56,9 @@ export default {
             width: 200,
             searchConfig: {
               hidden: true
+            },
+            formConfig: {
+              hidden: true
             }
           },
           {
