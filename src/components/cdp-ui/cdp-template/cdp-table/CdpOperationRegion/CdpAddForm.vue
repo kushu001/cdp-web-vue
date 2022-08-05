@@ -83,20 +83,23 @@ export default {
       if (this.formItems[i].formConfig.rules.length > 0) {
         rules[this.formItems[i].formConfig.name] = this.formItems[i].formConfig.rules
       }
-
-      if (this.formItems[i].formConfig && this.formItems[i].formConfig.url && this.formItems[i].formConfig.type !== 'select-table') {
-        fetchList({}, this.formItems[i].formConfig.url).then(({ data }) => {
-          this.formItems[i].data = data.data.map(item => ({
-            key: item[this.formItems[i].formConfig.key],
-            value: item[this.formItems[i].formConfig.value]
-          }))
-        })
-      }
     }
     this.rules = rules
   },
   methods: {
-    openHandler() { },
+    openHandler() {
+      for (let i = 0; i < this.formItems.length; i++) {
+        if (this.formItems[i].formConfig && this.formItems[i].formConfig.url && this.formItems[i].formConfig.type !== 'select-table') {
+          fetchList({}, this.formItems[i].formConfig.url).then(({ data }) => {
+            this.formItems[i].data = data.data.map(item => ({
+              key: item[this.formItems[i].formConfig.key],
+              value: item[this.formItems[i].formConfig.value]
+            }))
+            this.$forceUpdate() // 强制渲染
+          })
+        }
+      }
+    },
     closeHandler() {
       this.$emit('update:visible', !this.visible)
       this.$refs.form.resetFields()
