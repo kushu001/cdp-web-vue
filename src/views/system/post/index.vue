@@ -16,11 +16,17 @@ export default {
         columns: [
           {
             name: 'name',
-            label: '岗位名称'
+            label: '岗位名称',
+            formConfig: {
+              rules: [{ required: true, message: '请输入岗位名称', trigger: 'blur' }]
+            }
           },
           {
             name: 'code',
-            label: '岗位编码'
+            label: '岗位编码',
+            formConfig: {
+              rules: [{ required: true, message: '请输入岗位编码', trigger: 'blur' }]
+            }
           },
           {
             name: 'create_time',
