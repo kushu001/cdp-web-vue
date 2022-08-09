@@ -59,6 +59,14 @@ export default {
         code: '',
         sort: 0
       },
+      rules: {
+        code: [
+          { required: true, message: '请输入字典编码', trigger: 'blur' }
+        ],
+        name: [
+          { required: true, message: '请输入字典名称', trigger: 'blur' }
+        ]
+      },
       tableConfig: {
         title: '字典项',
         url: '',
