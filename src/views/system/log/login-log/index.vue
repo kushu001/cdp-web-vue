@@ -26,7 +26,11 @@ export default {
           },
           {
             name: 'client',
-            label: '终端'
+            label: '平台'
+          },
+          {
+            name: 'os',
+            label: '系统'
           },
           {
             name: 'ip',
