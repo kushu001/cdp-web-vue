@@ -20,6 +20,7 @@ export default {
           {
             name: 'url',
             label: '地址',
+            width: 200,
             searchConfig: {
               hidden: true
             }
@@ -30,11 +31,19 @@ export default {
           },
           {
             name: 'resource_name',
-            label: '资源名称'
+            label: '资源名称',
+            width: 200
+          },
+          {
+            name: 'path_payload',
+            label: '地址参数',
+            searchConfig: {
+              hidden: true
+            }
           },
           {
             name: 'payload',
-            label: '载荷',
+            label: '请求体',
             searchConfig: {
               hidden: true
             }
