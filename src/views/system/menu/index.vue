@@ -21,7 +21,8 @@
             </el-radio-group>
           </el-form-item>
           <el-form-item label="图标">
-            <el-input v-model="form.icon" style="width:300px" />
+            <!-- <el-input v-model="form.icon" style="width:300px" /> -->
+            <cdp-select-icon v-model="form.icon" />
           </el-form-item>
           <el-form-item label="排序">
             <el-input-number v-model="form.sort" style="width:300px" />
@@ -43,9 +44,11 @@
 </template>
 <script>
 import { add, update, deleteById } from '@/api/api'
+import CdpSelectIcon from '@/components/cdp-ui/CdpSelectIcon'
 
 export default {
   components: {
+    CdpSelectIcon,
     CdpSearchTree: resolve => require(['@/components/cdp-ui/CdpSearchTree'], resolve)
   },
   data() {
