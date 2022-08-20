@@ -54,10 +54,9 @@ export default {
   },
   data() {
     return {
-      form: { pid: 0, sort: 1 },
+      form: { sort: 1 },
       url: '/api/v1/menu',
       v: new Date().getTime(),
-      node: {},
       data: {},
       type: '1'
     }
@@ -120,7 +119,6 @@ export default {
     },
     clickHanlder(data, node) {
       this.form = { ...data }
-      this.node = node
       this.data = data
       this.type = data.type
     }

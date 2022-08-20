@@ -11,7 +11,7 @@
       :default-expanded-keys="defaultKeys"
       :show-checkbox="showCheckbox"
       :expand-on-click-node="false"
-      highlight-current
+      :highlight-current="highlightCurrent"
       :props="defaultProps"
       :filter-node-method="filterNode"
       @node-click="handleNodeClick"
@@ -62,6 +62,7 @@ export default {
     return {
       filterText: '',
       treeData: [],
+      highlightCurrent: false,
       defaultProps: {
         label: 'name',
         children: 'children'
@@ -89,9 +90,12 @@ export default {
   methods: {
     queryList(url) {
       fetchList({}, url).then(({ data: response }) => {
-        this.treeData = buildTree({
-          data: response.data
-        })
+        if (response.code === 200) {
+          this.highlightCurrent = false
+          this.treeData = buildTree({
+            data: response.data
+          })
+        }
       })
     },
     filterNode(value, data) {
@@ -100,7 +104,12 @@ export default {
     },
     handleNodeClick(data, node) {
       delete data[this.defaultProps.children]
-      this.clickHanlder(data, node)
+      this.highlightCurrent = !this.highlightCurrent
+      if (this.highlightCurrent) {
+        this.clickHanlder(data, node)
+      } else {
+        this.clickHanlder({}, node)
+      }
     },
     checkHandler(data, { checkedKeys, halfCheckedKeys }) {
       this.$emit('input', { checkedKeys, halfCheckedKeys })
