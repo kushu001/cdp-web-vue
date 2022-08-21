@@ -63,6 +63,7 @@ export default {
       filterText: '',
       treeData: [],
       highlightCurrent: false,
+      preKey: null,
       defaultProps: {
         label: 'name',
         children: 'children'
@@ -104,7 +105,12 @@ export default {
     },
     handleNodeClick(data, node) {
       delete data[this.defaultProps.children]
-      this.highlightCurrent = !this.highlightCurrent
+      if (this.preKey === node.key) {
+        this.highlightCurrent = !this.highlightCurrent
+      } else {
+        this.highlightCurrent = true
+      }
+      this.preKey = node.key
       if (this.highlightCurrent) {
         this.clickHanlder(data, node)
       } else {
