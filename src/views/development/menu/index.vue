@@ -78,7 +78,6 @@ export default {
     updateMenuHandler() {
       this.$refs['form'].validate((valid) => {
         if (valid) {
-          debugger
           update(this.form, this.url).then(response => {
             this.v = new Date().getTime()
           })
