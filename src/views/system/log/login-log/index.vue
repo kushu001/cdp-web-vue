@@ -12,6 +12,8 @@ export default {
     return {
       tableConfig: {
         url: '/api/v1/login-log',
+        selection: false,
+        tableOperations: [],
         columns: [
           {
             name: 'user',

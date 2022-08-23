@@ -2,6 +2,7 @@
   <div style="margin:0 20px">
     <el-table :data="tableData" border row-key="id" @select="select" @select-all="selectAll">
       <el-table-column v-if="selection" type="selection" width="55" />
+      <!-- <el-table-column type="index" :index="calIndex"></el-table-column> -->
       <el-table-column v-for="column in columns" :key="column.name" :align="column.align" :prop="column.name" :label="column.label" :width="column.width">
         <template slot-scope="scope">
           <el-tag v-if="scope.row[column.name] && column.data && column.data.find(item=>item.key==scope.row[column.name]) && column.data.find(item=>item.key==scope.row[column.name]).type" size="medium" :type="column.data.find(item=>item.key==scope.row[column.name]).type">
@@ -10,7 +11,7 @@
           <span v-else>{{ scope.row[column.name] }}</span>
         </template>
       </el-table-column>
-      <el-table-column fixed="right" label="操作" width="150">
+      <el-table-column v-if="operations.length > 0" fixed="right" label="操作" width="150">
         <template slot-scope="scope">
           <cdp-table-operation :scope="scope" :operations="operations" @deleteHandler="deleteHandler" @editDialogHandler="editDialogHandler">
             <slot slot="defaultOperation" :scope="scope" />
@@ -212,6 +213,9 @@ export default {
     nextClickHandler(currentPage) {
       this.paginationConfig.page = currentPage
       this.searchHandler(this.searchForm)
+    },
+    calIndex(index) {
+      return (this.paginationConfig.page - 1) * this.paginationConfig.limit + index + 1
     }
   }
 }

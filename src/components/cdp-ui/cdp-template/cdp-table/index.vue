@@ -4,7 +4,19 @@
     <cdp-operation-region v-if="layout.includes('operation')" :columns="tableConfig.columns" :url="tableConfig.url" :title="tableConfig.title" :operations="operations" :search="searchHandler" :delete="deleteHandler">
       <slot name="operations" :selectIds="selectIds" />
     </cdp-operation-region>
-    <cdp-table-region v-if="layout.includes('table')" ref="table" v-slot:default="slotProps" v-model="selectIds" style="margin-top: 10px" :columns="tableConfig.columns" :title="tableConfig.title" :operations="tableOperations" :url="tableConfig.url" :pagination="tableConfig.pagination">
+    <cdp-table-region
+      v-if="layout.includes('table')"
+      ref="table"
+      v-slot:default="slotProps"
+      v-model="selectIds"
+      style="margin-top: 10px"
+      :selection="tableConfig.selection"
+      :columns="tableConfig.columns"
+      :title="tableConfig.title"
+      :operations="tableOperations"
+      :url="tableConfig.url"
+      :pagination="tableConfig.pagination"
+    >
       <slot name="tableOperations" :row="slotProps.scope.row" />
     </cdp-table-region>
   </div>
