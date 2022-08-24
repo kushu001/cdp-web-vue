@@ -77,6 +77,7 @@ export function exportExcel(query, url) {
   return request({
     url,
     method: 'get',
-    params: query
+    params: query,
+    responseType: 'blob'
   })
 }
