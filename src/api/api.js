@@ -66,3 +66,17 @@ export function deleteById(url) {
     method: 'delete'
   })
 }
+
+/**
+ * 通用导出
+ * @param {*} query
+ * @param {*} url
+ * @returns
+ */
+export function exportExcel(query, url) {
+  return request({
+    url,
+    method: 'get',
+    params: query
+  })
+}

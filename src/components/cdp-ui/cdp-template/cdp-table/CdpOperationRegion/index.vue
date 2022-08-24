@@ -7,7 +7,7 @@
       <el-upload v-if="operations.includes('import')" action="" class="upload">
         <el-button type="primary" class="upload-button" size="mini" icon="el-icon-upload2">导入</el-button>
       </el-upload>
-      <el-button v-if="operations.includes('export')" type="primary" size="mini" icon="el-icon-download">导出</el-button>
+      <el-button v-if="operations.includes('export')" type="primary" size="mini" icon="el-icon-download" @click="exportHandler">导出</el-button>
     </el-button-group>
     <cdp-add-form ref="child" :visible.sync="visible" :title="title" :url="addUrl" :columns="columns" @addHandler="addHandler" />
   </div>
@@ -26,6 +26,10 @@ export default {
       default: () => {}
     },
     delete: {
+      type: Function,
+      default: () => {}
+    },
+    export: {
       type: Function,
       default: () => {}
     },
@@ -92,6 +96,9 @@ export default {
     },
     deleteHandler() {
       this.delete()
+    },
+    exportHandler() {
+      this.export()
     }
   }
 }

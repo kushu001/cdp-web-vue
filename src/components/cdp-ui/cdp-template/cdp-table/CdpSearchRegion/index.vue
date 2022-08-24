@@ -25,6 +25,10 @@ export default {
     search: {
       type: Function,
       default: () => ({})
+    },
+    value: {
+      type: Object,
+      default: () => ({})
     }
   },
   data() {
@@ -54,7 +58,11 @@ export default {
   },
   methods: {
     searchHandler() {
+      this.$emit('input', this.form)
       this.search(this.form)
+    },
+    changeHandler() {
+      this.$emit('input', this.form)
     },
     resetHandler() {
       this.$refs.form.resetFields()

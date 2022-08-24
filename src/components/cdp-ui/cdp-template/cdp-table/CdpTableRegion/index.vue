@@ -29,7 +29,7 @@
 import CdpTableOperation from '@/components/cdp-ui/cdp-template/cdp-table/CdpTableRegion/CdpTableOperation'
 import CdpEditForm from '@/components/cdp-ui/cdp-template/cdp-table/CdpTableRegion/CdpEditForm'
 import { buildTree } from '@/utils/tools'
-import { fetchList, update, deleteById } from '@/api/api'
+import { fetchList, update, deleteById, exportExcel } from '@/api/api'
 export default {
   components: {
     CdpTableOperation,
@@ -87,6 +87,7 @@ export default {
       editUrl: '',
       queryUrl: '',
       deleteUrl: '',
+      exportUrl: '',
       ids: null,
       created: false
     }
@@ -107,10 +108,12 @@ export default {
         this.queryUrl = this.url.queryUrl
         this.editUrl = this.url.editUrl
         this.deleteUrl = this.url.deleteUrl
+        this.exportUrl = this.url.exportUrl
       } else {
         this.queryUrl = this.url
         this.editUrl = this.url
         this.deleteUrl = this.url
+        this.exportUrl = `${this.url}/export`
       }
       this.paginationConfig = {
         ...this.paginationConfig,
@@ -147,6 +150,9 @@ export default {
           })
         }
       })
+    },
+    exportHandler(form) {
+      exportExcel(form, this.exportUrl).then(response => {})
     },
     deleteHandler(id) {
       const ids = this.ids
