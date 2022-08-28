@@ -40,7 +40,7 @@ export default {
   data() {
     const layout = ['search', 'operation', 'table']
     const operations = ['add', 'delete', 'import', 'export']
-    const tableOperations = ['edit', 'delete']
+    const tableOperations = ['edit', 'delete', 'view']
     return {
       selectIds: [],
       layout: !this.tableConfig.layout ? layout : this.tableConfig.layout,

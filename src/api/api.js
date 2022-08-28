@@ -81,3 +81,21 @@ export function exportExcel(query, url) {
     responseType: 'blob'
   })
 }
+
+/**
+ * 通用导入
+ * @param {*} data
+ * @param {*} url
+ * @returns
+ */
+export function importExcel(data, url) {
+  return request({
+    url,
+    method: 'post',
+    data,
+    headers: {
+      contentType: 'multipart/form-data'
+    },
+    responseType: 'blob'
+  })
+}

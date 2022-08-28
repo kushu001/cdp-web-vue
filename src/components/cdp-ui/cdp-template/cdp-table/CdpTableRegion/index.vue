@@ -11,9 +11,9 @@
           <span v-else>{{ scope.row[column.name] }}</span>
         </template>
       </el-table-column>
-      <el-table-column v-if="operations.length > 0" fixed="right" label="操作" width="150">
+      <el-table-column v-if="operations.length > 0" fixed="right" label="操作" width="200">
         <template slot-scope="scope">
-          <cdp-table-operation :scope="scope" :operations="operations" @deleteHandler="deleteHandler" @editDialogHandler="editDialogHandler">
+          <cdp-table-operation :scope="scope" :operations="operations" @deleteHandler="deleteHandler" @editDialogHandler="editDialogHandler" @viewDialogHandler="viewDialogHandler">
             <slot slot="defaultOperation" :scope="scope" />
           </cdp-table-operation>
         </template>
@@ -23,6 +23,12 @@
       <el-pagination :current-page.sync="paginationConfig.page" background layout="->, prev, pager, next, jumper, sizes, total" :total="paginationConfig.total" :page-size="paginationConfig.limit" :page-sizes="[10, 20, 30, 40]" @size-change="sizeChangeHandler" @current-change="currentChangeHandler" @prev-click="preClickHandler" @next-click="nextClickHandler" />
     </el-row>
     <cdp-edit-form :id="row.id" ref="child" :title="title" :visible.sync="dialogFormVisible" :columns="columns" :url="editUrl" @editHandler="editHandler" />
+    <el-drawer
+      title="我是标题"
+      :visible.sync="drawer"
+    >
+      <span>我来啦!</span>
+    </el-drawer>
   </div>
 </template>
 <script>
@@ -66,7 +72,7 @@ export default {
     },
     operations: {
       type: Array,
-      default: () => (['edit', 'delete'])
+      default: () => (['edit', 'delete', 'view'])
     },
     pagination: {
       type: [Boolean, Object],
@@ -84,6 +90,7 @@ export default {
       paginationConfig: this.pagination,
       row: {},
       dialogFormVisible: false,
+      drawer: false,
       editUrl: '',
       queryUrl: '',
       deleteUrl: '',
@@ -150,6 +157,9 @@ export default {
           })
         }
       })
+    },
+    viewDialogHandler() {
+      this.drawer = true
     },
     exportHandler(form) {
       exportExcel(form, this.exportUrl).then(res => {

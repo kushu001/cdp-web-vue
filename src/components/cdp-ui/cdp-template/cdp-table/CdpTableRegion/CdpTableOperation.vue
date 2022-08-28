@@ -1,5 +1,6 @@
 <template>
   <span>
+    <el-button v-if="operations.includes('view')" type="text" size="small" @click="viewDialogHandler">查 看</el-button>
     <el-button v-if="operations.includes('edit')" type="text" size="small" @click="editDialogHandler">编 辑</el-button>
     <el-button v-if="operations.includes('delete')" type="text" size="small" @click="deleteHandler">删 除</el-button>
     <slot name="defaultOperation" />
@@ -14,7 +15,7 @@ export default {
     },
     operations: {
       type: Array,
-      default: () => (['edit', 'delete'])
+      default: () => (['edit', 'delete', 'view'])
     }
   },
   methods: {
@@ -23,6 +24,9 @@ export default {
     },
     deleteHandler() {
       this.$emit('deleteHandler', this.scope.row.id)
+    },
+    viewDialogHandler() {
+      this.$emit('viewDialogHandler', this.scope)
     }
   }
 }
