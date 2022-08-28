@@ -5,7 +5,7 @@
       <el-button v-if="operations.includes('delete')" type="primary" size="mini" icon="el-icon-delete" @click="deleteHandler">批量删除</el-button>
       <slot />
       <el-upload v-if="operations.includes('import')" action="aaa" :http-request="uploadHandler" :show-file-list="false" :headers="headers" class="upload">
-        <el-button type="primary" class="upload-button" size="mini" icon="el-icon-upload2" @click="importHandler">导入</el-button>
+        <el-button type="primary" class="upload-button" size="mini" icon="el-icon-upload2">导入</el-button>
       </el-upload>
       <el-button v-if="operations.includes('export')" type="primary" size="mini" icon="el-icon-download" @click="exportHandler">导出</el-button>
     </el-button-group>
@@ -126,9 +126,6 @@ export default {
         document.body.removeChild(downloadElement) // 下载完成移除元素
         window.URL.revokeObjectURL(href) // 释放掉blob对象
       })
-    },
-    importHandler() {
-
     }
   }
 }
