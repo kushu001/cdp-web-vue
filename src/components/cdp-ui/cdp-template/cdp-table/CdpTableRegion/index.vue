@@ -23,23 +23,20 @@
       <el-pagination :current-page.sync="paginationConfig.page" background layout="->, prev, pager, next, jumper, sizes, total" :total="paginationConfig.total" :page-size="paginationConfig.limit" :page-sizes="[10, 20, 30, 40]" @size-change="sizeChangeHandler" @current-change="currentChangeHandler" @prev-click="preClickHandler" @next-click="nextClickHandler" />
     </el-row>
     <cdp-edit-form :id="row.id" ref="child" :title="title" :visible.sync="dialogFormVisible" :columns="columns" :url="editUrl" @editHandler="editHandler" />
-    <el-drawer
-      title="我是标题"
-      :visible.sync="drawer"
-    >
-      <span>我来啦!</span>
-    </el-drawer>
+    <cdp-view-desc :id="row.id" :url="viewUrl" :visible.sync="drawer" :columns="columns" :title="title" />
   </div>
 </template>
 <script>
 import CdpTableOperation from '@/components/cdp-ui/cdp-template/cdp-table/CdpTableRegion/CdpTableOperation'
 import CdpEditForm from '@/components/cdp-ui/cdp-template/cdp-table/CdpTableRegion/CdpEditForm'
+import CdpViewDesc from '@/components/cdp-ui/cdp-template/cdp-table/CdpTableRegion/CdpViewDesc'
 import { buildTree } from '@/utils/tools'
 import { fetchList, update, deleteById, exportExcel } from '@/api/api'
 export default {
   components: {
     CdpTableOperation,
-    CdpEditForm
+    CdpEditForm,
+    CdpViewDesc
   },
   props: {
     value: {
@@ -116,11 +113,13 @@ export default {
         this.editUrl = this.url.editUrl
         this.deleteUrl = this.url.deleteUrl
         this.exportUrl = this.url.exportUrl
+        this.viewUrl = this.url.viewUrl
       } else {
         this.queryUrl = this.url
         this.editUrl = this.url
         this.deleteUrl = this.url
         this.exportUrl = `${this.url}/export`
+        this.viewUrl = this.url
       }
       this.paginationConfig = {
         ...this.paginationConfig,
@@ -158,8 +157,9 @@ export default {
         }
       })
     },
-    viewDialogHandler() {
+    viewDialogHandler(scope) {
       this.drawer = true
+      this.row = scope.row
     },
     exportHandler(form) {
       exportExcel(form, this.exportUrl).then(res => {
@@ -251,3 +251,4 @@ export default {
   }
 }
 </script>
+
