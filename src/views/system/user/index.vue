@@ -40,7 +40,8 @@ export default {
           queryUrl: '',
           addUrl: '',
           editUrl: '',
-          deleteUrl: ''
+          deleteUrl: '',
+          viewUrl: ''
         },
         columns: [
           {
@@ -130,6 +131,7 @@ export default {
           queryUrl: `/api/v1/user/org/${data[0].code}`,
           addUrl: `/api/v1/user/org/${data[0].id}`,
           editUrl: `/api/v1/user`,
+          viewUrl: `/api/v1/user`,
           deleteUrl: `/api/v1/org/${data[0].code}/user`
         }
       }
@@ -145,6 +147,7 @@ export default {
         queryUrl: `/api/v1/user/org/${data['code']}`,
         addUrl: `/api/v1/user/org/${data['id']}`,
         editUrl: `/api/v1/user`,
+        viewUrl: `/api/v1/user`,
         deleteUrl: `/api/v1/org/${data['code']}/user`
       }
     },

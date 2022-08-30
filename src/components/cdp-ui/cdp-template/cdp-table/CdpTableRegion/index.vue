@@ -121,6 +121,7 @@ export default {
         this.exportUrl = `${this.url}/export`
         this.viewUrl = this.url
       }
+
       this.paginationConfig = {
         ...this.paginationConfig,
         ...searchForm
