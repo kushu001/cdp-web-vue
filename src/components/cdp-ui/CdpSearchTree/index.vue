@@ -18,7 +18,10 @@
       @check="checkHandler"
     >
       <span slot-scope="{ node, data }" class="custom-tree-node">
-        <span><i v-if="data.type==1" class="el-icon-key" /><i v-if="data.type==0" class="el-icon-orange" /> {{ node.label }}</span>
+        <span>
+          <i v-if="data.type==1" class="el-icon-key" /><i v-if="data.type==0" class="el-icon-orange" />
+          {{ node.label }}
+        </span>
       </span>
     </el-tree>
   </div>

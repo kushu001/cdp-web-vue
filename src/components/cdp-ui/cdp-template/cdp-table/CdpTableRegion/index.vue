@@ -112,7 +112,7 @@ export default {
         this.queryUrl = this.url.queryUrl
         this.editUrl = this.url.editUrl
         this.deleteUrl = this.url.deleteUrl
-        this.exportUrl = this.url.exportUrl
+        this.exportUrl = `${this.url.exportUrl}/export`
         this.viewUrl = this.url.viewUrl
       } else {
         this.queryUrl = this.url
