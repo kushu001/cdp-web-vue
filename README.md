@@ -53,5 +53,5 @@ gitee: https://gitee.com/kushu001/cdp
 
 如果发现Bug，请到GITHUB提交Issue。
 友情提示：提问前Star是很礼貌和友善的行为，被问者也会更开心回答您的问题。
-## 加我好友（麻烦备注cdp）进群交流（微信群二维码只有7天有效期）
+## 加我好友（麻烦备注: cdp）进群交流（微信群二维码只有7天有效期）
 <img src="https://user-images.githubusercontent.com/3797320/188090198-ba38ae69-eacf-4824-b158-4d0ad23bb97b.png" width = "200" height = "230" alt="" align="center" />
