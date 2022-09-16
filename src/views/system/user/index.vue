@@ -133,7 +133,8 @@ export default {
           editUrl: `/api/v1/user`,
           viewUrl: `/api/v1/user`,
           deleteUrl: `/api/v1/org/${data[0].code}/user`,
-          exportUrl: `/api/v1/user/org/${data[0].code}`
+          exportUrl: `/api/v1/user/org/${data[0].code}`,
+          importUrl: `/api/v1/user/org/${data[0].code}`
         }
       }
     })
@@ -150,7 +151,8 @@ export default {
         editUrl: `/api/v1/user`,
         viewUrl: `/api/v1/user`,
         deleteUrl: `/api/v1/org/${data['code']}/user`,
-        exportUrl: `/api/v1/user/org/${data['code']}`
+        exportUrl: `/api/v1/user/org/${data['code']}`,
+        importUrl: `/api/v1/user/org/${data['code']}`
       }
     },
     onSubmit() {

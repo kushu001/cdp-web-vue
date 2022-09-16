@@ -64,8 +64,10 @@ export default {
     url(val) {
       if (val.constructor === Object) {
         this.addUrl = this.url.addUrl
+        this.importUrl = this.url.importUrl
       } else {
         this.addUrl = this.url
+        this.importUrl = this.url
       }
     }
   },
