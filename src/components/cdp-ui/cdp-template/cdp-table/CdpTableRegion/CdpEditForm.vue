@@ -3,12 +3,12 @@
     <el-form ref="form" :inline="true" :model="form" :rules="rules" label-width="120px">
       <span v-for="item in formItems" :key="item.formConfig.name">
         <el-form-item v-if="!item.formConfig.hidden" :label="item.label" :prop="item.formConfig.name">
-          <el-input v-if="item.formConfig.type=='input'" v-model="form[item.formConfig.name]" style="width:200px" :name="item.formConfig.name" :placeholder="`请输入${item.label}`" />
-          <el-select v-if="item.formConfig.type=='select'" v-model="form[item.formConfig.name]" :multiple="item.formConfig.multiple" :filterable="item.formConfig.filterable" :placeholder="`请选择${item.label}`">
+          <el-input v-if="item.formConfig.type=='input'" v-model="form[item.formConfig.name]" :disabled="item.formConfig.updateDisabled" style="width:200px" :name="item.formConfig.name" :placeholder="`请输入${item.label}`" />
+          <el-select v-if="item.formConfig.type=='select'" v-model="form[item.formConfig.name]" :disabled="item.formConfig.updateDisabled" :multiple="item.formConfig.multiple" :filterable="item.formConfig.filterable" :placeholder="`请选择${item.label}`">
             <el-option v-for="it in item.data" :key="it.key" :label="it.value" :value="it.key" />
           </el-select>
-          <el-date-picker v-if="item.formConfig.type=='date'" v-model="form[item.formConfig.name]" type="date" />
-          <el-input v-if="item.formConfig.type=='textarea'" v-model="form[item.formConfig.name]" style="width:530px;" :rows="5" type="textarea" />
+          <el-date-picker v-if="item.formConfig.type=='date'" v-model="form[item.formConfig.name]" :disabled="item.formConfig.updateDisabled" type="date" />
+          <el-input v-if="item.formConfig.type=='textarea'" v-model="form[item.formConfig.name]" :disabled="item.formConfig.updateDisabled" style="width:530px;" :rows="5" type="textarea" />
           <cdp-user-select-table v-if="item.formConfig.type=='user-select-table'" v-model="form[item.formConfig.name]" :columns="item.formConfig.columns" :url="item.formConfig.url" style="width:200px" />
           <cdp-select-table v-if="item.formConfig.type=='select-table'" v-model="form[item.formConfig.name]" style="width:200px" />
         </el-form-item>
