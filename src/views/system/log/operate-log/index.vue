@@ -13,7 +13,7 @@ export default {
       tableConfig: {
         url: '/api/v1/operate-log',
         selection: false,
-        tableOperations: [],
+        isOperationHidden: true,
         columns: [
           {
             name: 'user',

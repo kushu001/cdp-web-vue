@@ -16,6 +16,7 @@
       :operations="tableOperations"
       :url="tableConfig.url"
       :pagination="tableConfig.pagination"
+      :is-operation-hidden="tableConfig.isOperationHidden"
     >
       <slot name="tableOperations" :row="slotProps.scope.row" />
     </cdp-table-region>
