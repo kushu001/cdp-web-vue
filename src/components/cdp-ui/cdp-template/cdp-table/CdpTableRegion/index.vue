@@ -1,7 +1,7 @@
 <template>
   <div style="margin:0 20px">
     <el-table :data="tableData" border row-key="id" @select="select" @select-all="selectAll">
-      <el-table-column v-if="selection" type="selection" width="55" />
+      <el-table-column v-if="selection && pagination" type="selection" width="55" />
       <!-- <el-table-column type="index" :index="calIndex"></el-table-column> -->
       <el-table-column v-for="column in columns" :key="column.name" :align="column.align" :prop="column.name" :label="column.label" :width="column.width">
         <template slot-scope="scope">
