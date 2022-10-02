@@ -11,7 +11,7 @@
           <span v-else>{{ scope.row[column.name] }}</span>
         </template>
       </el-table-column>
-      <el-table-column v-if="!isOperationHidden" fixed="right" label="操作" width="200">
+      <el-table-column v-if="!isOperationHidden" fixed="right" align="center" label="操作" width="200">
         <template slot-scope="scope">
           <cdp-table-operation :scope="scope" :operations="operations" @deleteHandler="deleteHandler" @editDialogHandler="editDialogHandler" @viewDialogHandler="viewDialogHandler">
             <slot slot="defaultOperation" :scope="scope" />
