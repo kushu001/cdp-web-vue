@@ -76,10 +76,9 @@ export default {
               type: 'select'
             },
             data: [
-              { key: 1, value: '新建', type: 'warning' },
-              { key: 2, value: '进行中', type: 'info' },
-              { key: 3, value: '通过', type: 'success' },
-              { key: 4, value: '拒绝', type: 'danger' }
+              { key: 1, value: '新建', type: 'info' },
+              { key: 2, value: '启用', type: 'success' },
+              { key: 3, value: '禁用', type: 'danger' }
             ]
           },
           {
