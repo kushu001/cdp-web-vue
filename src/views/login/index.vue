@@ -54,16 +54,16 @@
       <div style="position:relative">
         <div class="tips">
           <span>用户名 : admin</span>
-          <span>密码 : any</span>
+          <span>密码 : 123456</span>
         </div>
-        <div class="tips">
+        <!-- <div class="tips">
           <span style="margin-right:18px;">用户名 : editor</span>
           <span>密码 : any</span>
-        </div>
+        </div> -->
 
-        <el-button class="thirdparty-button" type="primary" @click="showDialog=true">
+        <!-- <el-button class="thirdparty-button" type="primary" @click="showDialog=true">
           第三方登录
-        </el-button>
+        </el-button> -->
       </div>
     </el-form>
 
