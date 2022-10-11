@@ -6,14 +6,19 @@
       </template>
     </cdp-table>
     <el-drawer title="授权" :visible.sync="drawer">
-      <div style="margin: 20px;">
-        <cdp-search-tree v-model="permissions" :default-keys="checkedKeys" placeholder="输入关键字进行过滤" :props="{label:'title'}" url="/api/v1/menu" :show-checkbox="true" />
-        <div class="footer">
-          <el-row :gutter="20">
-            <el-col :span="12" :offset="6"><el-button type="primary" @click="authorized">保存</el-button></el-col>
-          </el-row>
-        </div>
-      </div>
+      <el-tabs tab-position="left">
+        <el-tab-pane label="菜单权限" style="margin-right:10px">
+          <cdp-search-tree v-model="permissions" placeholder="输入关键字进行过滤" :props="{label:'title'}" url="/api/v1/menu" :show-checkbox="true" />
+          <div class="footer">
+            <el-row :gutter="20">
+              <el-col :span="12" :offset="6"><el-button type="primary" @click="authorized">保存</el-button></el-col>
+            </el-row>
+          </div>
+        </el-tab-pane>
+        <el-tab-pane label="功能权限">功能权限</el-tab-pane>
+        <el-tab-pane label="接口权限">接口权限</el-tab-pane>
+        <el-tab-pane label="数据权限">数据权限</el-tab-pane>
+      </el-tabs>
     </el-drawer>
   </div>
 </template>
@@ -30,11 +35,7 @@ export default {
   },
   data() {
     return {
-      permissions: {
-        checkedKeys: [],
-        halfCheckedKeys: []
-      },
-      checkedKeys: [],
+      permissions: [],
       tableConfig: {
         title: '角色',
         url: '/api/v1/role',
@@ -94,35 +95,17 @@ export default {
     async authorizedDialog({ row }) {
       this.drawer = true
       this.item = { ...row }
-      this.checkedKeys = []
-      const halfCheckedKeys = []
       const res = await permission(this.item.id)
       if (res.data.code === 200) {
-        for (let i = 0; i < res.data.data.length; i++) {
-          if (res.data.data[i].is_half_key) {
-            halfCheckedKeys.push(res.data.data[i].menu_id)
-          } else {
-            this.checkedKeys.push(res.data.data[i].menu_id)
-          }
-        }
-        this.permissions['checkedKeys'] = this.checkedKeys
-        this.permissions['halfCheckedKeys'] = halfCheckedKeys
+        this.permissions = res.data.data.map(item => {
+          item['id'] = item['menu_id']
+          item['hasLeaf'] = item['has_leaf']
+          return item
+        })
       }
     },
     async authorized() {
-      const checkedKeys = this.permissions.checkedKeys.map(item => {
-        return {
-          menu_id: item,
-          is_half_key: 0
-        }
-      })
-      const halfCheckedKeys = this.permissions.halfCheckedKeys.map(item => {
-        return {
-          menu_id: item,
-          is_half_key: 1
-        }
-      })
-      const res = await authorized(this.item.id, { permissions: [...checkedKeys, ...halfCheckedKeys] })
+      const res = await authorized(this.item.id, { permissions: [...this.permissions.map(item => item.id)] })
       if (res.data.code === 200) {
         this.$message({
           message: '授权成功',

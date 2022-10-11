@@ -2,7 +2,7 @@
   <el-container>
     <el-aside>
       <el-card>
-        <cdp-search-tree placeholder="输入关键字进行过滤" :url="`${url}?v=${v}`" :props="{label:'title'}" :click-hanlder="clickHanlder" />
+        <cdp-search-tree placeholder="输入关键字进行过滤" :url="`${url}?v=${v}`" :default-expand-all="true" :props="{label:'title'}" :click-hanlder="clickHanlder" />
       </el-card>
     </el-aside>
     <el-main>
@@ -19,6 +19,9 @@
               <el-radio label="0">菜单</el-radio>
               <el-radio label="1">操作</el-radio>
             </el-radio-group>
+          </el-form-item>
+          <el-form-item label="操作标识">
+            <el-input v-model="form.permission" style="width:300px" />
           </el-form-item>
           <el-form-item label="图标">
             <!-- <el-input v-model="form.icon" style="width:300px" /> -->
@@ -118,6 +121,7 @@ export default {
       }
     },
     clickHanlder(data, node) {
+      console.log(data)
       this.form = { ...data }
       this.node = node
       this.data = data
