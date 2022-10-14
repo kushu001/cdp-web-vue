@@ -30,7 +30,7 @@
   </div>
 </template>
 <script>
-import { buildTree, getAllLeaf } from '@/utils/tools'
+import { buildTree } from '@/utils/tools'
 import { fetchList } from '@/api/api'
 
 export default {
@@ -85,10 +85,7 @@ export default {
       this.queryList(val)
     },
     value(val) {
-      const defaultTreeDatas = buildTree({
-        data: val
-      })
-      this.defaultKeys = getAllLeaf({ data: defaultTreeDatas }).map(item => item.id)
+      this.defaultKeys = val.filter(item => !item['hasLeaf']).map(item => item['id'])
       this.$refs.tree.setCheckedKeys(this.defaultKeys)
     }
   },
@@ -134,7 +131,7 @@ export default {
         const node = this.$refs.tree.getNode(i)
         const obj = {
           'id': node.data.id,
-          'pid': node.data.pid
+          'hasLeaf': node.data['has_leaf']
         }
         return obj
       })

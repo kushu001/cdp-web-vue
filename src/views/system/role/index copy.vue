@@ -8,21 +8,14 @@
     <el-drawer title="授权" :visible.sync="drawer">
       <el-tabs tab-position="left">
         <el-tab-pane label="菜单权限" style="margin-right:10px">
-          <cdp-search-tree v-model="menus" placeholder="输入关键字进行过滤" :props="{label:'title'}" url="/api/v1/menu/type/0" :show-checkbox="true" />
+          <cdp-search-tree v-model="permissions" placeholder="输入关键字进行过滤" :props="{label:'title'}" url="/api/v1/menu" :show-checkbox="true" />
           <div class="footer">
             <el-row :gutter="20">
-              <el-col :span="12" :offset="6"><el-button type="primary" @click="authorizedMenus">保存</el-button></el-col>
+              <el-col :span="12" :offset="6"><el-button type="primary" @click="authorized">保存</el-button></el-col>
             </el-row>
           </div>
         </el-tab-pane>
-        <el-tab-pane label="功能权限">
-          <cdp-search-tree v-model="operations" placeholder="输入关键字进行过滤" :props="{label:'title'}" url="/api/v1/menu/type/1" :show-checkbox="true" />
-          <div class="footer">
-            <el-row :gutter="20">
-              <el-col :span="12" :offset="6"><el-button type="primary" @click="authorizedOperations">保存</el-button></el-col>
-            </el-row>
-          </div>
-        </el-tab-pane>
+        <el-tab-pane label="功能权限">功能权限</el-tab-pane>
         <el-tab-pane label="接口权限">接口权限</el-tab-pane>
         <el-tab-pane label="数据权限">数据权限</el-tab-pane>
       </el-tabs>
@@ -32,7 +25,7 @@
 
 <script>
 import CdpTable from '@/components/cdp-ui/cdp-template/cdp-table'
-import { authorizedMenus, authorizedOperations, menus, operations } from '@/api/role'
+import { authorized, menus } from '@/api/role'
 
 export default {
   name: 'Role',
@@ -42,8 +35,7 @@ export default {
   },
   data() {
     return {
-      menus: [],
-      operations: [],
+      permissions: [],
       tableConfig: {
         title: '角色',
         url: '/api/v1/role',
@@ -103,28 +95,17 @@ export default {
     async authorizedDialog({ row }) {
       this.drawer = true
       this.item = { ...row }
-      const resMenus = await menus(this.item.id)
-      if (resMenus.data.code === 200) {
-        this.menus = resMenus.data.data
-      }
-
-      const resOperations = await operations(this.item.id)
-      if (resOperations.data.code === 200) {
-        this.operations = resOperations.data.data
-      }
-    },
-    async authorizedMenus() {
-      const res = await authorizedMenus(this.item.id, { permissions: [...this.menus.map(item => item.id)] })
+      const res = await menus(this.item.id)
       if (res.data.code === 200) {
-        this.$message({
-          message: '授权成功',
-          type: 'success'
+        this.permissions = res.data.data.map(item => {
+          item['id'] = item['menu_id']
+          item['hasLeaf'] = item['has_leaf']
+          return item
         })
-        this.drawer = false
       }
     },
-    async authorizedOperations() {
-      const res = await authorizedOperations(this.item.id, { permissions: [...this.operations.map(item => item.id)] })
+    async authorized() {
+      const res = await authorized(this.item.id, { permissions: [...this.permissions.map(item => item.id)] })
       if (res.data.code === 200) {
         this.$message({
           message: '授权成功',

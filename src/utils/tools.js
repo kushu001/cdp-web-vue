@@ -47,6 +47,26 @@ export function deepClone(obj = {}) {
 }
 
 /**
+ * 查询树的所有叶子节点
+ * @param {*} param0
+ * @returns
+ */
+export function getAllLeaf({ data, children = 'children' }) {
+  const result = []
+  function getLeaf(data) {
+    data.forEach(item => {
+      if (!item[children]) {
+        result.push(item)
+      } else {
+        getLeaf(item[children])
+      }
+    })
+  }
+  getLeaf(data)
+  return result
+}
+
+/**
  * 后台查询的菜单数据拼装成路由格式的数据
  * @param routes (resolve: any) => require([`@/views/${view}.vue`], resolve)
  */
