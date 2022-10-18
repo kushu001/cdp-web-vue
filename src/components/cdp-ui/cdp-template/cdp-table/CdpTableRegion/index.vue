@@ -13,7 +13,7 @@
       </el-table-column>
       <el-table-column v-if="!isOperationHidden" fixed="right" align="center" label="操作" width="200">
         <template slot-scope="scope">
-          <cdp-table-operation :scope="scope" :operations="operations" @deleteHandler="deleteHandler" @editDialogHandler="editDialogHandler" @viewDialogHandler="viewDialogHandler">
+          <cdp-table-operation :scope="scope" :operations="operations" :permissions="permissions" @deleteHandler="deleteHandler" @editDialogHandler="editDialogHandler" @viewDialogHandler="viewDialogHandler">
             <slot slot="defaultOperation" :scope="scope" />
           </cdp-table-operation>
         </template>
@@ -74,6 +74,10 @@ export default {
     operations: {
       type: Array,
       default: () => (['edit', 'delete', 'view'])
+    },
+    permissions: {
+      type: Object,
+      default: () => (null)
     },
     pagination: {
       type: [Boolean, Object],

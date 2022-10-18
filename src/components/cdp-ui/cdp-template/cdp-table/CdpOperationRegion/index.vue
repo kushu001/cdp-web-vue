@@ -1,13 +1,13 @@
 <template>
   <div style="margin:0 20px">
     <el-button-group>
-      <el-button v-if="operations.includes('add')" type="success" size="mini" icon="el-icon-plus" @click="addDialogHandler">新增</el-button>
-      <el-button v-if="operations.includes('delete')" type="primary" size="mini" icon="el-icon-delete" @click="deleteHandler">批量删除</el-button>
+      <el-button v-if="operations.includes('add')" v-permission="permission['add']" type="success" size="mini" icon="el-icon-plus" @click="addDialogHandler">新增</el-button>
+      <el-button v-if="operations.includes('delete')" v-permission="permission['delete']" type="primary" size="mini" icon="el-icon-delete" @click="deleteHandler">批量删除</el-button>
       <slot />
-      <el-upload v-if="operations.includes('import')" action="aaa" :http-request="uploadHandler" :show-file-list="false" :headers="headers" class="upload">
+      <el-upload v-if="operations.includes('import')" v-permission="permission['import']" action="aaa" :http-request="uploadHandler" :show-file-list="false" :headers="headers" class="upload">
         <el-button type="primary" class="upload-button" size="mini" icon="el-icon-upload2">导入</el-button>
       </el-upload>
-      <el-button v-if="operations.includes('export')" type="primary" size="mini" icon="el-icon-download" @click="exportHandler">导出</el-button>
+      <el-button v-if="operations.includes('export')" v-permission="permission['export']" type="primary" size="mini" icon="el-icon-download" @click="exportHandler">导出</el-button>
     </el-button-group>
     <cdp-add-form ref="child" :visible.sync="visible" :title="title" :url="addUrl" :columns="columns" @addHandler="addHandler" />
   </div>
@@ -16,11 +16,13 @@
 import CdpAddForm from '@/components/cdp-ui/cdp-template/cdp-table/CdpOperationRegion/CdpAddForm'
 import { add, importExcel } from '@/api/api'
 import { getToken } from '@/utils/auth'
+import permission from '@/directive/permission/index.js' // 权限判断指令
 
 export default {
   components: {
     CdpAddForm
   },
+  directives: { permission },
   props: {
     search: {
       type: Function,
@@ -49,11 +51,16 @@ export default {
     operations: {
       type: Array,
       default: () => (['add', 'delete', 'import', 'export'])
+    },
+    permissions: {
+      type: Object,
+      default: () => (null)
     }
   },
   data() {
     return {
       visible: false,
+      permission: !this.permissions ? { 'add': [], 'delete': [], 'import': [], 'export': [] } : { ...{ 'add': ['default'], 'delete': ['default'], 'import': ['default'], 'export': ['default'] }, ...this.permissions },
       addUrl: '',
       headers: {
         Authorization: getToken()

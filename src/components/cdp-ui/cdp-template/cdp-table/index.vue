@@ -1,7 +1,7 @@
 <template>
   <div>
     <cdp-search-region v-if="layout.includes('search')" v-model="searchForm" :conditions="tableConfig.columns" :search="searchHandler" />
-    <cdp-operation-region v-if="layout.includes('operation')" :columns="tableConfig.columns" :url="tableConfig.url" :title="tableConfig.title" :operations="operations" :search="searchHandler" :delete="deleteHandler" :export="exportHandler">
+    <cdp-operation-region v-if="layout.includes('operation')" :permissions="permissions" :columns="tableConfig.columns" :url="tableConfig.url" :title="tableConfig.title" :operations="operations" :search="searchHandler" :delete="deleteHandler" :export="exportHandler">
       <slot name="operations" :selectIds="selectIds" />
     </cdp-operation-region>
     <cdp-table-region
@@ -15,6 +15,7 @@
       :title="tableConfig.title"
       :operations="tableOperations"
       :url="tableConfig.url"
+      :permissions="permissions"
       :pagination="tableConfig.pagination"
       :is-operation-hidden="tableConfig.isOperationHidden"
     >
@@ -47,6 +48,7 @@ export default {
       layout: !this.tableConfig.layout ? layout : this.tableConfig.layout,
       operations: !this.tableConfig.operations ? operations : this.tableConfig.operations,
       tableOperations: !this.tableConfig.tableOperations ? tableOperations : this.tableConfig.tableOperations,
+      permissions: !this.tableConfig.permissions ? null : this.tableConfig.permissions,
       searchForm: {}
     }
   },

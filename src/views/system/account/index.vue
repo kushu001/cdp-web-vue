@@ -17,6 +17,7 @@
 <script>
 import CdpTable from '@/components/cdp-ui/cdp-template/cdp-table'
 import { update } from '@/api/api'
+
 export default {
   components: {
     CdpTable
@@ -26,6 +27,7 @@ export default {
       tableConfig: {
         title: '账户',
         url: '/api/v1/account',
+        permissions: { 'add': ['system:account:add'], 'edit': ['system:account:edit'], 'view': ['system:account:view'], 'delete': ['system:account:delete'] },
         columns: [
           {
             name: 'username',
