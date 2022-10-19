@@ -14,6 +14,7 @@
       :expand-on-click-node="false"
       :highlight-current="highlightCurrent"
       :props="defaultProps"
+      :accordion="accordion"
       :filter-node-method="filterNode"
       :default-expand-all="defaultExpandAll"
       @node-click="handleNodeClick"
@@ -60,6 +61,10 @@ export default {
       default: () => ({})
     },
     defaultExpandAll: {
+      type: Boolean,
+      default: false
+    },
+    accordion: {
       type: Boolean,
       default: false
     }
