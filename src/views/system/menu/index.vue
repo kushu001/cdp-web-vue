@@ -8,7 +8,7 @@
     <el-main>
       <el-card>
         <el-form ref="form" :inline="true" :model="form" label-width="80px" style="padding-left:50px">
-          <el-form-item label="菜单名称">
+          <el-form-item label="名称">
             <el-input v-model="form.title" style="width:300px" />
           </el-form-item>
           <el-form-item label="URL">
@@ -17,15 +17,15 @@
           <el-form-item label="类型">
             <el-radio-group v-model="form.type" style="width:300px">
               <el-radio label="0">菜单</el-radio>
-              <el-radio label="1">操作</el-radio>
+              <el-radio v-if="Object.keys(data).length > 0" label="1">操作</el-radio>
             </el-radio-group>
           </el-form-item>
-          <el-form-item label="操作标识">
+          <el-form-item v-if="Object.keys(data).length > 0" label="操作标识">
             <el-input v-model="form.permission" style="width:300px" />
           </el-form-item>
           <el-form-item label="图标">
             <!-- <el-input v-model="form.icon" style="width:300px" /> -->
-            <cdp-select-icon v-model="form.icon" />
+            <cdp-select-icon v-model="form.icon" style="width:300px" />
           </el-form-item>
           <el-form-item label="排序">
             <el-input-number v-model="form.sort" style="width:300px" />
@@ -56,7 +56,7 @@ export default {
   },
   data() {
     return {
-      form: { pid: 0, sort: 1 },
+      form: { pid: 0, sort: 1, type: '0' },
       url: '/api/v1/menu',
       v: new Date().getTime(),
       node: {},
