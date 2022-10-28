@@ -1,5 +1,6 @@
 import axios from 'axios'
-import { MessageBox, Message } from 'element-ui'
+// import { MessageBox, Message } from 'element-ui'
+import { Message } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
 
@@ -44,24 +45,30 @@ service.interceptors.response.use(
   response => {
     const res = response.data
     // if the custom code is not 20000, it is judged as an error.
-    if (res.code !== 200 && response.status !== 200) {
-      Message({
-        message: res.msg || 'Error',
-        type: 'error',
-        duration: 2 * 1000
-      })
+    // if (res.code !== 200 && response.status !== 200) {
+    if (res.code !== 200) {
+      if (res.code === 500 || res.code === 405) {
+        Message({
+          message: res.msg || 'Error',
+          type: 'error',
+          duration: 2 * 1000
+        })
+      }
 
       // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
-      if (res.code === 500 || res.code === 50008 || res.code === 50012 || res.code === 50014) {
+      if (res.code === 403) {
         // to re-login
-        MessageBox.confirm('您已注销，可以取消以停留在此页面，或再次登录', '确认注销', {
-          confirmButtonText: '重新登录',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          store.dispatch('user/resetToken').then(() => {
-            location.reload()
-          })
+        // MessageBox.confirm('您已注销，可以取消以停留在此页面，或再次登录', '确认注销', {
+        //   confirmButtonText: '重新登录',
+        //   cancelButtonText: '取消',
+        //   type: 'warning'
+        // }).then(() => {
+        //   store.dispatch('user/resetToken').then(() => {
+        //     location.reload()
+        //   })
+        // })
+        store.dispatch('user/resetToken').then(() => {
+          location.reload()
         })
       }
       return Promise.reject(new Error(res.msg || 'Error'))
@@ -72,7 +79,7 @@ service.interceptors.response.use(
   error => {
     console.log('err' + error) // for debug
     Message({
-      message: error.response.data.msg,
+      message: '系统错误，请联系管理员',
       type: 'error',
       duration: 2 * 1000
     })
