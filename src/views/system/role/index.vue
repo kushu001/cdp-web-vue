@@ -23,8 +23,10 @@
             </el-row>
           </div>
         </el-tab-pane>
-        <el-tab-pane label="接口权限">接口权限</el-tab-pane>
-        <el-tab-pane label="数据权限">数据权限</el-tab-pane>
+        <!-- <el-tab-pane label="接口权限">
+          <cdp-table :table-config="resourceTableConfig" />
+        </el-tab-pane>
+        <el-tab-pane label="数据权限">数据权限</el-tab-pane> -->
       </el-tabs>
     </el-drawer>
   </div>
@@ -91,6 +93,43 @@ export default {
             },
             searchConfig: {
               hidden: true
+            }
+          }
+        ]
+      },
+      resourceTableConfig: {
+        title: '资源信息',
+        url: '/api/v1/resource',
+        layout: ['search', 'table'],
+        isOperationHidden: true,
+        columns: [
+          {
+            name: 'name',
+            label: '资源名称',
+            searchConfig: {
+              hidden: true
+            },
+            formConfig: {
+              rules: [{ required: true, message: '请输入资源名称', trigger: 'blur' }]
+            }
+          },
+          {
+            name: 'url',
+            label: 'URL',
+            width: 150,
+            searchConfig: {
+              hidden: true
+            },
+            formConfig: {
+              rules: [{ required: true, message: '请输入URL', trigger: 'blur' }]
+            }
+          },
+          {
+            name: 'sign',
+            label: '标识',
+            width: 150,
+            formConfig: {
+              rules: [{ required: true, message: '请输入标识', trigger: 'blur' }]
             }
           }
         ]

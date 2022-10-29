@@ -7,32 +7,55 @@
     </el-aside>
     <el-main>
       <el-card>
-        <el-form ref="form" :inline="true" :model="form" label-width="80px" style="padding-left:50px">
-          <el-form-item label="名称">
-            <el-input v-model="form.title" style="width:300px" />
-          </el-form-item>
-          <el-form-item label="URL">
-            <el-input v-model="form.url" style="width:300px" />
-          </el-form-item>
-          <el-form-item label="类型">
-            <el-radio-group v-model="form.type" style="width:300px">
-              <el-radio label="0">菜单</el-radio>
-              <el-radio v-if="Object.keys(data).length > 0" label="1">操作</el-radio>
-            </el-radio-group>
-          </el-form-item>
-          <el-form-item v-if="Object.keys(data).length > 0" label="操作标识">
-            <el-input v-model="form.permission" style="width:300px" />
-          </el-form-item>
-          <el-form-item label="图标">
-            <!-- <el-input v-model="form.icon" style="width:300px" /> -->
-            <cdp-select-icon v-model="form.icon" style="width:300px" />
-          </el-form-item>
-          <el-form-item label="排序">
-            <el-input-number v-model="form.sort" style="width:300px" />
-          </el-form-item>
-          <el-form-item label="备注">
-            <el-input v-model="form.remark" type="textarea" style="width:690px" />
-          </el-form-item>
+        <el-form ref="form" :model="form" label-width="80px" style="padding-left:50px">
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="名称">
+                <el-input v-model="form.title" style="width:100%" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="URL">
+                <el-input v-model="form.url" style="width:100%" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="类型">
+                <el-radio-group v-model="form.type" style="width:100%">
+                  <el-radio label="0">菜单</el-radio>
+                  <el-radio v-if="Object.keys(data).length > 0" label="1">操作</el-radio>
+                </el-radio-group>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item v-if="Object.keys(data).length > 0" label="操作标识">
+                <el-input v-model="form.permission" style="width:100%" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="图标">
+                <!-- <el-input v-model="form.icon" style="width:300px" /> -->
+                <cdp-select-icon v-model="form.icon" style="width:100%" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="排序">
+                <el-input-number v-model="form.sort" style="width:100%" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="24">
+              <el-form-item label="备注">
+                <el-input v-model="form.remark" type="textarea" style="width:100%" />
+              </el-form-item>
+            </el-col>
+          </el-row>
           <el-row type="flex" justify="center">
             <el-form-item>
               <el-button v-if="type !== '1' || !form.id" type="primary" @click="createMenuHandler">新 建</el-button>
