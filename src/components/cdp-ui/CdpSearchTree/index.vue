@@ -128,9 +128,9 @@ export default {
       }
       this.preKey = node.key
       if (this.highlightCurrent) {
-        this.clickHanlder(data, node)
+        this.clickHanlder(data, node, this.highlightCurrent)
       } else {
-        this.clickHanlder({}, node)
+        this.clickHanlder({}, node, this.highlightCurrent)
       }
     },
     checkHandler(data, { checkedKeys, halfCheckedKeys }) {

@@ -82,7 +82,7 @@ ul {
   flex-wrap: wrap;
 }
 ul>li {
-  width: 90px;
+  width: 95px;
   height: 90px;
   border: 1px solid #eee;
   margin-left: -1px;

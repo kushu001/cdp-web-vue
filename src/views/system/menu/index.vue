@@ -2,20 +2,25 @@
   <el-container>
     <el-aside>
       <el-card>
-        <cdp-search-tree placeholder="输入关键字进行过滤" :url="`${url}?v=${v}`" :default-expand-all="true" :props="{label:'title'}" :click-hanlder="clickHanlder" />
+        <cdp-search-tree placeholder="输入关键字进行过滤" :url="`${url}?v=${v}`" :props="{label:'title'}" :click-hanlder="clickHanlder" />
       </el-card>
     </el-aside>
     <el-main>
       <el-card>
+        <div slot="header">
+          <span>{{ (!isNew)? (form.title? form.title: '菜单信息'):parentTitle===''? (form.title? form.title: '菜单信息') : parentTitle+'-'+(form.title?form.title:'') }}</span>
+          <el-button v-if="!isNew && form.type === '0'" style="float: right;" size="mini" type="success" plain @click="resetSubFormHandler">新建子级</el-button>
+          <el-button v-if="!isNew" style="float: right;margin-right: 5px" size="mini" type="success" @click="resetFormHandler">新建</el-button>
+        </div>
         <el-form ref="form" :model="form" label-width="80px" style="padding-left:50px">
           <el-row>
             <el-col :span="12">
-              <el-form-item label="名称">
+              <el-form-item label="名称" prop="title">
                 <el-input v-model="form.title" style="width:100%" />
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="URL">
+              <el-form-item label="URL" prop="url">
                 <el-input v-model="form.url" style="width:100%" />
               </el-form-item>
             </el-col>
@@ -23,43 +28,45 @@
 
           <el-row>
             <el-col :span="12">
-              <el-form-item label="类型">
+              <el-form-item label="类型" prop="type">
                 <el-radio-group v-model="form.type" style="width:100%">
                   <el-radio label="0">菜单</el-radio>
-                  <el-radio v-if="Object.keys(data).length > 0" label="1">操作</el-radio>
+                  <el-radio label="1">操作</el-radio>
+                  <el-radio label="2">接口</el-radio>
+                  <!-- <el-radio v-if="Object.keys(data).length > 0" label="1">操作</el-radio> -->
                 </el-radio-group>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item v-if="Object.keys(data).length > 0" label="操作标识">
+              <el-form-item label="操作标识" prop="permission">
                 <el-input v-model="form.permission" style="width:100%" />
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
-              <el-form-item label="图标">
+              <el-form-item label="图标" prop="icon">
                 <!-- <el-input v-model="form.icon" style="width:300px" /> -->
                 <cdp-select-icon v-model="form.icon" style="width:100%" />
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="排序">
+              <el-form-item label="排序" prop="sort">
                 <el-input-number v-model="form.sort" style="width:100%" />
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="24">
-              <el-form-item label="备注">
+              <el-form-item label="备注" prop="remark">
                 <el-input v-model="form.remark" type="textarea" style="width:100%" />
               </el-form-item>
             </el-col>
           </el-row>
           <el-row type="flex" justify="center">
             <el-form-item>
-              <el-button v-if="type !== '1' || !form.id" type="primary" @click="createMenuHandler">新 建</el-button>
-              <el-button v-if="form.id" type="primary" @click="updateMenuHandler">修 改</el-button>
+              <el-button v-if="isNew" type="primary" @click="createMenuHandler">新 建</el-button>
+              <el-button v-if="form.id" type="primary" @click="updateMenuHandler">更 新</el-button>
               <el-button v-if="form.id" type="primary" plain @click="deleteMenuHandler(form.id)">删 除</el-button>
             </el-form-item>
           </el-row>
@@ -82,16 +89,16 @@ export default {
       form: { pid: 0, sort: 1, type: '0' },
       url: '/api/v1/menu',
       v: new Date().getTime(),
-      node: {},
+      // node: {},
       data: {},
-      type: '1'
+      isNew: true,
+      parentTitle: ''
     }
   },
   methods: {
     createMenuHandler() {
       this.$refs['form'].validate((valid) => {
         if (valid) {
-          this.form.pid = this.data.id ? this.data.id : this.form.pid
           add(this.form, this.url).then(response => {
             this.v = new Date().getTime()
           })
@@ -104,7 +111,6 @@ export default {
     updateMenuHandler() {
       this.$refs['form'].validate((valid) => {
         if (valid) {
-          debugger
           update(this.form, this.url).then(response => {
             this.v = new Date().getTime()
           })
@@ -143,12 +149,28 @@ export default {
         })
       }
     },
-    clickHanlder(data, node) {
-      console.log(data)
+    clickHanlder(data, node, isClicked) {
+      // console.log(data)
       this.form = { ...data }
-      this.node = node
-      this.data = data
-      this.type = data.type
+      this.isNew = !isClicked
+      this.parentTitle = ''
+    },
+    resetFormHandler() {
+      const type = this.form.type
+      // console.log(type)
+      this.$refs.form.resetFields()
+      this.form = { ...this.form, id: undefined, type: type }
+      this.isNew = true
+      // console.log(this.form)
+    },
+    resetSubFormHandler() {
+      this.parentTitle = this.form.title
+      const type = this.form.type
+      // console.log(type)
+      this.$refs.form.resetFields()
+      this.form = { ...this.form, id: undefined, pid: this.form.id, type: type }
+      this.isNew = true
+      // console.log(this.form)
     }
   }
 }
