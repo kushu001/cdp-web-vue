@@ -2,7 +2,7 @@
   <el-container>
     <el-aside>
       <el-card>
-        <cdp-search-tree placeholder="输入关键字进行过滤" :url="`${url}?v=${v}`" :props="{label:'title'}" :click-hanlder="clickHanlder" />
+        <cdp-search-tree placeholder="输入关键字进行过滤" :url="`${url}?v=${v}`" :default-expanded-keys="defaultKeys" :props="{label:'title'}" :accordion="true" :click-hanlder="clickHanlder" />
       </el-card>
     </el-aside>
     <el-main>
@@ -30,7 +30,7 @@
             <el-col :span="12">
               <el-form-item label="类型" prop="type">
                 <el-radio-group v-model="form.type" style="width:100%">
-                  <el-radio label="0">菜单</el-radio>
+                  <el-radio :disabled="isNew && form.type === '1'" label="0">菜单</el-radio>
                   <el-radio label="1">操作</el-radio>
                   <el-radio label="2">接口</el-radio>
                   <!-- <el-radio v-if="Object.keys(data).length > 0" label="1">操作</el-radio> -->
@@ -91,6 +91,7 @@ export default {
       v: new Date().getTime(),
       // node: {},
       data: {},
+      defaultKeys: [],
       isNew: true,
       parentTitle: ''
     }
@@ -101,6 +102,7 @@ export default {
         if (valid) {
           add(this.form, this.url).then(response => {
             this.v = new Date().getTime()
+            this.defaultKeys = [this.form.pid]
           })
         } else {
           console.log('error submit!!')
@@ -130,6 +132,10 @@ export default {
           deleteById(`${this.url}/${id}`).then(({ data }) => {
             if (data.code === 200) {
               this.v = new Date().getTime()
+              this.defaultKeys = [this.form.pid]
+              this.$refs.form.resetFields()
+              this.form = { ...this.form, id: undefined, type: '0' }
+              this.isNew = true
               this.$message({
                 type: 'success',
                 message: '删除成功!'
