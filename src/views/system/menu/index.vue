@@ -45,11 +45,18 @@
           </el-row>
           <el-row>
             <el-col :span="12">
+              <el-form-item label="是否启用" prop="enabled">
+                <el-switch v-model="form.enabled" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
               <el-form-item label="图标" prop="icon">
                 <!-- <el-input v-model="form.icon" style="width:300px" /> -->
                 <cdp-select-icon v-model="form.icon" style="width:100%" />
               </el-form-item>
             </el-col>
+          </el-row>
+          <el-row>
             <el-col :span="12">
               <el-form-item label="排序" prop="sort">
                 <el-input-number v-model="form.sort" style="width:100%" />
@@ -103,9 +110,17 @@ export default {
           add(this.form, this.url).then(response => {
             this.v = new Date().getTime()
             this.defaultKeys = [this.form.pid]
+            this.$message({
+              type: 'success',
+              message: '新建成功'
+            })
           })
         } else {
           console.log('error submit!!')
+          this.$message({
+            type: 'danger',
+            message: '新建失败'
+          })
           return false
         }
       })
@@ -115,9 +130,18 @@ export default {
         if (valid) {
           update(this.form, this.url).then(response => {
             this.v = new Date().getTime()
+            this.defaultKeys = [this.form.id]
+            this.$message({
+              type: 'success',
+              message: '更新成功'
+            })
           })
         } else {
           console.log('error submit!!')
+          this.$message({
+            type: 'danger',
+            message: '更新失败'
+          })
           return false
         }
       })

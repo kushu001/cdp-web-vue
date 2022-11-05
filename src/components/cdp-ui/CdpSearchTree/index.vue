@@ -95,19 +95,17 @@ export default {
       this.queryList(val)
     },
     value(val) {
-      this.defaultExpandAll = false
       const defaultTreeDatas = buildTree({
         data: val
       })
       this.defaultKeys = getAllLeaf({ data: defaultTreeDatas }).map(item => item.id)
       this.$refs.tree.setCheckedKeys(this.defaultKeys)
-
       this.expandedKeys = this.defaultKeys
-      // console.log("watch.....",this.expandedKeys)
+      console.log('watch.....', this.expandedKeys)
     },
     defaultExpandedKeys(val) {
       this.expandedKeys = val
-      console.log(`watch2...:${this.expandedKeys}`)
+      // console.log(`watch2...:${this.expandedKeys}`)
     }
   },
   created() {
@@ -115,7 +113,6 @@ export default {
       ...this.defaultProps,
       ...this.props
     }
-    this.defaultExpandAll = false
     this.expandedKeys = this.defaultExpandedKeys.length > 0 ? this.defaultExpandedKeys : this.defaultKeys
     // console.log("created.....",this.expandedKeys)
     this.queryList(this.url)
