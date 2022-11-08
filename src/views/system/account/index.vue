@@ -67,20 +67,19 @@ export default {
             label: '角色'
           },
           {
-            name: 'status',
-            type: 'select',
-            label: '状态',
+            name: 'enabled',
+            label: '启用状态',
+            type: 'switch',
             align: 'center',
             formConfig: {
-              type: 'select'
+              type: 'switch'
             },
             searchConfig: {
               type: 'select'
             },
             data: [
-              { key: 1, value: '新建', type: 'info' },
-              { key: 2, value: '启用', type: 'success' },
-              { key: 3, value: '禁用', type: 'danger' }
+              { key: false, value: '禁用', type: 'danger' },
+              { key: true, value: '启用', type: 'success' }
             ]
           },
           {

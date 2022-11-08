@@ -11,7 +11,11 @@
         <template slot="label">
           {{ item.label }}
         </template>
-        {{ form[item.name] }}
+        <span v-if="item.type=='switch'">
+          <el-tag v-if="form[item.name]" type="success">启用</el-tag>
+          <el-tag v-else-if="!form[item.name]" type="info">禁用</el-tag>
+        </span>
+        <span v-else>{{ form[item.name] }}</span>
       </el-descriptions-item>
     </el-descriptions>
   </el-drawer>

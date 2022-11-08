@@ -9,6 +9,7 @@
               <el-select v-if="item.formConfig.type=='select'" v-model="form[item.formConfig.name]" style="width:100%" :multiple="item.formConfig.multiple" :filterable="item.formConfig.filterable" :placeholder="`请选择${item.label}`">
                 <el-option v-for="it in item.data" :key="it.key" :label="it.value" :value="it.key" />
               </el-select>
+              <el-switch v-if="item.formConfig.type=='switch'" v-model="form[item.formConfig.name]" style="width:100%" :name="item.formConfig.name" />
               <el-date-picker v-if="item.formConfig.type=='date'" v-model="form[item.formConfig.name]" type="date" />
               <!-- <el-input v-if="item.formConfig.type=='textarea'" v-model="form[item.formConfig.name]" style="width:100%" :rows="5" type="textarea" /> -->
               <cdp-user-select-table v-if="item.formConfig.type=='user-select-table'" v-model="form[item.formConfig.name]" style="width:100%" />
@@ -21,6 +22,7 @@
               <el-select v-if="item.formConfig.type=='select'" v-model="form[item.formConfig.name]" style="width:100%" :multiple="item.formConfig.multiple" :filterable="item.formConfig.filterable" :placeholder="`请选择${item.label}`">
                 <el-option v-for="it in item.data" :key="it.key" :label="it.value" :value="it.key" />
               </el-select>
+              <el-switch v-if="item.formConfig.type=='switch'" v-model="form[item.formConfig.name]" style="width:100%" :name="item.formConfig.name" />
               <el-date-picker v-if="item.formConfig.type=='date'" v-model="form[item.formConfig.name]" type="date" />
               <!-- <el-input v-if="item.formConfig.type=='textarea'" v-model="form[item.formConfig.name]" style="width:100%" :rows="5" type="textarea" /> -->
               <cdp-user-select-table v-if="item.formConfig.type=='user-select-table'" v-model="form[item.formConfig.name]" style="width:100%" />

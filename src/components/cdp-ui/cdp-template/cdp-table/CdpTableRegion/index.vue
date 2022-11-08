@@ -5,9 +5,14 @@
       <!-- <el-table-column type="index" :index="calIndex"></el-table-column> -->
       <el-table-column v-for="column in columns" :key="column.name" :align="column.align" :prop="column.name" :label="column.label" :width="column.width">
         <template slot-scope="scope">
-          <el-tag v-if="scope.row[column.name] && column.data && column.data.find(item=>item.key==scope.row[column.name]) && column.data.find(item=>item.key==scope.row[column.name]).type" size="medium" :type="column.data.find(item=>item.key==scope.row[column.name]).type">
+          <!-- <el-tag v-if="scope.row[column.name] && column.data && column.data.find(item=>item.key==scope.row[column.name]) && column.data.find(item=>item.key==scope.row[column.name]).type" size="medium" :type="column.data.find(item=>item.key==scope.row[column.name]).type">
             {{ column.data.find(item=>item.key==scope.row[column.name]).value }}
-          </el-tag>
+          </el-tag> -->
+          <!-- <span v-else>{{ scope.row[column.name] }}</span> -->
+          <span v-if="column.type=='switch'">
+            <el-tag v-if="scope.row[column.name]" type="success" effect="dark">启用</el-tag>
+            <el-tag v-else-if="!scope.row[column.name]" type="info" effect="dark">禁用</el-tag>
+          </span>
           <span v-else>{{ scope.row[column.name] }}</span>
         </template>
       </el-table-column>
