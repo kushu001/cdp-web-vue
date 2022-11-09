@@ -11,7 +11,7 @@
         <template slot="label">
           {{ item.label }}
         </template>
-        <span v-if="item.type=='select'">
+        <span v-if="item.type=='select' && !item.formConfig.multiple">
           <el-tag v-if="form[item.name]" :type="item.data.find(it=>it.key==form[item.name]).type">
             {{ item.data.find(it=>it.key==form[item.name]).value }}
           </el-tag>
@@ -52,31 +52,12 @@ export default {
     }
   },
   data() {
-    // 设置formConfig默认值
-    const formItems = this.columns.map(item => {
-      return {
-        ...item,
-        formConfig: {
-          name: item.name,
-          type: 'input',
-          multiple: false,
-          filterable: false,
-          key: 'key',
-          value: 'value',
-          url: '',
-          hidden: false,
-          rules: [],
-          ...item.formConfig
-        }
-      }
-    })
     return {
-      form: [...formItems].map(item => item.name).reduce((obj, cur, index) => {
+      form: [...this.columns].map(item => item.name).reduce((obj, cur, index) => {
         obj[cur] = ''
         return obj
       }, {}),
-      rules: {},
-      formItems
+      rules: {}
     }
   },
   methods: {

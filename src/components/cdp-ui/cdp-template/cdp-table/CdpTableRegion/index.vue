@@ -9,7 +9,7 @@
             {{ column.data.find(item=>item.key==scope.row[column.name]).value }}
           </el-tag> -->
           <!-- <span v-else>{{ scope.row[column.name] }}</span> -->
-          <span v-if="column.type=='select'">
+          <span v-if="column.type=='select' && !column.formConfig.multiple">
             <el-tag v-if="scope.row[column.name] && column.data && column.data.find(item=>item.key==scope.row[column.name]) && column.data.find(item=>item.key==scope.row[column.name]).type" size="medium" :type="column.data.find(item=>item.key==scope.row[column.name]).type">
               {{ column.data.find(item=>item.key==scope.row[column.name]).value }}
             </el-tag>

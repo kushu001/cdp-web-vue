@@ -2,7 +2,7 @@
   <el-dialog :title="`修改${title}`" :append-to-body="true" :visible.sync="visible" :before-close="closeHandler" @opened="openHandler">
     <el-form ref="form" :model="form" :rules="rules" label-width="120px">
       <el-row>
-        <span v-for="(item, index) in formItems" :key="index">
+        <span v-for="(item, index) in columns" :key="index">
           <el-col v-if="index%2 == 0 && item.formConfig.type!=='textarea'" :span="12">
             <el-form-item v-if="!item.formConfig.hidden" :label="item.label" :prop="item.formConfig.name">
               <el-input v-if="item.formConfig.type=='input'" v-model="form[item.formConfig.name]" :disabled="item.formConfig.updateDisabled" style="width:100%" :name="item.formConfig.name" :placeholder="`请输入${item.label}`" />
@@ -83,38 +83,19 @@ export default {
     }
   },
   data() {
-    // 设置formConfig默认值
-    const formItems = this.columns.filter(item => item.formConfig ? !item.formConfig.hidden : true).map(item => {
-      return {
-        ...item,
-        formConfig: {
-          name: item.name,
-          type: 'input',
-          multiple: false,
-          filterable: false,
-          key: 'key',
-          value: 'value',
-          url: '',
-          hidden: false,
-          rules: [],
-          ...item.formConfig
-        }
-      }
-    })
     return {
-      form: [...formItems].map(item => item.name).reduce((obj, cur, index) => {
+      form: [...this.columns].map(item => item.name).reduce((obj, cur, index) => {
         obj[cur] = ''
         return obj
       }, {}),
-      rules: {},
-      formItems
+      rules: {}
     }
   },
   created() {
     const rules = {}
-    for (let i = 0; i < this.formItems.length; i++) {
-      if (this.formItems[i].formConfig.rules.length > 0) {
-        rules[this.formItems[i].formConfig.name] = this.formItems[i].formConfig.rules
+    for (let i = 0; i < this.columns.length; i++) {
+      if (this.columns[i].formConfig.rules.length > 0) {
+        rules[this.columns[i].formConfig.name] = this.columns[i].formConfig.rules
       }
     }
     this.rules = rules
@@ -131,12 +112,12 @@ export default {
           })
         }
       })
-      for (let i = 0; i < this.formItems.length; i++) {
-        if (this.formItems[i].formConfig && this.formItems[i].formConfig.url && this.formItems[i].formConfig.type !== 'select-table') {
-          fetchList({}, this.formItems[i].formConfig.url).then(({ data }) => {
-            this.formItems[i].data = data.data.map(item => ({
-              key: item[this.formItems[i].formConfig.key],
-              value: item[this.formItems[i].formConfig.value]
+      for (let i = 0; i < this.columns.length; i++) {
+        if (this.columns[i].formConfig && this.columns[i].formConfig.url && this.columns[i].formConfig.type !== 'select-table') {
+          fetchList({}, this.columns[i].formConfig.url).then(({ data }) => {
+            this.columns[i].data = data.data.map(item => ({
+              key: item[this.columns[i].formConfig.key],
+              value: item[this.columns[i].formConfig.value]
             }))
             this.$forceUpdate() // 强制渲染
           })
