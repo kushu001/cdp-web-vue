@@ -72,6 +72,7 @@ export default {
             name: 'status',
             label: '状态',
             align: 'center',
+            type: 'select',
             formConfig: {
               type: 'select'
             },

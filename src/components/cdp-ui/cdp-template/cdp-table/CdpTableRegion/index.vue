@@ -9,7 +9,12 @@
             {{ column.data.find(item=>item.key==scope.row[column.name]).value }}
           </el-tag> -->
           <!-- <span v-else>{{ scope.row[column.name] }}</span> -->
-          <span v-if="column.type=='switch'">
+          <span v-if="column.type=='select'">
+            <el-tag v-if="scope.row[column.name] && column.data && column.data.find(item=>item.key==scope.row[column.name]) && column.data.find(item=>item.key==scope.row[column.name]).type" size="medium" :type="column.data.find(item=>item.key==scope.row[column.name]).type">
+              {{ column.data.find(item=>item.key==scope.row[column.name]).value }}
+            </el-tag>
+          </span>
+          <span v-else-if="column.type=='switch'">
             <el-tag v-if="scope.row[column.name]" :type="column.data.find(item=>item.key).type" effect="dark">{{ column.data.find(item=>item.key).value }}</el-tag>
             <el-tag v-else-if="!scope.row[column.name]" :type="column.data.find(item=>!item.key).type" effect="dark">{{ column.data.find(item=>!item.key).value }}</el-tag>
           </span>
