@@ -10,8 +10,8 @@
           </el-tag> -->
           <!-- <span v-else>{{ scope.row[column.name] }}</span> -->
           <span v-if="column.type=='switch'">
-            <el-tag v-if="scope.row[column.name]" type="success" effect="dark">启用</el-tag>
-            <el-tag v-else-if="!scope.row[column.name]" type="info" effect="dark">禁用</el-tag>
+            <el-tag v-if="scope.row[column.name]" :type="column.data.find(item=>item.key).type" effect="dark">{{ column.data.find(item=>item.key).value }}</el-tag>
+            <el-tag v-else-if="!scope.row[column.name]" :type="column.data.find(item=>!item.key).type" effect="dark">{{ column.data.find(item=>!item.key).value }}</el-tag>
           </span>
           <span v-else>{{ scope.row[column.name] }}</span>
         </template>

@@ -12,8 +12,8 @@
           {{ item.label }}
         </template>
         <span v-if="item.type=='switch'">
-          <el-tag v-if="form[item.name]" type="success">启用</el-tag>
-          <el-tag v-else-if="!form[item.name]" type="info">禁用</el-tag>
+          <el-tag v-if="form[item.name]" :type="item.data.find(item=>item.key).type">{{ item.data.find(item=>item.key).value }}</el-tag>
+          <el-tag v-else-if="!form[item.name]" :type="item.data.find(item=>!item.key).type">{{ item.data.find(item=>!item.key).value }}</el-tag>
         </span>
         <span v-else>{{ form[item.name] }}</span>
       </el-descriptions-item>

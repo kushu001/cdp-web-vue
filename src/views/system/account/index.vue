@@ -78,7 +78,7 @@ export default {
               type: 'select'
             },
             data: [
-              { key: false, value: '禁用', type: 'danger' },
+              { key: false, value: '禁用', type: 'info' },
               { key: true, value: '启用', type: 'success' }
             ]
           },
