@@ -7,7 +7,7 @@
     @open="openHandler"
   >
     <el-descriptions class="desc" title="" :column="2" border>
-      <el-descriptions-item v-for="item in columns" :key="item.name">
+      <el-descriptions-item v-for="item in columns" :key="item.name" label-style="width: 120px" content-style="width: 200px">
         <template slot="label">
           {{ item.label }}
         </template>
