@@ -9,10 +9,17 @@
             {{ column.data.find(item=>item.key==scope.row[column.name]).value }}
           </el-tag> -->
           <!-- <span v-else>{{ scope.row[column.name] }}</span> -->
-          <span v-if="column.type=='select' && !column.formConfig.multiple">
-            <el-tag v-if="scope.row[column.name] && column.data && column.data.find(item=>item.key==scope.row[column.name]) && column.data.find(item=>item.key==scope.row[column.name]).type" size="medium" :type="column.data.find(item=>item.key==scope.row[column.name]).type">
-              {{ column.data.find(item=>item.key==scope.row[column.name]).value }}
-            </el-tag>
+          <span v-if="column.type=='select'">
+            <span v-if="!column.formConfig.multiple">
+              <el-tag v-if="scope.row[column.name] && column.data && column.data.find(item=>item.key==scope.row[column.name]) && column.data.find(item=>item.key==scope.row[column.name]).type" size="medium" :type="column.data.find(item=>item.key==scope.row[column.name]).type">
+                {{ column.data.find(item=>item.key==scope.row[column.name]).value }}
+              </el-tag>
+            </span>
+            <span v-else>
+              <el-tag v-for="(item, index) in scope.row[column.name].split(',')" :key="index" :type="['success','info','warning','danger'][index % 4]" style="margin: 3px 3px">
+                {{ item }}
+              </el-tag>
+            </span>
           </span>
           <span v-else-if="column.type=='switch'">
             <el-tag v-if="scope.row[column.name]" :type="column.data.find(item=>item.key).type" effect="dark">{{ column.data.find(item=>item.key).value }}</el-tag>

@@ -11,10 +11,17 @@
         <template slot="label">
           {{ item.label }}
         </template>
-        <span v-if="item.type=='select' && !item.formConfig.multiple">
-          <el-tag v-if="form[item.name]" :type="item.data.find(it=>it.key==form[item.name]).type">
-            {{ item.data.find(it=>it.key==form[item.name]).value }}
-          </el-tag>
+        <span v-if="item.type=='select'">
+          <span v-if="!item.formConfig.multiple">
+            <el-tag v-if="form[item.name]" :type="item.data.find(it=>it.key==form[item.name]).type">
+              {{ item.data.find(it=>it.key==form[item.name]).value }}
+            </el-tag>
+          </span>
+          <span v-else>
+            <el-tag v-for="(it, index) in form[item.name].split(',')" :key="index" :type="['success','info','warning','danger'][index % 4]" style="margin: 3px 3px">
+              {{ it }}
+            </el-tag>
+          </span>
         </span>
         <span v-else-if="item.type=='switch'">
           <el-tag v-if="form[item.name]" :type="item.data.find(item=>item.key).type">{{ item.data.find(item=>item.key).value }}</el-tag>

@@ -53,6 +53,7 @@ export default {
           },
           {
             name: 'role_name',
+            width: 250,
             formConfig: {
               name: 'role_ids',
               type: 'select',
