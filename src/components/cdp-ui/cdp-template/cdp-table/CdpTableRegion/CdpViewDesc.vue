@@ -17,10 +17,13 @@
               {{ item.data.find(it=>it.key==form[item.name]).value }}
             </el-tag>
           </span>
-          <span v-else>
+          <span v-else-if="form[item.name] != null && form[item.name] != ''">
             <el-tag v-for="(it, index) in form[item.name].split(',')" :key="index" :type="['success','info','warning','danger'][index % 4]" style="margin: 3px 3px">
               {{ it }}
             </el-tag>
+          </span>
+          <span v-else>
+            {{ form[item.name] }}
           </span>
         </span>
         <span v-else-if="item.type=='switch'">

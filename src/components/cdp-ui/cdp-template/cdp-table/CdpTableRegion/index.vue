@@ -15,10 +15,13 @@
                 {{ column.data.find(item=>item.key==scope.row[column.name]).value }}
               </el-tag>
             </span>
-            <span v-else>
+            <span v-else-if="scope.row[column.name] != null && scope.row[column.name] != ''">
               <el-tag v-for="(item, index) in scope.row[column.name].split(',')" :key="index" :type="['success','info','warning','danger'][index % 4]" style="margin: 3px 3px">
                 {{ item }}
               </el-tag>
+            </span>
+            <span v-else>
+              {{ scope.row[column.name] }}
             </span>
           </span>
           <span v-else-if="column.type=='switch'">
