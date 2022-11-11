@@ -69,20 +69,18 @@ export default {
             }
           },
           {
-            name: 'status',
-            label: '状态',
+            name: 'enabled',
+            label: '是否启用',
             align: 'center',
             formConfig: {
-              type: 'select'
+              type: 'switch'
             },
             searchConfig: {
               type: 'select'
             },
             data: [
-              { key: 1, value: '新建', type: 'success' },
-              { key: 2, value: '进行中', type: 'info' },
-              { key: 3, value: '通过', type: 'warning' },
-              { key: 4, value: '拒绝', type: 'danger' }
+              { key: false, value: '禁用', type: 'info' },
+              { key: true, value: '启用', type: 'success' }
             ]
           },
           {
