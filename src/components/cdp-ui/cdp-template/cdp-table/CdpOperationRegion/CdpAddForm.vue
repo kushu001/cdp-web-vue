@@ -80,8 +80,8 @@ export default {
   },
   data() {
     return {
-      form: [...this.columns].map(item => item.name).reduce((obj, cur, index) => {
-        obj[cur] = ''
+      form: [...this.columns].reduce((obj, cur, index) => {
+        obj[cur['name']] = cur['type'] === 'switch' ? false : ''
         return obj
       }, {}),
       rules: {}

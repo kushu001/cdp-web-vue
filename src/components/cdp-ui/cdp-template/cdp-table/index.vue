@@ -59,11 +59,9 @@ export default {
           rules: [],
           ...item.formConfig
         },
-        type: !item.formConfig ? undefined : item.formConfig.type
+        type: item.formConfig ? item.formConfig.type : 'input'
       }
     })
-
-    debugger
 
     return {
       selectIds: [],
