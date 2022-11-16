@@ -13,7 +13,7 @@
         </template>
         <span v-if="item.type=='select'">
           <span v-if="!item.formConfig.multiple">
-            <el-tag v-if="form[item.name]" :type="item.data.find(it=>it.key==form[item.name]).type">
+            <el-tag :type="item.data.find(it=>it.key==form[item.name]).type" effect="plain">
               {{ item.data.find(it=>it.key==form[item.name]).value }}
             </el-tag>
           </span>
