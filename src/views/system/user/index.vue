@@ -84,6 +84,22 @@ export default {
             width: 200
           },
           {
+            name: 'status',
+            label: '状态',
+            formConfig: {
+              type: 'select'
+            },
+            searchConfig: {
+              type: 'select'
+            },
+            data: [
+              { key: 0, value: '新建', type: 'success' },
+              { key: 1, value: '进行中', type: 'info' },
+              { key: 2, value: '通过', type: 'warning' },
+              { key: 3, value: '拒绝', type: 'danger' }
+            ]
+          },
+          {
             name: 'create_time',
             label: '创建日期',
             width: 180,

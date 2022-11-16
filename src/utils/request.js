@@ -78,11 +78,21 @@ service.interceptors.response.use(
   },
   error => {
     console.log('err' + error) // for debug
-    Message({
-      message: '系统错误，请联系管理员',
-      type: 'error',
-      duration: 2 * 1000
-    })
+    const { data } = error.response
+    if (!data.code) {
+      Message({
+        message: '系统错误，请联系管理员',
+        type: 'error',
+        duration: 2 * 1000
+      })
+    } else {
+      Message({
+        message: data.msg,
+        type: 'error',
+        duration: 2 * 1000
+      })
+    }
+
     return Promise.reject(error)
   }
 )
