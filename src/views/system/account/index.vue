@@ -41,8 +41,7 @@ export default {
             name: 'name',
             formConfig: {
               name: 'user_id',
-              type: 'user-select-table',
-              rules: [{ required: true, message: '请选择用户' }]
+              type: 'user-select-table'
             },
             label: '用户名'
           },
