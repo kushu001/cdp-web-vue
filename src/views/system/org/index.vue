@@ -98,7 +98,7 @@ export default {
               message: '新建成功'
             })
             this.$refs.form.resetFields()
-            this.$refs.table.searchHandler()
+            this.$refs.table.refresh()
           } else {
             this.$message({
               type: 'danger',

@@ -85,6 +85,9 @@ export default {
     },
     exportHandler() {
       this.$refs.table.exportHandler(this.searchForm)
+    },
+    refresh() {
+      this.$refs.table.searchHandler()
     }
 
   }

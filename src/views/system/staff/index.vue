@@ -16,7 +16,7 @@
     </el-aside>
     <div style="width:70%">
       <el-card style="margin-top: 20px;">
-        <cdp-table :table-config="tableConfig">
+        <cdp-table ref="table" :table-config="tableConfig">
           <template v-slot:tableOperations="slotProps">
             <el-button type="text" size="mini" @click="auditHandler(slotProps.row)">审核</el-button>
           </template>
@@ -190,6 +190,7 @@ export default {
         type: 'warning'
       }).then(() => {
         audit(id).then(({ data: response }) => {
+          this.$refs.table.refresh()
         })
       })
     },
