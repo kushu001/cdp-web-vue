@@ -16,7 +16,11 @@
     </el-aside>
     <div style="width:70%">
       <el-card style="margin-top: 20px;">
-        <cdp-table :table-config="tableConfig" />
+        <cdp-table :table-config="tableConfig">
+          <template v-slot:tableOperations="slotProps">
+            <el-button type="text" size="mini" @click="auditHandler(slotProps.row)">审核</el-button>
+          </template>
+        </cdp-table>
       </el-card>
     </div>
   </el-container>
@@ -26,6 +30,7 @@
 import CdpTable from '@/components/cdp-ui/cdp-template/cdp-table'
 import { fetchList } from '@/api/api'
 import { buildTree } from '@/utils/tools'
+import { audit } from './api/user'
 
 export default {
   name: 'User',
@@ -170,6 +175,16 @@ export default {
         exportUrl: `/api/v1/user/org/${data['code']}`,
         importUrl: `/api/v1/user/org/${data['code']}`
       }
+    },
+    auditHandler({ id }) {
+      this.$confirm('确认审核通过?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        audit(id).then(({ data: response }) => {
+        })
+      })
     },
     onSubmit() {
 
