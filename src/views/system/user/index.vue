@@ -87,14 +87,16 @@ export default {
             name: 'status',
             label: '状态',
             formConfig: {
-              type: 'select'
+              type: 'select',
+              hidden: true
             },
             searchConfig: {
-              type: 'select'
+              type: 'select',
+              hidden: true
             },
             data: [
-              { key: 1, value: '新建', type: 'success' },
-              { key: 2, value: '确认', type: 'info' }
+              { key: 0, value: '新建', type: 'success' },
+              { key: 1, value: '确认', type: 'info' }
             ]
           },
           {
