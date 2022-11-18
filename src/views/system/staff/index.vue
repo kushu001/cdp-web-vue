@@ -30,17 +30,17 @@
 import CdpTable from '@/components/cdp-ui/cdp-template/cdp-table'
 import { fetchList } from '@/api/api'
 import { buildTree } from '@/utils/tools'
-import { audit } from './api/user'
+import { audit } from './api/staff'
 
 export default {
-  name: 'User',
+  name: 'Staff',
   components: {
     CdpTable
   },
   data() {
     return {
       tableConfig: {
-        title: '用户',
+        title: '人员',
         url: {
           queryUrl: '',
           addUrl: '',
@@ -101,7 +101,7 @@ export default {
             },
             data: [
               { key: 0, value: '新建', type: 'success' },
-              { key: 1, value: '确认', type: 'info' }
+              { key: 1, value: '通过', type: 'info' }
             ]
           },
           {
@@ -176,7 +176,14 @@ export default {
         importUrl: `/api/v1/user/org/${data['code']}`
       }
     },
-    auditHandler({ id }) {
+    auditHandler({ id, status }) {
+      if (status) {
+        this.$message({
+          message: '审核已经通过，不需要再审核！',
+          type: 'warning'
+        })
+        return
+      }
       this.$confirm('确认审核通过?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
