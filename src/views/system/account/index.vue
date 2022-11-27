@@ -59,7 +59,8 @@ export default {
               key: 'id',
               value: 'name',
               multiple: true,
-              url: '/api/v1/role/all'
+              url: '/api/v1/role/all',
+              rules: [{ required: true, message: '角色不能为空' }]
             },
             searchConfig: {
               hidden: true
