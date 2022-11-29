@@ -26,6 +26,11 @@ export default {
         {
           name: 'phone',
           label: '电话'
+        },
+        {
+          name: 'dept_name',
+          label: '部门',
+          width: 200
         }
       ]
     }
