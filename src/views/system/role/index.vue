@@ -8,7 +8,7 @@
     <el-drawer title="授权" :visible.sync="drawer">
       <el-tabs tab-position="left">
         <el-tab-pane label="菜单权限" style="margin-right:10px">
-          <cdp-search-tree v-model="menus" placeholder="输入关键字进行过滤" :props="{label:'title'}" url="/api/v1/menu/type/0" :show-checkbox="true" />
+          <cdp-search-tree :key="keys.menuKey" v-model="menus" placeholder="输入关键字进行过滤" :props="{label:'title'}" url="/api/v1/menu/type/0" :show-checkbox="true" />
           <div class="footer">
             <el-row :gutter="20">
               <el-col :span="12" :offset="6"><el-button type="primary" @click="authorizedMenus">保存</el-button></el-col>
@@ -16,7 +16,7 @@
           </div>
         </el-tab-pane>
         <el-tab-pane label="功能权限">
-          <cdp-search-tree v-model="operations" placeholder="输入关键字进行过滤" :props="{label:'title'}" url="/api/v1/menu/type/1" :show-checkbox="true" />
+          <cdp-search-tree :key="keys.operationKey" v-model="operations" placeholder="输入关键字进行过滤" :props="{label:'title'}" url="/api/v1/menu/type/1" :show-checkbox="true" />
           <div class="footer">
             <el-row :gutter="20">
               <el-col :span="12" :offset="6"><el-button type="primary" @click="authorizedOperations">保存</el-button></el-col>
@@ -46,6 +46,7 @@ export default {
     return {
       menus: [],
       operations: [],
+      keys: { menuKey: 1, operationKey: 1 },
       tableConfig: {
         title: '角色',
         url: '/api/v1/role',
@@ -139,6 +140,8 @@ export default {
   methods: {
     async authorizedDialog({ row }) {
       this.drawer = true
+      this.keys.menuKey += 1
+      this.keys.operationKey += 1
       this.item = { ...row }
       const resMenus = await menus(this.item.id)
       if (resMenus.data.code === 200) {
