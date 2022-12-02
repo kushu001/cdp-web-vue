@@ -12,7 +12,7 @@
           {{ item.label }}
         </template>
         <span v-if="item.type=='select'">
-          <span v-if="!item.formConfig.multiple">
+          <span v-if="!item.formConfig.multiple && item.data.find(it=>it.key==form[item.name]) ">
             <el-tag v-if="form[item.name] != null || form[item.name] != ''" :type="item.data.find(it=>it.key==form[item.name]).type" effect="plain">
               {{ item.data.find(it=>it.key==form[item.name]).value }}
             </el-tag>
