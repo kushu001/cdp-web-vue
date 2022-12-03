@@ -103,6 +103,9 @@ export default {
             label: '排序',
             searchConfig: {
               hidden: true
+            },
+            formConfig: {
+              type: 'number'
             }
           },
           {

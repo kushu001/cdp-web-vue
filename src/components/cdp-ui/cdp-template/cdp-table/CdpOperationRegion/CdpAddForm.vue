@@ -6,6 +6,7 @@
           <el-col v-if="index%2 == 0 && item.formConfig.type!=='textarea'" :span="12">
             <el-form-item v-if="!item.formConfig.hidden" :label="item.label" :prop="item.formConfig.name">
               <el-input v-if="item.formConfig.type=='input'" v-model="form[item.formConfig.name]" style="width:100%" :name="item.formConfig.name" :placeholder="`请输入${item.label}`" />
+              <el-input-number v-if="item.formConfig.type=='number'" v-model="form[item.formConfig.name]" style="width:100%" :name="item.formConfig.name" :placeholder="`请输入${item.label}`" />
               <el-select v-if="item.formConfig.type=='select'" v-model="form[item.formConfig.name]" style="width:100%" :multiple="item.formConfig.multiple" :filterable="item.formConfig.filterable" :placeholder="`请选择${item.label}`">
                 <el-option v-for="it in item.data" :key="it.key" :label="it.value" :value="it.key" />
               </el-select>
@@ -19,6 +20,7 @@
           <el-col v-if="index%2 == 1 && item.formConfig.type!=='textarea'" :span="12">
             <el-form-item v-if="!item.formConfig.hidden" :label="item.label" :prop="item.formConfig.name">
               <el-input v-if="item.formConfig.type=='input'" v-model="form[item.formConfig.name]" style="width:100%" :name="item.formConfig.name" :placeholder="`请输入${item.label}`" />
+              <el-input-number v-if="item.formConfig.type=='number'" v-model="form[item.formConfig.name]" style="width:100%" :name="item.formConfig.name" :placeholder="`请输入${item.label}`" />
               <el-select v-if="item.formConfig.type=='select'" v-model="form[item.formConfig.name]" style="width:100%" :multiple="item.formConfig.multiple" :filterable="item.formConfig.filterable" :placeholder="`请选择${item.label}`">
                 <el-option v-for="it in item.data" :key="it.key" :label="it.value" :value="it.key" />
               </el-select>
