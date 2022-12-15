@@ -45,21 +45,26 @@
           </el-row>
           <el-row>
             <el-col :span="12">
-              <el-form-item label="是否启用" prop="enabled">
-                <el-switch v-model="form.enabled" />
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
               <el-form-item label="图标" prop="icon">
                 <!-- <el-input v-model="form.icon" style="width:300px" /> -->
                 <cdp-select-icon v-model="form.icon" style="width:100%" />
               </el-form-item>
             </el-col>
-          </el-row>
-          <el-row>
             <el-col :span="12">
               <el-form-item label="排序" prop="sort">
                 <el-input-number v-model="form.sort" style="width:100%" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="是否启用" prop="enabled">
+                <el-switch v-model="form.enabled" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="是否隐藏" prop="is_hidden">
+                <el-switch v-model="form.is_hidden" />
               </el-form-item>
             </el-col>
           </el-row>
