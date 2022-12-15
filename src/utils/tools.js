@@ -79,6 +79,7 @@ export function generaMenu(routes, data) {
       redirect: item.redirect,
       children: [],
       name: item.name,
+      hidden: item.is_hidden,
       meta: {
         title: item.title,
         icon: item.icon
