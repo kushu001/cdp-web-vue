@@ -33,30 +33,22 @@
       </el-table-column>
       <el-table-column v-if="!isOperationHidden" fixed="right" align="center" label="操作" width="200">
         <template slot-scope="scope">
-          <cdp-table-operation :scope="scope" :operations="operations" :permissions="permissions" @deleteHandler="deleteHandler" @editDialogHandler="editDialogHandler" @viewDialogHandler="viewDialogHandler">
-            <slot slot="defaultOperation" :scope="scope" />
-          </cdp-table-operation>
+          <cdp-table-operation :scope="scope" :operations="operations" :default="rOpn.default" :excludes="rOpn.excludes" :extra="rOpn.extra" :columns="columns" :url="innerUrl" :title="title" :permissions="permissions" :refresh-table="searchHandler" />
         </template>
       </el-table-column>
     </el-table>
     <el-row v-if="pagination">
       <el-pagination :current-page.sync="paginationConfig.page" background layout="->, prev, pager, next, jumper, sizes, total" :total="paginationConfig.total" :page-size="paginationConfig.limit" :page-sizes="[10, 20, 30, 40]" @size-change="sizeChangeHandler" @current-change="currentChangeHandler" @prev-click="preClickHandler" @next-click="nextClickHandler" />
     </el-row>
-    <cdp-edit-form :id="row.id" ref="child" :title="title" :visible.sync="dialogFormVisible" :columns="columns" :url="editUrl" @editHandler="editHandler" />
-    <cdp-view-desc :id="row.id" :url="viewUrl" :visible.sync="drawer" :columns="columns" :title="title" />
   </div>
 </template>
 <script>
 import CdpTableOperation from '@/components/cdp-ui/cdp-template/cdp-table/CdpTableRegion/CdpTableOperation'
-import CdpEditForm from '@/components/cdp-ui/cdp-template/cdp-table/CdpTableRegion/CdpEditForm'
-import CdpViewDesc from '@/components/cdp-ui/cdp-template/cdp-table/CdpTableRegion/CdpViewDesc'
 import { buildTree } from '@/utils/tools'
-import { fetchList, update, deleteById, exportExcel } from '@/api/api'
+import { fetchList, deleteById, exportExcel } from '@/api/api'
 export default {
   components: {
-    CdpTableOperation,
-    CdpEditForm,
-    CdpViewDesc
+    CdpTableOperation
   },
   props: {
     isOperationHidden: {
@@ -91,6 +83,10 @@ export default {
       type: Array,
       default: () => ([])
     },
+    rOpn: {
+      type: Object,
+      default: () => ({})
+    },
     operations: {
       type: Array,
       default: () => (['edit', 'delete', 'view'])
@@ -114,12 +110,12 @@ export default {
       tableData: [],
       paginationConfig: this.pagination,
       row: {},
-      dialogFormVisible: false,
-      drawer: false,
-      editUrl: '',
-      queryUrl: '',
-      deleteUrl: '',
-      exportUrl: '',
+      innerUrl: {
+        editUrl: '',
+        queryUrl: '',
+        deleteUrl: '',
+        exportUrl: ''
+      },
       ids: null,
       created: false
     }
@@ -137,25 +133,25 @@ export default {
       // 重新查询时，勾选列表的数据置空
       this.ids = null
       if (this.url.constructor === Object) {
-        this.queryUrl = this.url.queryUrl
-        this.editUrl = this.url.editUrl
-        this.deleteUrl = this.url.deleteUrl
-        this.exportUrl = `${this.url.exportUrl}/export`
-        this.viewUrl = this.url.viewUrl
+        this.innerUrl.queryUrl = this.url.queryUrl
+        this.innerUrl.editUrl = this.url.editUrl
+        this.innerUrl.deleteUrl = this.url.deleteUrl
+        this.innerUrl.exportUrl = `${this.url.exportUrl}/export`
+        this.innerUrl.viewUrl = this.url.viewUrl
       } else {
-        this.queryUrl = this.url
-        this.editUrl = this.url
-        this.deleteUrl = this.url
-        this.exportUrl = `${this.url}/export`
-        this.viewUrl = this.url
+        this.innerUrl.queryUrl = this.url
+        this.innerUrl.editUrl = this.url
+        this.innerUrl.deleteUrl = this.url
+        this.innerUrl.exportUrl = `${this.url}/export`
+        this.innerUrl.viewUrl = this.url
       }
 
       this.paginationConfig = {
         ...this.paginationConfig,
         ...searchForm
       }
-      if (this.queryUrl) {
-        fetchList(this.paginationConfig, this.queryUrl).then(response => {
+      if (this.innerUrl.queryUrl) {
+        fetchList(this.paginationConfig, this.innerUrl.queryUrl).then(response => {
           if (this.pagination) {
             this.tableData = [...response.data.data.records]
             this.paginationConfig.total = response.data.data.total
@@ -165,33 +161,8 @@ export default {
         })
       }
     },
-    editDialogHandler(scope) {
-      this.dialogFormVisible = true
-      this.row = scope.row
-    },
-    editHandler(form) {
-      update(form, this.editUrl).then(({ data }) => {
-        if (data.code === 200) {
-          this.$message({
-            type: 'success',
-            message: '修改成功'
-          })
-          this.dialogFormVisible = false
-          this.searchHandler(this.searchForm)
-        } else {
-          this.$message({
-            type: 'danger',
-            message: '修改失败'
-          })
-        }
-      })
-    },
-    viewDialogHandler(scope) {
-      this.drawer = true
-      this.row = scope.row
-    },
     exportHandler(form) {
-      exportExcel(form, this.exportUrl).then(res => {
+      exportExcel(form, this.innerUrl.exportUrl).then(res => {
         const blob = new Blob([res.data], { type: 'application/actet-stream;charset=utf-8' })
         const contentDisposition = res.headers['content-disposition'] // 从response的headers中获取filename, 后端response.setHeader("Content-disposition", "attachment; filename=xxxx.docx") 设置的文件名;
         const patt = new RegExp('filename=([^;]+\\.[^\\.;]+);*')
@@ -229,7 +200,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deleteById(`${this.deleteUrl}\\${arr.join(',')}`).then(({ data }) => {
+        deleteById(`${this.innerUrl.deleteUrl}\\${arr.join(',')}`).then(({ data }) => {
           if (data.code === 200) {
             this.$message({
               type: 'success',

@@ -15,6 +15,7 @@
       :title="tableConfig.title"
       :operations="tableOperations"
       :url="tableConfig.url"
+      :r-opn="tableConfig.rOpn"
       :permissions="permissions"
       :pagination="tableConfig.pagination"
       :is-operation-hidden="tableConfig.isOperationHidden"

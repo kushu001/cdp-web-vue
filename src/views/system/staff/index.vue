@@ -16,11 +16,7 @@
     </el-aside>
     <div style="width:70%">
       <el-card style="margin-top: 20px;">
-        <cdp-table ref="table" :table-config="tableConfig">
-          <template v-slot:tableOperations="slotProps">
-            <el-button type="text" size="mini" @click="auditHandler(slotProps.row)">审核</el-button>
-          </template>
-        </cdp-table>
+        <cdp-table ref="table" :table-config="tableConfig" />
       </el-card>
     </div>
   </el-container>
@@ -30,7 +26,6 @@
 import CdpTable from '@/components/cdp-ui/cdp-template/cdp-table'
 import { fetchList } from '@/api/api'
 import { buildTree } from '@/utils/tools'
-import { audit } from './api/staff'
 
 export default {
   name: 'Staff',
@@ -47,6 +42,11 @@ export default {
           editUrl: '',
           deleteUrl: '',
           viewUrl: ''
+        },
+        rOpn: {
+          extra: [
+            { name: 'Audit', path: 'system/staff' }
+          ]
         },
         columns: [
           {
@@ -127,9 +127,7 @@ export default {
           { required: true, message: '请输入姓名', trigger: 'blur' }
         ]
       },
-      tableData: [],
       treeData: [],
-      defaultNode: [],
       defaultProps: {
         children: 'children',
         label: 'name'
@@ -175,40 +173,7 @@ export default {
         exportUrl: `/api/v1/user/org/${data['code']}`,
         importUrl: `/api/v1/user/org/${data['code']}`
       }
-    },
-    auditHandler({ id, status }) {
-      if (status) {
-        this.$message({
-          message: '审核已经通过，不需要再审核！',
-          type: 'warning'
-        })
-        return
-      }
-      this.$confirm('确认审核通过?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        audit(id).then(({ data: response }) => {
-          this.$refs.table.refresh()
-        })
-      })
-    },
-    onSubmit() {
-
     }
   }
 }
 </script>
-<style scoped>
-/* aside{
-  background: none;
-} */
-
-/* .tree-area{
-  margin-top:11px;
-} */
-/* .page {
-  padding: 20px;
-} */
-</style>

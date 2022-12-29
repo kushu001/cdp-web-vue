@@ -30,9 +30,9 @@
             <el-col :span="12">
               <el-form-item label="类型" prop="type">
                 <el-radio-group v-model="form.type" style="width:100%">
-                  <el-radio :disabled="isNew && form.type === '1'" label="0">菜单</el-radio>
+                  <el-radio label="0">菜单</el-radio>
                   <el-radio label="1">操作</el-radio>
-                  <el-radio label="2">接口</el-radio>
+                  <!-- <el-radio label="2">接口</el-radio> -->
                   <!-- <el-radio v-if="Object.keys(data).length > 0" label="1">操作</el-radio> -->
                 </el-radio-group>
               </el-form-item>

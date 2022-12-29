@@ -4,6 +4,7 @@
     :visible.sync="visible"
     :before-close="closeHandler"
     size="40%"
+    :append-to-body="true"
     @open="openHandler"
   >
     <el-descriptions class="desc" title="" :column="2" border>

@@ -1,22 +1,10 @@
 <template>
   <div>
-    <cdp-table :table-config="tableConfig">
-      <template v-slot:tableOperations="slotProps">
-        <el-dropdown size="small" :hide-on-click="false" trigger="click">
-          <el-button type="text" style="margin-left:10px" size="small">
-            更 多<i class="el-icon-arrow-down el-icon--right" />
-          </el-button>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item @click.native="resetPassword(slotProps)">重置密码</el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
-      </template>
-    </cdp-table>
+    <cdp-table :table-config="tableConfig" />
   </div>
 </template>
 <script>
 import CdpTable from '@/components/cdp-ui/cdp-template/cdp-table'
-import { update } from '@/api/api'
 
 export default {
   components: {
@@ -27,6 +15,11 @@ export default {
       tableConfig: {
         title: '账户',
         url: '/api/v1/account',
+        rOpn: {
+          extra: [
+            { name: 'ResetPassword', path: 'system/account' }
+          ]
+        },
         permissions: { 'add': ['system:account:add'], 'edit': ['system:account:edit'], 'view': ['system:account:view'], 'delete': ['system:account:delete'] },
         columns: [
           {
@@ -99,34 +92,6 @@ export default {
           }
         ]
       }
-    }
-  },
-  methods: {
-    resetPassword({ row }) {
-      this.$confirm('重置密码, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        update({}, `/api/v1/account/password/${row.id}`).then(({ data }) => {
-          if (data.code === 200) {
-            this.$message({
-              type: 'success',
-              message: '重置成功!'
-            })
-          } else {
-            this.$message({
-              type: 'danger',
-              message: '重置失败!'
-            })
-          }
-        })
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消重置'
-        })
-      })
     }
   }
 }
