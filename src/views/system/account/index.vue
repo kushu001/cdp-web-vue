@@ -53,7 +53,7 @@ export default {
               value: 'name',
               multiple: true,
               url: '/api/v1/role/all',
-              rules: [{ required: true, message: '角色不能为空' }]
+              rules: [{ required: true, message: '角色不能为空', trigger: 'blur' }]
             },
             searchConfig: {
               hidden: true
