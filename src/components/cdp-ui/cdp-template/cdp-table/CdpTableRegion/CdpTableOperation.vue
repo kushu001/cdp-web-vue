@@ -94,8 +94,8 @@ export default {
     })
 
     this.extra.forEach(function(item) {
-      const resetPassword = (resolve) => require([`@/views/${item.path}/components/${item.name}`], resolve)
-      components.push(resetPassword)
+      const extraButton = (resolve) => require([`@/views/${item.path}/components/${item.name}`], resolve)
+      components.push(extraButton)
     })
 
     let moreComponents = []

@@ -35,6 +35,10 @@ export default {
       type: Array,
       default: () => ([])
     },
+    hOpn: {
+      type: Object,
+      default: () => ({})
+    },
     operations: {
       type: Array,
       default: () => (['add', 'delete', 'import', 'export'])
@@ -53,6 +57,13 @@ export default {
     }
   },
   data() {
+    const hOpn = {
+      default: true,
+      excludes: [],
+      extra: [],
+      ...this.hOpn
+    }
+
     const components = []
     const buttons = [
       { name: 'AddButton', path: 'cdp-ui/cdp-template/cdp-table/CdpOperationRegion/components/' },
@@ -60,10 +71,28 @@ export default {
       { name: 'ImportButton', path: 'cdp-ui/cdp-template/cdp-table/CdpOperationRegion/components/' },
       { name: 'ExportButton', path: 'cdp-ui/cdp-template/cdp-table/CdpOperationRegion/components/' }
     ]
+    let defaultButtons = buttons
 
-    buttons.forEach(function(item) {
+    if (hOpn.default.length > 0) {
+      defaultButtons = buttons.filter(item => this.hOpn.default.includes(item.name))
+    }
+
+    if (!hOpn.default || hOpn.default.length <= 0) {
+      defaultButtons = []
+    }
+
+    if (hOpn.excludes.length > 0) {
+      defaultButtons = buttons.filter(item => !hOpn.excludes.includes(item.name))
+    }
+
+    defaultButtons.forEach(function(item) {
       const component = (resolve) => require([`@/components/${item.path}${item.name}`], resolve)
       components.push(component)
+    })
+
+    hOpn.extra.forEach(function(item) {
+      const extraButton = (resolve) => require([`@/views/${item.path}/components/${item.name}`], resolve)
+      components.push(extraButton)
     })
 
     const moreComponents = []

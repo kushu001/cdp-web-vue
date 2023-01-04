@@ -11,6 +11,7 @@
       :title="tableConfig.title"
       :operations="operations"
       :search="searchHandler"
+      :h-opn="tableConfig.hOpn"
     />
     <cdp-table-region
       v-if="layout.includes('table')"
