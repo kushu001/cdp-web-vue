@@ -1,9 +1,17 @@
 <template>
   <div>
     <cdp-search-region v-if="layout.includes('search')" v-model="searchForm" :conditions="columns" :search="searchHandler" />
-    <cdp-operation-region v-if="layout.includes('operation')" :permissions="permissions" :columns="columns" :url="tableConfig.url" :title="tableConfig.title" :operations="operations" :search="searchHandler" :delete="deleteHandler" :export="exportHandler">
-      <slot name="operations" :selectIds="selectIds" />
-    </cdp-operation-region>
+    <cdp-operation-region
+      v-if="layout.includes('operation')"
+      :permissions="permissions"
+      :columns="columns"
+      :select-ids="selectIds"
+      :search-form="searchForm"
+      :url="innerUrl"
+      :title="tableConfig.title"
+      :operations="operations"
+      :search="searchHandler"
+    />
     <cdp-table-region
       v-if="layout.includes('table')"
       ref="table"
@@ -19,6 +27,7 @@
       :permissions="permissions"
       :pagination="tableConfig.pagination"
       :is-operation-hidden="tableConfig.isOperationHidden"
+      :parent="tableConfig.parent"
     >
       <slot name="tableOperations" :row="slotProps.scope.row" />
     </cdp-table-region>
@@ -64,7 +73,26 @@ export default {
       }
     })
 
+    const innerUrl = {}
+
+    if (this.tableConfig.url.constructor === Object) {
+      innerUrl.addUrl = this.tableConfig.url.addUrl
+      innerUrl.queryUrl = this.tableConfig.url.queryUrl
+      innerUrl.editUrl = this.tableConfig.url.editUrl
+      innerUrl.deleteUrl = this.tableConfig.url.deleteUrl
+      innerUrl.exportUrl = `${this.tableConfig.url.exportUrl}/export`
+      innerUrl.viewUrl = this.tableConfig.url.viewUrl
+    } else {
+      innerUrl.addUrl = this.tableConfig.url
+      innerUrl.queryUrl = this.tableConfig.url
+      innerUrl.editUrl = this.tableConfig.url
+      innerUrl.deleteUrl = this.tableConfig.url
+      innerUrl.exportUrl = `${this.tableConfig.url}/export`
+      innerUrl.viewUrl = this.tableConfig.url
+    }
+
     return {
+      innerUrl,
       selectIds: [],
       layout: !this.tableConfig.layout ? layout : this.tableConfig.layout,
       operations: !this.tableConfig.operations ? operations : this.tableConfig.operations,
@@ -77,29 +105,7 @@ export default {
   methods: {
     searchHandler(form) {
       this.$refs.table.searchHandler(form)
-    },
-    addDialogHandler() {
-
-    },
-    deleteHandler() {
-      this.$refs.table.deleteHandler()
-    },
-    exportHandler() {
-      this.$refs.table.exportHandler(this.searchForm)
-    },
-    refresh() {
-      this.$refs.table.searchHandler()
     }
-
   }
 }
 </script>
-<style scoped>
-.upload {
-  float:left;
-  margin-right:-1px;
-}
-.upload-button{
-  border-radius:0px
-}
-</style>

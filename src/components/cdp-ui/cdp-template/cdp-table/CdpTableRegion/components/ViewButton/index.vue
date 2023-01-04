@@ -5,7 +5,7 @@
   </span>
 </template>
 <script>
-import CdpViewDesc from '../../CdpViewDesc.vue'
+import CdpViewDesc from './CdpViewDesc.vue'
 export default {
   components: {
     CdpViewDesc

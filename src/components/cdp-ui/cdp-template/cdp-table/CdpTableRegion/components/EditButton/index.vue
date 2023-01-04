@@ -5,7 +5,7 @@
   </span>
 </template>
 <script>
-import CdpEditForm from '@/components/cdp-ui/cdp-template/cdp-table/CdpTableRegion/CdpEditForm'
+import CdpEditForm from './CdpEditForm'
 import { update } from '@/api/api'
 export default {
   components: {

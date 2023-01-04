@@ -5,10 +5,6 @@
       <!-- <el-table-column type="index" :index="calIndex"></el-table-column> -->
       <el-table-column v-for="column in columns" :key="column.name" :align="column.align" :prop="column.name" :label="column.label" :width="column.width">
         <template slot-scope="scope">
-          <!-- <el-tag v-if="scope.row[column.name] && column.data && column.data.find(item=>item.key==scope.row[column.name]) && column.data.find(item=>item.key==scope.row[column.name]).type" size="medium" :type="column.data.find(item=>item.key==scope.row[column.name]).type">
-            {{ column.data.find(item=>item.key==scope.row[column.name]).value }}
-          </el-tag> -->
-          <!-- <span v-else>{{ scope.row[column.name] }}</span> -->
           <span v-if="column.type=='select'">
             <span v-if="!column.formConfig.multiple">
               <el-tag size="medium" :type="column.data.find(item=>item.key==scope.row[column.name]).type" effect="plain">
@@ -45,7 +41,7 @@
 <script>
 import CdpTableOperation from '@/components/cdp-ui/cdp-template/cdp-table/CdpTableRegion/CdpTableOperation'
 import { buildTree } from '@/utils/tools'
-import { fetchList, deleteById, exportExcel } from '@/api/api'
+import { fetchList } from '@/api/api'
 export default {
   components: {
     CdpTableOperation
@@ -95,6 +91,10 @@ export default {
       type: Object,
       default: () => (null)
     },
+    parent: {
+      type: [Number, String],
+      default: undefined
+    },
     pagination: {
       type: [Boolean, Object],
       default: () => ({
@@ -122,6 +122,7 @@ export default {
   },
   watch: {
     url(val) {
+      console.log('url变动....了')
       this.searchHandler(this.form)
     }
   },
@@ -160,66 +161,6 @@ export default {
           }
         })
       }
-    },
-    exportHandler(form) {
-      exportExcel(form, this.innerUrl.exportUrl).then(res => {
-        const blob = new Blob([res.data], { type: 'application/actet-stream;charset=utf-8' })
-        const contentDisposition = res.headers['content-disposition'] // 从response的headers中获取filename, 后端response.setHeader("Content-disposition", "attachment; filename=xxxx.docx") 设置的文件名;
-        const patt = new RegExp('filename=([^;]+\\.[^\\.;]+);*')
-        const result = patt.exec(contentDisposition)
-        const filename = result[1]
-        const downloadElement = document.createElement('a')
-        const href = window.URL.createObjectURL(blob) // 创建下载的链接
-        downloadElement.style.display = 'none'
-        downloadElement.href = href
-        downloadElement.download = filename // 下载后文件名
-        document.body.appendChild(downloadElement)
-        downloadElement.click() // 点击下载
-        document.body.removeChild(downloadElement) // 下载完成移除元素
-        window.URL.revokeObjectURL(href) // 释放掉blob对象
-      })
-    },
-    deleteHandler(id) {
-      const ids = this.ids
-      const arr = []
-      if (id) {
-        arr.push(id)
-      } else if (ids) {
-        arr.push(...ids)
-      }
-      if (arr.length === 0) {
-        this.$message({
-          type: 'warning',
-          message: '请勾选要删除的记录'
-        })
-        return
-      }
-
-      this.$confirm('确认删除记录, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        deleteById(`${this.innerUrl.deleteUrl}\\${arr.join(',')}`).then(({ data }) => {
-          if (data.code === 200) {
-            this.$message({
-              type: 'success',
-              message: '删除成功!'
-            })
-            this.searchHandler(this.searchForm)
-          } else {
-            this.$message({
-              type: 'danger',
-              message: '删除失败!'
-            })
-          }
-        })
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消删除'
-        })
-      })
     },
     select(selection, row) {
       this.ids = selection.map(item => item.id)
