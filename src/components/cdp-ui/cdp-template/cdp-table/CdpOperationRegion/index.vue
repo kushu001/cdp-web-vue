@@ -1,13 +1,13 @@
 <template>
   <div style="margin:0 20px">
-    <component :is="item" v-for="(item, index) in components" :key="`rating_${index}`" :columns="columns" :url="url" :title="title" :select-ids="selectIds" :search-form="searchForm" :refresh-table="search" />
+    <component :is="item" v-for="(item, index) in components" :key="`rating_${index}`" :columns="columns" :url="url" :title="title" :select-ids="selectIds" :search-form="searchForm" :refresh-table="search" v-on="$listeners" />
     <el-dropdown v-if="moreComponents.length>0">
       <el-button type="primary" size="mini">
         更多...<i class="el-icon-arrow-down el-icon--right" />
       </el-button>
       <el-dropdown-menu slot="dropdown">
         <el-dropdown-item v-for="(item, index) in moreComponents" :key="`extra_${index}`">
-          <component :is="item" :columns="columns" :url="url" :title="title" :select-ids="selectIds" :search-form="searchForm" :refresh-table="search" />
+          <component :is="item" :columns="columns" :url="url" :title="title" :select-ids="selectIds" :search-form="searchForm" :refresh-table="search" v-on="$listeners" />
         </el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>

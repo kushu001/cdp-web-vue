@@ -29,7 +29,19 @@
       </el-table-column>
       <el-table-column v-if="!isOperationHidden" fixed="right" align="center" label="操作" width="200">
         <template slot-scope="scope">
-          <cdp-table-operation :scope="scope" :operations="operations" :default="rOpn.default" :excludes="rOpn.excludes" :extra="rOpn.extra" :columns="columns" :url="innerUrl" :title="title" :permissions="permissions" :refresh-table="searchHandler" />
+          <cdp-table-operation
+            :scope="scope"
+            :operations="operations"
+            :default="rOpn.default"
+            :excludes="rOpn.excludes"
+            :extra="rOpn.extra"
+            :columns="columns"
+            :url="innerUrl"
+            :title="title"
+            :permissions="permissions"
+            :refresh-table="searchHandler"
+            v-on="$listeners"
+          />
         </template>
       </el-table-column>
     </el-table>

@@ -4,7 +4,7 @@
     <el-button v-if="operations.includes('edit')" v-permission="permission['edit']" type="text" size="small" @click="editDialogHandler">编 辑</el-button>
     <el-button v-if="operations.includes('delete')" v-permission="permission['delete']" type="text" size="small" @click="deleteHandler">删 除</el-button> -->
     <span v-for="(item, index) in components" :key="`rating_${index}`" style="margin-right: 5px">
-      <component :is="item" :row="scope.row" :refresh-table="refreshTable" :columns="columns" :title="title" :url="url" />
+      <component :is="item" :row="scope.row" :refresh-table="refreshTable" :columns="columns" :title="title" :url="url" v-on="$listeners" />
     </span>
     <el-dropdown v-if="moreComponents.length>0" size="small" :hide-on-click="false" trigger="click">
       <el-button type="text" size="small">
@@ -12,7 +12,7 @@
       </el-button>
       <el-dropdown-menu>
         <el-dropdown-item v-for="(item, index) in moreComponents" :key="`extra_${index}`">
-          <component :is="item" :row="scope.row" :refresh-table="refreshTable" :columns="columns" :title="title" :url="url" />
+          <component :is="item" :row="scope.row" :refresh-table="refreshTable" :columns="columns" :title="title" :url="url" v-on="$listeners" />
         </el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
@@ -71,11 +71,11 @@ export default {
     const buttons = [
       { name: 'ViewButton', path: 'cdp-ui/cdp-template/cdp-table/CdpTableRegion/components/' },
       { name: 'EditButton', path: 'cdp-ui/cdp-template/cdp-table/CdpTableRegion/components/' },
-      { name: 'DeleteButton', path: 'cdp-ui/cdp-template/cdp-table/CdpTableRegion/components/' }
+      { name: 'DeleteButton', path: 'cdp-ui/cdp-template/cdp-table/CdpTableRegion/components/' },
+      { name: 'ConfirmButton', path: 'cdp-ui/cdp-template/cdp-table/CdpTableRegion/components/' }
     ]
 
     let defaultButtons = buttons
-
     if (this.default.length > 0) {
       defaultButtons = buttons.filter(item => this.default.includes(item.name))
     }

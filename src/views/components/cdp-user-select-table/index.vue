@@ -1,5 +1,5 @@
 <template>
-  <cdp-select-table v-model="userId" :columns="columns" :url="url" style="width:200px" />
+  <cdp-select-table v-model="userId" :title="title" :columns="columns" :url="url" style="width:200px" />
 </template>
 <script>
 import CdpSelectTable from '@/components/cdp-ui/CdpSelectTable'
@@ -18,6 +18,7 @@ export default {
     return {
       url: '/api/v1/user',
       userId: this.value,
+      title: '人员',
       columns: [
         {
           name: 'name',

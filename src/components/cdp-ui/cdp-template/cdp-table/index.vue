@@ -1,6 +1,6 @@
 <template>
   <div>
-    <cdp-search-region v-if="layout.includes('search')" v-model="searchForm" :conditions="columns" :search="searchHandler" />
+    <cdp-search-region v-if="layout.includes('search')" ref="searchRegion" v-model="searchForm" :conditions="columns" :search="searchHandler" />
     <cdp-operation-region
       v-if="layout.includes('operation')"
       :permissions="permissions"
@@ -12,6 +12,7 @@
       :operations="operations"
       :search="searchHandler"
       :h-opn="tableConfig.hOpn"
+      v-on="$listeners"
     />
     <cdp-table-region
       v-if="layout.includes('table')"
@@ -29,6 +30,7 @@
       :pagination="tableConfig.pagination"
       :is-operation-hidden="tableConfig.isOperationHidden"
       :parent="tableConfig.parent"
+      v-on="$listeners"
     >
       <slot name="tableOperations" :row="slotProps.scope.row" />
     </cdp-table-region>
@@ -106,6 +108,9 @@ export default {
   methods: {
     searchHandler(form) {
       this.$refs.table.searchHandler(form)
+    },
+    resetSearchForm() {
+      this.$refs.searchRegion.resetHandler()
     }
   }
 }
