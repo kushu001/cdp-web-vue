@@ -51,10 +51,6 @@ export default {
       type: Object,
       default: () => ({})
     },
-    operations: {
-      type: Array,
-      default: () => (['add', 'delete', 'import', 'export'])
-    },
     selectIds: {
       type: Array,
       default: () => ([])
@@ -125,7 +121,6 @@ export default {
     return {
       components,
       moreComponents
-      // permission: !this.permissions ? { 'add': [], 'delete': [], 'import': [], 'export': [] } : { ...{ 'add': ['default'], 'delete': ['default'], 'import': ['default'], 'export': ['default'] }, ...this.permissions }
     }
   }
 }

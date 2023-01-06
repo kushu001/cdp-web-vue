@@ -1,8 +1,5 @@
 <template>
   <span>
-    <!-- <el-button v-if="operations.includes('view')" v-permission="permission['view']" type="text" size="small" @click="viewDialogHandler">查 看</el-button>
-    <el-button v-if="operations.includes('edit')" v-permission="permission['edit']" type="text" size="small" @click="editDialogHandler">编 辑</el-button>
-    <el-button v-if="operations.includes('delete')" v-permission="permission['delete']" type="text" size="small" @click="deleteHandler">删 除</el-button> -->
     <span v-for="(item, index) in components" :key="`rating_${index}`" style="margin-right: 5px">
       <component :is="item['component']" :row="scope.row" :refresh-table="refreshTable" :columns="columns" :title="title" :url="url" :permission="item['permission']" v-on="$listeners" />
     </span>
@@ -16,7 +13,6 @@
         </el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
-    <!-- <slot name="defaultOperation" /> -->
   </span>
 </template>
 <script>
@@ -28,10 +24,6 @@ export default {
     scope: {
       type: Object,
       default: () => ({})
-    },
-    operations: {
-      type: Array,
-      default: () => (['edit', 'delete', 'view'])
     },
     permissions: {
       type: Object,

@@ -31,7 +31,6 @@
         <template slot-scope="scope">
           <cdp-table-operation
             :scope="scope"
-            :operations="operations"
             :default="rOpn.default"
             :excludes="rOpn.excludes"
             :extra="rOpn.extra"
@@ -95,13 +94,9 @@ export default {
       type: Object,
       default: () => ({})
     },
-    operations: {
-      type: Array,
-      default: () => (['edit', 'delete', 'view'])
-    },
     permissions: {
       type: Object,
-      default: () => (null)
+      default: () => ({})
     },
     parent: {
       type: [Number, String],

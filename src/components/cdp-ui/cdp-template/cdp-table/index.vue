@@ -9,7 +9,6 @@
       :search-form="searchForm"
       :url="innerUrl"
       :title="tableConfig.title"
-      :operations="operations"
       :search="searchHandler"
       :h-opn="tableConfig.hOpn"
       v-on="$listeners"
@@ -23,7 +22,6 @@
       :selection="tableConfig.selection"
       :columns="columns"
       :title="tableConfig.title"
-      :operations="tableOperations"
       :url="tableConfig.url"
       :r-opn="tableConfig.rOpn"
       :permissions="permissions"
@@ -54,8 +52,6 @@ export default {
   },
   data() {
     const layout = ['search', 'operation', 'table']
-    const operations = ['add', 'delete', 'import', 'export']
-    const tableOperations = ['edit', 'delete', 'view']
 
     const columns = this.tableConfig.columns.map(item => {
       return {
@@ -98,8 +94,6 @@ export default {
       innerUrl,
       selectIds: [],
       layout: !this.tableConfig.layout ? layout : this.tableConfig.layout,
-      operations: !this.tableConfig.operations ? operations : this.tableConfig.operations,
-      tableOperations: !this.tableConfig.tableOperations ? tableOperations : this.tableConfig.tableOperations,
       permissions: !this.tableConfig.permissions ? null : this.tableConfig.permissions,
       searchForm: {},
       columns
