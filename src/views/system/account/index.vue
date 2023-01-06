@@ -20,7 +20,7 @@ export default {
             { name: 'ResetPassword', path: 'system/account' }
           ]
         },
-        permissions: { 'add': ['system:account:add'], 'edit': ['system:account:edit'], 'view': ['system:account:view'], 'delete': ['system:account:delete'] },
+        permissions: { 'AddButton': ['system:account:add'], 'EditButton': ['system:account:edit'], 'ViewButton': ['system:account:view'], 'DeleteButton': ['system:account:delete'], 'ResetPassword': ['system:account:resetPassword'] },
         columns: [
           {
             name: 'username',

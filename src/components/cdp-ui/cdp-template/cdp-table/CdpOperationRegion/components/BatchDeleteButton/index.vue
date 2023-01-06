@@ -1,9 +1,11 @@
 <template>
-  <el-button type="primary" size="mini" icon="el-icon-delete" @click="deleteHandler">批量删除</el-button>
+  <el-button v-permission="permission" type="primary" size="mini" icon="el-icon-delete" @click="deleteHandler">批量删除</el-button>
 </template>
 <script>
 import { deleteById } from '@/api/api'
+import permission from '@/directive/permission/index.js' // 权限判断指令
 export default {
+  directives: { permission },
   props: {
     selectIds: {
       type: Array,
@@ -16,6 +18,10 @@ export default {
     refreshTable: {
       type: Function,
       default: () => ({})
+    },
+    permission: {
+      type: Array,
+      default: () => ([])
     }
   },
   methods: {

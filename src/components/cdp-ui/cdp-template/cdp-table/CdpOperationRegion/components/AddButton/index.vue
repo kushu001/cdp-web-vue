@@ -1,5 +1,5 @@
 <template>
-  <el-button type="success" size="mini" icon="el-icon-plus" @click="addDialogHandler">
+  <el-button v-permission="permission" type="success" size="mini" icon="el-icon-plus" @click="addDialogHandler">
     新增
     <cdp-add-form ref="child" :visible.sync="visible" :title="title" :columns="columns" @addHandler="addHandler" />
   </el-button>
@@ -8,8 +8,9 @@
 <script>
 import CdpAddForm from './CdpAddForm'
 import { add } from '@/api/api'
-
+import permission from '@/directive/permission/index.js' // 权限判断指令
 export default {
+  directives: { permission },
   components: {
     CdpAddForm
   },
@@ -37,6 +38,10 @@ export default {
     refreshTable: {
       type: Function,
       default: () => ({})
+    },
+    permission: {
+      type: Array,
+      default: () => ([])
     }
   },
   data() {

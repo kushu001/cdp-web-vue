@@ -4,7 +4,7 @@
     <el-button v-if="operations.includes('edit')" v-permission="permission['edit']" type="text" size="small" @click="editDialogHandler">编 辑</el-button>
     <el-button v-if="operations.includes('delete')" v-permission="permission['delete']" type="text" size="small" @click="deleteHandler">删 除</el-button> -->
     <span v-for="(item, index) in components" :key="`rating_${index}`" style="margin-right: 5px">
-      <component :is="item" :row="scope.row" :refresh-table="refreshTable" :columns="columns" :title="title" :url="url" v-on="$listeners" />
+      <component :is="item['component']" :row="scope.row" :refresh-table="refreshTable" :columns="columns" :title="title" :url="url" :permission="item['permission']" v-on="$listeners" />
     </span>
     <el-dropdown v-if="moreComponents.length>0" size="small" :hide-on-click="false" trigger="click">
       <el-button type="text" size="small">
@@ -12,7 +12,7 @@
       </el-button>
       <el-dropdown-menu>
         <el-dropdown-item v-for="(item, index) in moreComponents" :key="`extra_${index}`">
-          <component :is="item" :row="scope.row" :refresh-table="refreshTable" :columns="columns" :title="title" :url="url" v-on="$listeners" />
+          <component :is="item['component']" :row="scope.row" :refresh-table="refreshTable" :columns="columns" :title="title" :url="url" :permission="item['permission']" v-on="$listeners" />
         </el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
@@ -35,7 +35,7 @@ export default {
     },
     permissions: {
       type: Object,
-      default: () => (null)
+      default: () => ({})
     },
     default: {
       type: [Array, Boolean],
@@ -69,13 +69,20 @@ export default {
   data() {
     const components = []
     const buttons = [
-      { name: 'ViewButton', path: 'cdp-ui/cdp-template/cdp-table/CdpTableRegion/components/', isDefault: true },
-      { name: 'EditButton', path: 'cdp-ui/cdp-template/cdp-table/CdpTableRegion/components/', isDefault: true },
-      { name: 'DeleteButton', path: 'cdp-ui/cdp-template/cdp-table/CdpTableRegion/components/', isDefault: true },
-      { name: 'ConfirmButton', path: 'cdp-ui/cdp-template/cdp-table/CdpTableRegion/components/', isDefault: false }
+      { name: 'ViewButton', path: 'cdp-ui/cdp-template/cdp-table/CdpTableRegion/components/', isDefault: true, permission: [] },
+      { name: 'EditButton', path: 'cdp-ui/cdp-template/cdp-table/CdpTableRegion/components/', isDefault: true, permission: [] },
+      { name: 'DeleteButton', path: 'cdp-ui/cdp-template/cdp-table/CdpTableRegion/components/', isDefault: true, permission: [] },
+      { name: 'ConfirmButton', path: 'cdp-ui/cdp-template/cdp-table/CdpTableRegion/components/', isDefault: false, permission: [] }
     ]
 
     let defaultButtons = buttons.filter(item => item.isDefault)
+
+    // defaultButtons.map(item => item.permission = this.permissions[item.name])
+
+    if (this.permissions && Object.keys(this.permissions).length > 0) {
+      defaultButtons.map(item => { item.permission = this.permissions[item.name] })
+      this.extra.map(item => { item.permission = this.permissions[item.name] })
+    }
 
     if (this.default.length > 0) {
       defaultButtons = buttons.filter(item => this.default.includes(item.name))
@@ -91,12 +98,18 @@ export default {
 
     defaultButtons.forEach(function(item) {
       const component = (resolve) => require([`@/components/${item.path}${item.name}`], resolve)
-      components.push(component)
+      const obj = {}
+      obj['component'] = component
+      obj['permission'] = item.permission
+      components.push(obj)
     })
 
     this.extra.forEach(function(item) {
       const extraButton = (resolve) => require([`@/views/${item.path}/components/${item.name}`], resolve)
-      components.push(extraButton)
+      const obj = {}
+      obj['component'] = extraButton
+      obj['permission'] = item.permission
+      components.push(obj)
     })
 
     let moreComponents = []
@@ -106,9 +119,7 @@ export default {
 
     return {
       components,
-      moreComponents,
-      permission: !this.permissions ? { 'edit': [], 'delete': [], 'view': [] } : { ...{ 'edit': ['default'], 'delete': ['default'], 'view': ['default'] }, ...this.permissions }
-    }
+      moreComponents }
   },
   methods: {
     editDialogHandler() {

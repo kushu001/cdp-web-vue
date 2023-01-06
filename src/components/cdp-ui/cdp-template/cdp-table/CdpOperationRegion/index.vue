@@ -1,13 +1,25 @@
 <template>
   <div style="margin:0 20px">
-    <component :is="item" v-for="(item, index) in components" :key="`rating_${index}`" :columns="columns" :url="url" :title="title" :select-ids="selectIds" :search-form="searchForm" :refresh-table="search" v-on="$listeners" />
+    <component
+      :is="item['component']"
+      v-for="(item, index) in components"
+      :key="`rating_${index}`"
+      :columns="columns"
+      :url="url"
+      :title="title"
+      :select-ids="selectIds"
+      :search-form="searchForm"
+      :refresh-table="search"
+      :permission="item['permission']"
+      v-on="$listeners"
+    />
     <el-dropdown v-if="moreComponents.length>0">
       <el-button type="primary" size="mini">
         更多...<i class="el-icon-arrow-down el-icon--right" />
       </el-button>
       <el-dropdown-menu slot="dropdown">
         <el-dropdown-item v-for="(item, index) in moreComponents" :key="`extra_${index}`">
-          <component :is="item" :columns="columns" :url="url" :title="title" :select-ids="selectIds" :search-form="searchForm" :refresh-table="search" v-on="$listeners" />
+          <component :is="item['component']" :columns="columns" :url="url" :title="title" :select-ids="selectIds" :search-form="searchForm" :refresh-table="search" :permission="item['permission']" v-on="$listeners" />
         </el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
@@ -43,15 +55,15 @@ export default {
       type: Array,
       default: () => (['add', 'delete', 'import', 'export'])
     },
-    permissions: {
-      type: Object,
-      default: () => (null)
-    },
     selectIds: {
       type: Array,
       default: () => ([])
     },
     searchForm: {
+      type: Object,
+      default: () => ({})
+    },
+    permissions: {
       type: Object,
       default: () => ({})
     }
@@ -66,12 +78,16 @@ export default {
 
     const components = []
     const buttons = [
-      { name: 'AddButton', path: 'cdp-ui/cdp-template/cdp-table/CdpOperationRegion/components/' },
-      { name: 'BatchDeleteButton', path: 'cdp-ui/cdp-template/cdp-table/CdpOperationRegion/components/' },
-      { name: 'ImportButton', path: 'cdp-ui/cdp-template/cdp-table/CdpOperationRegion/components/' },
-      { name: 'ExportButton', path: 'cdp-ui/cdp-template/cdp-table/CdpOperationRegion/components/' }
+      { name: 'AddButton', path: 'cdp-ui/cdp-template/cdp-table/CdpOperationRegion/components/', permission: ['system:account:add'] },
+      { name: 'BatchDeleteButton', path: 'cdp-ui/cdp-template/cdp-table/CdpOperationRegion/components/', permission: ['system:account:delete'] },
+      { name: 'ImportButton', path: 'cdp-ui/cdp-template/cdp-table/CdpOperationRegion/components/', permission: [] },
+      { name: 'ExportButton', path: 'cdp-ui/cdp-template/cdp-table/CdpOperationRegion/components/', permission: [] }
     ]
     let defaultButtons = buttons
+
+    if (this.permissions && Object.keys(this.permissions).length > 0) {
+      defaultButtons.map(item => { item.permission = this.permissions[item.name] })
+    }
 
     if (hOpn.default.length > 0) {
       defaultButtons = buttons.filter(item => this.hOpn.default.includes(item.name))
@@ -87,12 +103,18 @@ export default {
 
     defaultButtons.forEach(function(item) {
       const component = (resolve) => require([`@/components/${item.path}${item.name}`], resolve)
-      components.push(component)
+      const obj = {}
+      obj['component'] = component
+      obj['permission'] = item.permission
+      components.push(obj)
     })
 
     hOpn.extra.forEach(function(item) {
       const extraButton = (resolve) => require([`@/views/${item.path}/components/${item.name}`], resolve)
-      components.push(extraButton)
+      const obj = {}
+      obj['component'] = extraButton
+      obj['permission'] = item.permission
+      components.push(obj)
     })
 
     const moreComponents = []
@@ -102,8 +124,8 @@ export default {
 
     return {
       components,
-      moreComponents,
-      permission: !this.permissions ? { 'add': [], 'delete': [], 'import': [], 'export': [] } : { ...{ 'add': ['default'], 'delete': ['default'], 'import': ['default'], 'export': ['default'] }, ...this.permissions }
+      moreComponents
+      // permission: !this.permissions ? { 'add': [], 'delete': [], 'import': [], 'export': [] } : { ...{ 'add': ['default'], 'delete': ['default'], 'import': ['default'], 'export': ['default'] }, ...this.permissions }
     }
   }
 }
