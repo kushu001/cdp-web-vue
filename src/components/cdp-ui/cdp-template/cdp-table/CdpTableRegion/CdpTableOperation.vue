@@ -69,13 +69,14 @@ export default {
   data() {
     const components = []
     const buttons = [
-      { name: 'ViewButton', path: 'cdp-ui/cdp-template/cdp-table/CdpTableRegion/components/' },
-      { name: 'EditButton', path: 'cdp-ui/cdp-template/cdp-table/CdpTableRegion/components/' },
-      { name: 'DeleteButton', path: 'cdp-ui/cdp-template/cdp-table/CdpTableRegion/components/' },
-      { name: 'ConfirmButton', path: 'cdp-ui/cdp-template/cdp-table/CdpTableRegion/components/' }
+      { name: 'ViewButton', path: 'cdp-ui/cdp-template/cdp-table/CdpTableRegion/components/', isDefault: true },
+      { name: 'EditButton', path: 'cdp-ui/cdp-template/cdp-table/CdpTableRegion/components/', isDefault: true },
+      { name: 'DeleteButton', path: 'cdp-ui/cdp-template/cdp-table/CdpTableRegion/components/', isDefault: true },
+      { name: 'ConfirmButton', path: 'cdp-ui/cdp-template/cdp-table/CdpTableRegion/components/', isDefault: false }
     ]
 
-    let defaultButtons = buttons
+    let defaultButtons = buttons.filter(item => item.isDefault)
+
     if (this.default.length > 0) {
       defaultButtons = buttons.filter(item => this.default.includes(item.name))
     }
