@@ -16,10 +16,6 @@ export default {
       default: () => ([])
     }
   },
-  data() {
-    console.log(this.permission, 'resetPassword')
-    return {}
-  },
   methods: {
     resetPassword() {
       this.$confirm('重置密码, 是否继续?', '提示', {
