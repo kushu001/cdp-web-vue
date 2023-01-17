@@ -73,22 +73,39 @@ export function getAllLeaf({ data, children = 'children' }) {
 export function generaMenu(routes, data) {
   data.forEach(item => {
     if (!item.url) return
-    const menu = {
-      path: item.url,
-      component: (item.url.split('/')).length - 1 === 1 ? Layout : (resolve) => require([`@/views${item.url}/index`], resolve),
-      redirect: item.redirect,
-      children: [],
-      name: item.name,
-      hidden: item.is_hidden,
-      meta: {
-        title: item.title,
-        icon: item.icon
+    if (item.pid === 0 && (!item.children)) {
+      const menu = {
+        path: '/',
+        component: Layout,
+        redirect: item.url,
+        children: [
+          {
+            path: item.url,
+            component: (resolve) => require([`@/views${item.url}/index`], resolve),
+            name: item.name,
+            meta: { title: item.title, icon: item.icon }
+          }
+        ]
       }
+      routes.push(menu)
+    } else {
+      const menu = {
+        path: item.url,
+        component: (item.url.split('/')).length - 1 === 1 ? Layout : (resolve) => require([`@/views${item.url}/index`], resolve),
+        redirect: item.redirect,
+        children: [],
+        name: item.name,
+        hidden: item.is_hidden,
+        meta: {
+          title: item.title,
+          icon: item.icon
+        }
+      }
+      if (item.children) {
+        generaMenu(menu.children, item.children)
+      }
+      routes.push(menu)
     }
-    if (item.children) {
-      generaMenu(menu.children, item.children)
-    }
-    routes.push(menu)
   })
 }
 
