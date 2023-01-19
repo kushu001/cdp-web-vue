@@ -63,6 +63,13 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
+              <el-form-item label="是否固定" prop="affix">
+                <el-switch v-model="form.affix" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
               <el-form-item label="是否隐藏" prop="is_hidden">
                 <el-switch v-model="form.is_hidden" />
               </el-form-item>

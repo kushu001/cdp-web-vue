@@ -83,7 +83,7 @@ export function generaMenu(routes, data) {
             path: item.url,
             component: (resolve) => require([`@/views${item.url}/index`], resolve),
             name: item.name,
-            meta: { title: item.title, icon: item.icon }
+            meta: { title: item.title, icon: item.icon, affix: item.affix }
           }
         ]
       }
@@ -98,7 +98,8 @@ export function generaMenu(routes, data) {
         hidden: item.is_hidden,
         meta: {
           title: item.title,
-          icon: item.icon
+          icon: item.icon,
+          affix: item.affix
         }
       }
       if (item.children) {
