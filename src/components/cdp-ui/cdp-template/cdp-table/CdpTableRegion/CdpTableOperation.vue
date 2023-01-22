@@ -85,7 +85,7 @@ export default {
     }
 
     if (this.excludes.length > 0) {
-      defaultButtons = buttons.filter(item => !this.excludes.includes(item.name))
+      defaultButtons = defaultButtons.filter(item => !this.excludes.includes(item.name))
     }
 
     defaultButtons.forEach(function(item) {
