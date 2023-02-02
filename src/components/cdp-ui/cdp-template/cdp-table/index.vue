@@ -74,7 +74,7 @@ export default {
 
     const innerUrl = {}
 
-    if (this.tableConfig.url.constructor === Object) {
+    if (!!this.tableConfig.url && this.tableConfig.url.constructor === Object) {
       innerUrl.addUrl = this.tableConfig.url.addUrl
       innerUrl.queryUrl = this.tableConfig.url.queryUrl
       innerUrl.editUrl = this.tableConfig.url.editUrl

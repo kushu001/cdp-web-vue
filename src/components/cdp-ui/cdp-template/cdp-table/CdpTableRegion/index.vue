@@ -140,7 +140,7 @@ export default {
     searchHandler(searchForm) {
       // 重新查询时，勾选列表的数据置空
       this.ids = null
-      if (this.url.constructor === Object) {
+      if (!!this.url && this.url.constructor === Object) {
         this.innerUrl.queryUrl = this.url.queryUrl
         this.innerUrl.editUrl = this.url.editUrl
         this.innerUrl.deleteUrl = this.url.deleteUrl
