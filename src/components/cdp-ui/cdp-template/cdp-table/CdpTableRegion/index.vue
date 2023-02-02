@@ -3,30 +3,32 @@
     <el-table :data="tableData" border row-key="id" @select="select" @select-all="selectAll">
       <el-table-column v-if="selection && pagination" type="selection" width="55" />
       <!-- <el-table-column type="index" :index="calIndex"></el-table-column> -->
-      <el-table-column v-for="column in columns" :key="column.name" :align="column.align" :prop="column.name" :label="column.label" :width="column.width">
-        <template slot-scope="scope">
-          <span v-if="column.type=='select'">
-            <span v-if="!column.formConfig.multiple">
-              <el-tag size="medium" :type="column.data.find(item=>item.key==scope.row[column.name]).type" effect="plain">
-                {{ column.data.find(item=>item.key==scope.row[column.name]).value }}
-              </el-tag>
+      <template v-for="column in columns">
+        <el-table-column v-if="!column.hidden" :key="column.name" :align="column.align" :prop="column.name" :label="column.label" :width="column.width">>
+          <template slot-scope="scope">
+            <span v-if="column.type=='select'">
+              <span v-if="!column.formConfig.multiple">
+                <el-tag size="medium" :type="column.data.find(item=>item.key==scope.row[column.name]).type" effect="plain">
+                  {{ column.data.find(item=>item.key==scope.row[column.name]).value }}
+                </el-tag>
+              </span>
+              <span v-else-if="scope.row[column.name] != null && scope.row[column.name] != ''">
+                <el-tag v-for="(item, index) in scope.row[column.name].split(',')" :key="index" :type="['success','info','warning','danger'][index % 4]" style="margin: 3px 3px">
+                  {{ item }}
+                </el-tag>
+              </span>
+              <span v-else>
+                {{ scope.row[column.name] }}
+              </span>
             </span>
-            <span v-else-if="scope.row[column.name] != null && scope.row[column.name] != ''">
-              <el-tag v-for="(item, index) in scope.row[column.name].split(',')" :key="index" :type="['success','info','warning','danger'][index % 4]" style="margin: 3px 3px">
-                {{ item }}
-              </el-tag>
+            <span v-else-if="column.type=='switch'">
+              <el-tag v-if="scope.row[column.name]" :type="column.data.find(item=>item.key).type" effect="dark">{{ column.data.find(item=>item.key).value }}</el-tag>
+              <el-tag v-else-if="!scope.row[column.name]" :type="column.data.find(item=>!item.key).type" effect="dark">{{ column.data.find(item=>!item.key).value }}</el-tag>
             </span>
-            <span v-else>
-              {{ scope.row[column.name] }}
-            </span>
-          </span>
-          <span v-else-if="column.type=='switch'">
-            <el-tag v-if="scope.row[column.name]" :type="column.data.find(item=>item.key).type" effect="dark">{{ column.data.find(item=>item.key).value }}</el-tag>
-            <el-tag v-else-if="!scope.row[column.name]" :type="column.data.find(item=>!item.key).type" effect="dark">{{ column.data.find(item=>!item.key).value }}</el-tag>
-          </span>
-          <span v-else>{{ scope.row[column.name] }}</span>
-        </template>
-      </el-table-column>
+            <span v-else>{{ scope.row[column.name] }}</span>
+          </template>
+        </el-table-column>
+      </template>
       <el-table-column v-if="!isOperationHidden" fixed="right" align="center" label="操作" width="200">
         <template slot-scope="scope">
           <cdp-table-operation
