@@ -75,9 +75,10 @@ export function generaMenu(routes, data) {
     if (!item.url) return
     if (item.pid === 0 && (!item.children)) {
       const menu = {
-        path: '/',
+        path: item.is_home ? '/' : item.url,
         component: Layout,
         redirect: item.url,
+        hidden: item.is_hidden,
         children: [
           {
             path: item.url,
