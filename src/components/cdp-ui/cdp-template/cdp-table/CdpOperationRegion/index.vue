@@ -79,6 +79,19 @@ export default {
       { name: 'ImportButton', path: 'cdp-ui/cdp-template/cdp-table/CdpOperationRegion/components/', permission: [] },
       { name: 'ExportButton', path: 'cdp-ui/cdp-template/cdp-table/CdpOperationRegion/components/', permission: [] }
     ]
+
+    if (this.hOpn.replace) {
+      // 如果replace存在，则需要替换buttons中的内容
+      buttons.map(item => {
+        const it = this.hOpn.replace.find(rep => item.name === rep.name)
+        if (it) {
+          item.path = it.path
+          item.replace = true
+        }
+        return item
+      })
+    }
+
     let defaultButtons = buttons
 
     if (this.permissions && Object.keys(this.permissions).length > 0) {
@@ -98,7 +111,7 @@ export default {
     }
 
     defaultButtons.forEach(function(item) {
-      const component = (resolve) => require([`@/components/${item.path}${item.name}`], resolve)
+      const component = !item.replace ? (resolve) => require([`@/components/${item.path}${item.name}`], resolve) : (resolve) => require([`@/views/${item.path}/components/${item.name}`], resolve)
       const obj = {}
       obj['component'] = component
       obj['permission'] = item.permission

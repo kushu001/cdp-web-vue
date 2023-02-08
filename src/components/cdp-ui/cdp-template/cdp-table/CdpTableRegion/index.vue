@@ -1,6 +1,6 @@
 <template>
   <div style="margin:0 20px">
-    <el-table :data="tableData" border row-key="id" @select="select" @select-all="selectAll">
+    <el-table :data="tableData" border row-key="id" size="mini" @select="select" @select-all="selectAll">
       <el-table-column v-if="selection && pagination" type="selection" width="55" />
       <!-- <el-table-column type="index" :index="calIndex"></el-table-column> -->
       <template v-for="column in columns">

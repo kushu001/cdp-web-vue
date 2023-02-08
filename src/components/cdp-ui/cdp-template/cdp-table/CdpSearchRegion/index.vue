@@ -1,5 +1,5 @@
 <template>
-  <el-form ref="form" :inline="true" :model="form" class="cdp-form">
+  <el-form ref="form" :inline="true" :model="form" label-position="left" class="cdp-form" size="mini" label-width="80px">
     <span v-for="condition in formItems" :key="condition.searchConfig.name">
       <el-form-item v-if="!condition.searchConfig.hidden" :label="condition.label" :prop="condition.searchConfig.name">
         <el-input v-if="condition.searchConfig.type=='input'" v-model="form[condition.searchConfig.name]" :name="condition.searchConfig.name" :placeholder="`请输入${condition.label}`" />

@@ -1,6 +1,6 @@
 <template>
   <el-dialog :title="`新增${title}`" :append-to-body="true" :visible.sync="visible" :before-close="closeHandler" @opened="openHandler">
-    <el-form ref="form" :model="form" :rules="rules" label-width="120px">
+    <el-form ref="form" :model="form" :rules="rules" label-width="120px" size="mini">
       <el-row>
         <span v-for="(item, index) in columns" :key="index">
           <el-col v-if="index%2 == 0 && item.formConfig.type!=='textarea'" :span="12">
