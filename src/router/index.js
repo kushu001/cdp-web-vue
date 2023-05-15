@@ -63,12 +63,30 @@ export const constantRoutes = [
     path: '/401',
     component: () => import('@/views/error-page/401'),
     hidden: true
-  },
-  {
-    path: '/',
-    component: Layout,
-    redirect: '/dashboard'
   }
+  // {
+  //   path: '/',
+  //   component: Layout,
+  //   redirect: '/dashboard',
+  //   meta:{},
+  //   name:'',
+  //   children: [
+  //     {
+  //       path: 'dashboard',
+  //       component: () => import('@/views/dashboard/index'),
+  //       name: 'Dashboard',
+  //       meta: { title: 'Dashboard', icon: 'dashboard', affix: true },
+  //       redirect:undefined,
+  //       children:[]
+  //     },
+  //   ],
+  // }
+  // ,
+  // {
+  //   path: '/',
+  //   component: Layout,
+  //   redirect: '/dashboard'
+  // }
   // {
   //   path: '/profile',
   //   component: Layout,
