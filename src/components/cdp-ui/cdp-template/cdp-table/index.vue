@@ -99,6 +99,28 @@ export default {
       columns
     }
   },
+  watch: {
+    tableConfig: {
+      handler(newTableConfig, oldTableConfig) {
+        if (!!newTableConfig.url && newTableConfig.url.constructor === Object) {
+          this.innerUrl.addUrl = newTableConfig.url.addUrl
+          this.innerUrl.queryUrl = newTableConfig.url.queryUrl
+          this.innerUrl.editUrl = newTableConfig.url.editUrl
+          this.innerUrl.deleteUrl = newTableConfig.url.deleteUrl
+          this.innerUrl.exportUrl = `${newTableConfig.url.exportUrl}/export`
+          this.innerUrl.viewUrl = newTableConfig.url.viewUrl
+        } else {
+          this.innerUrl.addUrl = newTableConfig.url
+          this.innerUrl.queryUrl = newTableConfig.url
+          this.innerUrl.editUrl = newTableConfig.url
+          this.innerUrl.deleteUrl = newTableConfig.url
+          this.innerUrl.exportUrl = `${newTableConfig.url}/export`
+          this.innerUrl.viewUrl = newTableConfig.url
+        }
+      },
+      deep: true
+    }
+  },
   methods: {
     searchHandler(form) {
       this.$refs.table.searchHandler(form)
