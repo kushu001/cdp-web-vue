@@ -131,7 +131,6 @@ export default {
   },
   watch: {
     url(val) {
-      console.log('url变动....了')
       this.searchHandler(this.form)
     }
   },
