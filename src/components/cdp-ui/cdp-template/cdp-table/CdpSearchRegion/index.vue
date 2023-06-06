@@ -1,7 +1,7 @@
 <template>
   <el-form ref="form" :inline="true" :model="form" label-position="left" class="cdp-form" size="mini" label-width="80px">
     <span v-for="condition in formItems" :key="condition.searchConfig.name">
-      <el-form-item v-if="!condition.searchConfig.hidden" :label="condition.label" :prop="condition.searchConfig.name">
+      <el-form-item v-show="condition.searchConfig.isShow" :label="condition.label" :prop="condition.searchConfig.name">
         <el-input v-if="condition.searchConfig.type=='input'" v-model="form[condition.searchConfig.name]" :name="condition.searchConfig.name" :placeholder="`请输入${condition.label}`" />
         <el-select v-if="condition.searchConfig.type=='select'" v-model="form[condition.searchConfig.name]" :placeholder="`请选择${condition.label}`">
           <el-option v-for="item in condition.data" :key="item.key" :label="item.value" :value="item.key" />
@@ -10,6 +10,7 @@
       </el-form-item>
     </span>
     <el-form-item>
+      <el-button v-if="formItems.length > 4" :icon="collapse? 'el-icon-arrow-down':'el-icon-arrow-up'" circle @click="collapseHandler" />
       <el-button type="primary" icon="el-icon-search" @click="searchHandler">查询</el-button>
       <el-button type="primary" plain @click="resetHandler">重置</el-button>
     </el-form-item>
@@ -47,13 +48,21 @@ export default {
           ...item.searchConfig
         }
       }
+    }).filter(item => !item.searchConfig.hidden).map((item, index) => {
+      if ((index + 1) < 5) {
+        item.searchConfig.isShow = true
+      } else {
+        item.searchConfig.isShow = false
+      }
+      return item
     })
     return {
       form: [...formItems].map(item => item.name).reduce((obj, cur, index) => {
         obj[cur] = ''
         return obj
       }, {}),
-      formItems
+      formItems,
+      collapse: true
     }
   },
   methods: {
@@ -67,6 +76,24 @@ export default {
     resetHandler() {
       this.$refs.form.resetFields()
       this.search(this.form)
+    },
+    collapseHandler() {
+      if (this.collapse) {
+        this.formItems.map(item => {
+          item.searchConfig.isShow = true
+          return item
+        })
+      } else {
+        this.formItems.map((item, index) => {
+          if ((index + 1) < 5) {
+            item.searchConfig.isShow = true
+          } else {
+            item.searchConfig.isShow = false
+          }
+          return item
+        })
+      }
+      this.collapse = !this.collapse
     }
   }
 }
