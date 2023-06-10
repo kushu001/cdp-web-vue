@@ -58,7 +58,17 @@ export default {
             searchConfig: {
               hidden: true
             },
-            label: '角色'
+            label: '角色',
+            render: (record, value) => {
+              return <div>
+                {value.split(',').map((item, index) => {
+                  return <el-tag type={['success', 'info', 'warning', 'danger'][index % 4]} style='margin: 3px 3px'>
+                    {item}
+                  </el-tag>
+                }
+                )}
+              </div>
+            }
           },
           {
             name: 'enabled',
@@ -70,6 +80,9 @@ export default {
             },
             searchConfig: {
               type: 'select'
+            },
+            render: ({ enabled }) => {
+              return enabled ? <el-tag type='success' effect='dark'>启用</el-tag> : <el-tag type='info' effect='dark'>禁用</el-tag>
             },
             data: [
               { key: false, value: '禁用', type: 'info' },

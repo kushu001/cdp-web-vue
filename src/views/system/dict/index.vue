@@ -118,6 +118,14 @@ export default {
             formConfig: {
               type: 'select'
             },
+            render: ({ status }) => {
+              switch (status) {
+                case 1: return <el-tag type='success' effect='dark'>新建</el-tag>
+                case 2: return <el-tag type='info' effect='dark'>进行中</el-tag>
+                case 3: return <el-tag type='warning' effect='dark'>通过</el-tag>
+                case 4: return <el-tag type='danger' effect='dark'>拒绝</el-tag>
+              }
+            },
             data: [
               { key: 1, value: '新建', type: 'success' },
               { key: 2, value: '进行中', type: 'info' },

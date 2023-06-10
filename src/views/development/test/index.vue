@@ -1,66 +1,36 @@
 <template>
-  <div style="width:40%">
-    <cdp-select-icon />
-    <el-tree
-      ref="tree"
-      :data="data"
-      show-checkbox
-      default-expand-all
-      node-key="id"
-      highlight-current
-      :default-checked-keys="bindIds"
-      :props="defaultProps"
-    />
+  <div>
+    <div v-for="(row, index) in tableData" :key="index">
+      <sub-component-c v-for="(column, index2) in columns" :key="index2" :render="column.render" :item="row" :value="row[column.key]" />
+    </div>
   </div>
 </template>
 <script>
-import CdpSelectIcon from '@/components/cdp-ui/CdpSelectIcon'
+import SubComponentC from './components/SubComponentC'
 export default {
   components: {
-    CdpSelectIcon
+    SubComponentC
   },
   data() {
     return {
-      data: [{
-        id: 1,
-        label: '一级 1',
-        children: [{
-          id: 4,
-          label: '二级 1-1',
-          children: [{
-            id: 9,
-            label: '三级 1-1-1'
-          }, {
-            id: 10,
-            label: '三级 1-1-2'
-          }]
-        }]
-      }, {
-        id: 2,
-        label: '一级 2',
-        children: [{
-          id: 5,
-          label: '二级 2-1'
-        }, {
-          id: 6,
-          label: '二级 2-2'
-        }]
-      }, {
-        id: 3,
-        label: '一级 3',
-        children: [{
-          id: 7,
-          label: '二级 3-1'
-        }, {
-          id: 8,
-          label: '二级 3-2'
-        }]
-      }],
-      bindIds: [9]
+      tableData: [
+        { name: '张三' },
+        { name: '李四' }
+      ],
+      columns: [
+        {
+          title: '姓名',
+          key: 'name',
+          render: (row) => {
+            if (row.name === '张三') {
+              return (<div style='color:red'>{ row.name} </div>)
+            } else {
+              return (<div style='color:blue'>{ row.name }</div>)
+            }
+          }
+        }
+      ]
     }
-  },
-  created() {
-  },
-  methods: {}
+  }
 }
 </script>

@@ -6,26 +6,7 @@
       <template v-for="column in columns">
         <el-table-column v-if="!column.hidden" :key="column.name" :align="column.align" :prop="column.name" :label="column.label" :width="column.width">>
           <template slot-scope="scope">
-            <span v-if="column.type=='select'">
-              <span v-if="!column.formConfig.multiple">
-                <el-tag size="medium" :type="column.data.find(item=>item.key==scope.row[column.name]).type" effect="plain">
-                  {{ column.data.find(item=>item.key==scope.row[column.name]).value }}
-                </el-tag>
-              </span>
-              <span v-else-if="scope.row[column.name] != null && scope.row[column.name] != ''">
-                <el-tag v-for="(item, index) in scope.row[column.name].split(',')" :key="index" :type="['success','info','warning','danger'][index % 4]" style="margin: 3px 3px">
-                  {{ item }}
-                </el-tag>
-              </span>
-              <span v-else>
-                {{ scope.row[column.name] }}
-              </span>
-            </span>
-            <span v-else-if="column.type=='switch'">
-              <el-tag v-if="scope.row[column.name]" :type="column.data.find(item=>item.key).type" effect="dark">{{ column.data.find(item=>item.key).value }}</el-tag>
-              <el-tag v-else-if="!scope.row[column.name]" :type="column.data.find(item=>!item.key).type" effect="dark">{{ column.data.find(item=>!item.key).value }}</el-tag>
-            </span>
-            <span v-else>{{ scope.row[column.name] }}</span>
+            <cdp-table-column-item :render="column.render" :record="scope.row" :value="scope.row[column.name]" />
           </template>
         </el-table-column>
       </template>
@@ -53,11 +34,13 @@
 </template>
 <script>
 import CdpTableOperation from '@/components/cdp-ui/cdp-template/cdp-table/CdpTableRegion/CdpTableOperation'
+import CdpTableColumnItem from './components/CdpTableColumnItem'
 import { buildTree } from '@/utils/tools'
 import { fetchList } from '@/api/api'
 export default {
   components: {
-    CdpTableOperation
+    CdpTableOperation,
+    CdpTableColumnItem
   },
   props: {
     isOperationHidden: {
