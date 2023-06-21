@@ -1,7 +1,7 @@
 <template>
   <span>
     <span v-for="(item, index) in components" :key="`rating_${index}`" style="margin-right: 5px">
-      <component :is="item['component']" :row="scope.row" :refresh-table="refreshTable" :columns="columns" :title="title" :url="url" :permission="item['permissions']" v-on="$listeners" />
+      <component :is="item['component']" :row="scope.row" :refresh-table="refreshTable" :columns="columns" :title="title" :url="url" :permission="item['permission']" v-on="$listeners" />
     </span>
     <el-dropdown v-if="moreComponents.length>0" size="small" :hide-on-click="false" trigger="click">
       <el-button type="text" size="small">
@@ -9,18 +9,23 @@
       </el-button>
       <el-dropdown-menu>
         <el-dropdown-item v-for="(item, index) in moreComponents" :key="`extra_${index}`">
-          <component :is="item['component']" :row="scope.row" :refresh-table="refreshTable" :columns="columns" :title="title" :url="url" v-on="$listeners" />
+          <component :is="item['component']" :row="scope.row" :refresh-table="refreshTable" :columns="columns" :title="title" :url="url" :permission="item['permission']" v-on="$listeners" />
         </el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
   </span>
 </template>
 <script>
-import { checkPermission } from '@/utils/tools'
+import permission from '@/directive/permission/index.js' // 权限判断指令
 
 export default {
+  directives: { permission },
   props: {
     scope: {
+      type: Object,
+      default: () => ({})
+    },
+    permissions: {
       type: Object,
       default: () => ({})
     },
@@ -54,15 +59,22 @@ export default {
     }
   },
   data() {
-    let components = []
+    const components = []
     const buttons = [
-      { name: 'ViewButton', isDefault: true },
-      { name: 'EditButton', isDefault: true },
-      { name: 'DeleteButton', isDefault: true },
-      { name: 'ConfirmButton', isDefault: false }
+      { name: 'ViewButton', path: 'cdp-ui/cdp-template/cdp-table/CdpTableRegion/components/', isDefault: true, permission: [] },
+      { name: 'EditButton', path: 'cdp-ui/cdp-template/cdp-table/CdpTableRegion/components/', isDefault: true, permission: [] },
+      { name: 'DeleteButton', path: 'cdp-ui/cdp-template/cdp-table/CdpTableRegion/components/', isDefault: true, permission: [] },
+      { name: 'ConfirmButton', path: 'cdp-ui/cdp-template/cdp-table/CdpTableRegion/components/', isDefault: false, permission: [] }
     ]
 
     let defaultButtons = buttons.filter(item => item.isDefault)
+
+    // defaultButtons.map(item => item.permission = this.permissions[item.name])
+
+    if (this.permissions && Object.keys(this.permissions).length > 0) {
+      defaultButtons.map(item => { item.permission = this.permissions[item.name] })
+      this.extra.map(item => { item.permission = this.permissions[item.name] })
+    }
 
     if (this.default.length > 0) {
       defaultButtons = buttons.filter(item => this.default.includes(item.name))
@@ -77,28 +89,19 @@ export default {
     }
 
     defaultButtons.forEach(function(item) {
-      const component = (resolve) => require([`@/components/cdp-ui/cdp-template/cdp-table/CdpTableRegion/components/${item.name}`], resolve)
+      const component = (resolve) => require([`@/components/${item.path}${item.name}`], resolve)
       const obj = {}
       obj['component'] = component
-      obj['permissions'] = item.permissions
+      obj['permission'] = item.permission
       components.push(obj)
     })
 
     this.extra.forEach(function(item) {
-      const extraButton = (resolve) => require([`@/views${item.path}/${item.name}`], resolve)
+      const extraButton = (resolve) => require([`@/views/${item.path}/components/${item.name}`], resolve)
       const obj = {}
       obj['component'] = extraButton
-      obj['permissions'] = item.permissions
+      obj['permission'] = item.permission
       components.push(obj)
-    })
-
-    // 过滤掉没有权限的按钮组件
-    components = components.filter(item => {
-      if (!item.permissions || item.permissions.length === 0) {
-        return true
-      } else {
-        return checkPermission(item.permissions)
-      }
     })
 
     let moreComponents = []

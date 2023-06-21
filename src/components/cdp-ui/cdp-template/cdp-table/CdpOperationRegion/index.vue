@@ -58,10 +58,6 @@ export default {
     searchForm: {
       type: Object,
       default: () => ({})
-    },
-    permissions: {
-      type: Object,
-      default: () => ({})
     }
   },
   data() {
@@ -93,10 +89,6 @@ export default {
     }
 
     let defaultButtons = buttons
-
-    if (this.permissions && Object.keys(this.permissions).length > 0) {
-      defaultButtons.map(item => { item.permission = this.permissions[item.name] })
-    }
 
     if (hOpn.default.length > 0) {
       defaultButtons = buttons.filter(item => this.hOpn.default.includes(item.name))

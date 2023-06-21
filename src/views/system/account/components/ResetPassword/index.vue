@@ -1,11 +1,9 @@
 <template>
-  <el-button v-permission="permission" type="text" size="small" @click="resetPassword">重置密码</el-button>
+  <el-button type="text" size="small" @click="resetPassword">重置密码</el-button>
 </template>
 <script>
 import { update } from '@/api/api'
-import permission from '@/directive/permission/index.js' // 权限判断指令
 export default {
-  directives: { permission },
   props: {
     row: {
       type: Object,

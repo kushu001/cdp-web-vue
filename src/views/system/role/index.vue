@@ -17,7 +17,7 @@ export default {
         url: '/api/v1/role',
         rOpn: {
           extra: [
-            { name: 'Authorization', path: 'system/role' }
+            { name: 'Authorization', path: '/system/role/components' }
           ]
         },
         columns: [

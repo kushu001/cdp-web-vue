@@ -17,10 +17,9 @@ export default {
         url: '/api/v1/account',
         rOpn: {
           extra: [
-            { name: 'ResetPassword', path: 'system/account' }
+            { name: 'ResetPassword', path: '/system/account/components', permissions: ['system:account:resetPassword'] }
           ]
         },
-        permissions: { 'AddButton': ['system:account:add'], 'EditButton': ['system:account:edit'], 'ViewButton': ['system:account:view'], 'DeleteButton': ['system:account:delete'], 'ResetPassword': ['system:account:resetPassword'] },
         columns: [
           {
             name: 'username',

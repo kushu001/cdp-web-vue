@@ -20,7 +20,6 @@
             :columns="columns"
             :url="innerUrl"
             :title="title"
-            :permissions="permissions"
             :refresh-table="searchHandler"
             v-on="$listeners"
           />
@@ -76,10 +75,6 @@ export default {
       default: () => ([])
     },
     rOpn: {
-      type: Object,
-      default: () => ({})
-    },
-    permissions: {
       type: Object,
       default: () => ({})
     },

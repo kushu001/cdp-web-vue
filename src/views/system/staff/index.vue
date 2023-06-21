@@ -45,7 +45,7 @@ export default {
         },
         rOpn: {
           extra: [
-            { name: 'Audit', path: 'system/staff' }
+            { name: 'Audit', path: '/system/staff/components' }
           ]
         },
         columns: [

@@ -1,4 +1,5 @@
 import Layout from '@/layout'
+import store from '@/store'
 
 export function buildTree({ data, id = 'id', pid = 'pid', children = 'children' }) {
   // * 先生成parent建立父子关系
@@ -97,5 +98,23 @@ export function generaMenu(routes, data) {
     }
     routes.push(menu)
   })
+}
+
+export function checkPermission(binding) {
+  const roles = store.getters && store.getters.roles
+
+  if (binding && binding instanceof Array) {
+    if (binding.length > 0) {
+      const permissionRoles = binding
+
+      const hasPermission = roles.some(role => {
+        return permissionRoles.includes(role)
+      })
+
+      return !!hasPermission
+    }
+  } else {
+    throw new Error(`need roles!`)
+  }
 }
 

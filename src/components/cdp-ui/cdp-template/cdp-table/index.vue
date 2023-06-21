@@ -3,7 +3,6 @@
     <cdp-search-region v-if="layout.includes('search')" ref="searchRegion" v-model="searchForm" :conditions="columns" :search="searchHandler" />
     <cdp-operation-region
       v-if="layout.includes('operation')"
-      :permissions="permissions"
       :columns="columns"
       :select-ids="selectIds"
       :search-form="searchForm"
@@ -24,7 +23,6 @@
       :title="tableConfig.title"
       :url="tableConfig.url"
       :r-opn="tableConfig.rOpn"
-      :permissions="permissions"
       :pagination="tableConfig.pagination"
       :is-operation-hidden="tableConfig.isOperationHidden"
       :parent="tableConfig.parent"
@@ -94,7 +92,6 @@ export default {
       innerUrl,
       selectIds: [],
       layout: !this.tableConfig.layout ? layout : this.tableConfig.layout,
-      permissions: !this.tableConfig.permissions ? null : this.tableConfig.permissions,
       searchForm: {},
       columns
     }
