@@ -44,7 +44,10 @@ export default {
           viewUrl: ''
         },
         rOpn: {
-          extra: [
+          default: [
+            { name: 'ViewButton', permissions: ['system:role:view'] },
+            { name: 'EditButton', permissions: ['system:role:edit'] },
+            { name: 'DeleteButton', permissions: ['system:role:delete'] },
             { name: 'Audit', path: '/system/staff/components' }
           ]
         },

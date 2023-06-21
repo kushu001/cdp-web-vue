@@ -62,35 +62,30 @@ export default {
       { name: 'ConfirmButton', isDefault: false }
     ]
 
-    let defaultButtons = buttons.filter(item => item.isDefault)
+    const defaultButtons = buttons.filter(item => item.isDefault)
 
     if (this.default.length > 0) {
-      defaultButtons = buttons.filter(item => this.default.includes(item.name))
+      this.default.forEach(function(item) {
+        let component
+        if (!item.path) {
+          component = (resolve) => require([`@/components/cdp-ui/cdp-template/cdp-table/CdpTableRegion/components/${item.name}`], resolve)
+        } else {
+          component = (resolve) => require([`@/views${item.path}/${item.name}`], resolve)
+        }
+        const obj = {}
+        obj['component'] = component
+        obj['permissions'] = item.permissions
+        components.push(obj)
+      })
+    } else {
+      defaultButtons.forEach(function(item) {
+        const component = (resolve) => require([`@/components/cdp-ui/cdp-template/cdp-table/CdpTableRegion/components/${item.name}`], resolve)
+        const obj = {}
+        obj['component'] = component
+        obj['permissions'] = item.permissions
+        components.push(obj)
+      })
     }
-
-    if (!this.default || this.default.length <= 0) {
-      defaultButtons = []
-    }
-
-    if (this.excludes.length > 0) {
-      defaultButtons = defaultButtons.filter(item => !this.excludes.includes(item.name))
-    }
-
-    defaultButtons.forEach(function(item) {
-      const component = (resolve) => require([`@/components/cdp-ui/cdp-template/cdp-table/CdpTableRegion/components/${item.name}`], resolve)
-      const obj = {}
-      obj['component'] = component
-      obj['permissions'] = item.permissions
-      components.push(obj)
-    })
-
-    this.extra.forEach(function(item) {
-      const extraButton = (resolve) => require([`@/views${item.path}/${item.name}`], resolve)
-      const obj = {}
-      obj['component'] = extraButton
-      obj['permissions'] = item.permissions
-      components.push(obj)
-    })
 
     // 过滤掉没有权限的按钮组件
     components = components.filter(item => {

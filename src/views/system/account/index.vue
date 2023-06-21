@@ -16,7 +16,10 @@ export default {
         title: '账户',
         url: '/api/v1/account',
         rOpn: {
-          extra: [
+          default: [
+            { name: 'ViewButton', permissions: ['system:account:view'] },
+            { name: 'EditButton', permissions: ['system:account:edit'] },
+            { name: 'DeleteButton', permissions: ['system:account:delete'] },
             { name: 'ResetPassword', path: '/system/account/components', permissions: ['system:account:resetPassword'] }
           ]
         },

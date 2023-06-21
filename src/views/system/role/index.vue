@@ -16,7 +16,10 @@ export default {
         title: '角色',
         url: '/api/v1/role',
         rOpn: {
-          extra: [
+          default: [
+            { name: 'ViewButton', permissions: ['system:role:view'] },
+            { name: 'EditButton', permissions: ['system:role:edit'] },
+            { name: 'DeleteButton', permissions: ['system:role:delete'] },
             { name: 'Authorization', path: '/system/role/components' }
           ]
         },
