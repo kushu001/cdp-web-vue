@@ -10,7 +10,6 @@
       :select-ids="selectIds"
       :search-form="searchForm"
       :refresh-table="search"
-      :permission="item['permission']"
       v-on="$listeners"
     />
     <el-dropdown v-if="moreComponents.length>0">
@@ -19,17 +18,15 @@
       </el-button>
       <el-dropdown-menu slot="dropdown">
         <el-dropdown-item v-for="(item, index) in moreComponents" :key="`extra_${index}`">
-          <component :is="item['component']" :columns="columns" :url="url" :title="title" :select-ids="selectIds" :search-form="searchForm" :refresh-table="search" :permission="item['permission']" v-on="$listeners" />
+          <component :is="item['component']" :columns="columns" :url="url" :title="title" :select-ids="selectIds" :search-form="searchForm" :refresh-table="search" v-on="$listeners" />
         </el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
   </div>
 </template>
 <script>
-import permission from '@/directive/permission/index.js' // 权限判断指令
-
+import { checkPermission } from '@/utils/tools'
 export default {
-  directives: { permission },
   props: {
     search: {
       type: Function,
@@ -68,56 +65,46 @@ export default {
       ...this.hOpn
     }
 
-    const components = []
+    let components = []
     const buttons = [
-      { name: 'AddButton', path: 'cdp-ui/cdp-template/cdp-table/CdpOperationRegion/components/', permission: ['system:account:add'] },
-      { name: 'BatchDeleteButton', path: 'cdp-ui/cdp-template/cdp-table/CdpOperationRegion/components/', permission: ['system:account:delete'] },
-      { name: 'ImportButton', path: 'cdp-ui/cdp-template/cdp-table/CdpOperationRegion/components/', permission: [] },
-      { name: 'ExportButton', path: 'cdp-ui/cdp-template/cdp-table/CdpOperationRegion/components/', permission: [] }
+      { name: 'AddButton', isDefault: true },
+      { name: 'BatchDeleteButton', isDefault: true },
+      { name: 'ImportButton', isDefault: true },
+      { name: 'ExportButton', isDefault: true }
     ]
 
-    if (this.hOpn.replace) {
-      // 如果replace存在，则需要替换buttons中的内容
-      buttons.map(item => {
-        const it = this.hOpn.replace.find(rep => item.name === rep.name)
-        if (it) {
-          item.path = it.path
-          item.replace = true
+    const defaultButtons = buttons.filter(item => item.isDefault)
+    if (hOpn.default.length > 0) {
+      hOpn.default.forEach(function(item) {
+        let component
+        if (!item.path) {
+          component = (resolve) => require([`@/components/cdp-ui/cdp-template/cdp-table/CdpOperationRegion/components/${item.name}`], resolve)
+        } else {
+          component = (resolve) => require([`@/views${item.path}/${item.name}`], resolve)
         }
-        return item
+        const obj = {}
+        obj['component'] = component
+        obj['permissions'] = item.permissions
+        components.push(obj)
+      })
+    } else {
+      defaultButtons.forEach(function(item) {
+        const component = (resolve) => require([`@/components/cdp-ui/cdp-template/cdp-table/CdpOperationRegion/components/${item.name}`], resolve)
+        const obj = {}
+        obj['component'] = component
+        obj['permissions'] = item.permissions
+        components.push(obj)
       })
     }
 
-    let defaultButtons = buttons
-
-    if (hOpn.default.length > 0) {
-      defaultButtons = buttons.filter(item => this.hOpn.default.includes(item.name))
-    }
-
-    if (!hOpn.default || hOpn.default.length <= 0) {
-      defaultButtons = []
-    }
-
-    if (hOpn.excludes.length > 0) {
-      defaultButtons = buttons.filter(item => !hOpn.excludes.includes(item.name))
-    }
-
-    defaultButtons.forEach(function(item) {
-      const component = !item.replace ? (resolve) => require([`@/components/${item.path}${item.name}`], resolve) : (resolve) => require([`@/views/${item.path}/components/${item.name}`], resolve)
-      const obj = {}
-      obj['component'] = component
-      obj['permission'] = item.permission
-      components.push(obj)
+    // 过滤掉没有权限的按钮组件
+    components = components.filter(item => {
+      if (!item.permissions || item.permissions.length === 0) {
+        return true
+      } else {
+        return checkPermission(item.permissions)
+      }
     })
-
-    hOpn.extra.forEach(function(item) {
-      const extraButton = (resolve) => require([`@/views/${item.path}/components/${item.name}`], resolve)
-      const obj = {}
-      obj['component'] = extraButton
-      obj['permission'] = item.permission
-      components.push(obj)
-    })
-
     const moreComponents = []
     // if (components.length > 5) {
     //   moreComponents = components.splice(4, components.length)

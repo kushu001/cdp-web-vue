@@ -15,6 +15,14 @@ export default {
       tableConfig: {
         title: '账户',
         url: '/api/v1/account',
+        hOpn: {
+          default: [
+            { name: 'AddButton', permissions: ['system:account:add'] },
+            { name: 'BatchDeleteButton' },
+            { name: 'ImportButton' },
+            { name: 'ExportButton' }
+          ]
+        },
         rOpn: {
           default: [
             { name: 'ViewButton', permissions: ['system:account:view'] },
