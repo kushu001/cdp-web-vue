@@ -37,7 +37,7 @@ export default {
           },
           {
             name: 'create_time',
-            label: '创建日期',
+            label: '创建时间',
             formConfig: {
               hidden: true
             },
