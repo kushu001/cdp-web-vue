@@ -47,7 +47,7 @@ export default {
           default: false
         },
         rOpn: {
-          default: ['ConfirmButton']
+          default: [{ name: 'ConfirmButton' }]
         },
         url: this.url,
         columns: this.columns

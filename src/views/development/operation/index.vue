@@ -61,8 +61,8 @@ export default {
               }
             },
             data: [
-              { key: 1, value: '系统级', type: 'success' },
-              { key: 2, value: '页面级', type: 'info' }
+              { key: '1', value: '系统级', type: 'success' },
+              { key: '2', value: '页面级', type: 'info' }
             ]
           },
           {
