@@ -60,10 +60,7 @@ export default {
             formConfig: {
               name: 'role_ids',
               type: 'select',
-              key: 'id',
-              value: 'name',
               multiple: true,
-              url: '/api/v1/role/all',
               rules: [{ required: true, message: '角色不能为空', trigger: 'blur' }]
             },
             searchConfig: {
