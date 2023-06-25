@@ -13,9 +13,9 @@
           {{ item.label }}
         </template>
         <span v-if="item.type=='select'">
-          <span v-if="!item.formConfig.multiple && item.data.find(it=>it.key==form[item.name]) ">
-            <el-tag v-if="form[item.name] != null || form[item.name] != ''" :type="item.data.find(it=>it.key==form[item.name]).type" effect="plain">
-              {{ item.data.find(it=>it.key==form[item.name]).value }}
+          <span v-if="!item.formConfig.multiple && item.data().find(it=>it.key==form[item.name]) ">
+            <el-tag v-if="form[item.name] != null || form[item.name] != ''" :type="item.data().find(it=>it.key==form[item.name]).type" effect="plain">
+              {{ item.data().find(it=>it.key==form[item.name]).value }}
             </el-tag>
           </span>
           <span v-else-if="form[item.name] != null && form[item.name] != ''">
@@ -28,8 +28,8 @@
           </span>
         </span>
         <span v-else-if="item.type=='switch'">
-          <el-tag v-if="form[item.name]" :type="item.data.find(item=>item.key).type">{{ item.data.find(item=>item.key).value }}</el-tag>
-          <el-tag v-else-if="!form[item.name]" :type="item.data.find(item=>!item.key).type">{{ item.data.find(item=>!item.key).value }}</el-tag>
+          <el-tag v-if="form[item.name]" :type="item.data().find(item=>item.key).type">{{ item.data().find(item=>item.key).value }}</el-tag>
+          <el-tag v-else-if="!form[item.name]" :type="item.data().find(item=>!item.key).type">{{ item.data().find(item=>!item.key).value }}</el-tag>
         </span>
         <span v-else>{{ form[item.name] }}</span>
       </el-descriptions-item>

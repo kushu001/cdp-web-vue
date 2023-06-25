@@ -55,7 +55,7 @@ export default {
             render: ({ enabled }) => {
               return enabled ? <el-tag type='success' effect='dark'>启用</el-tag> : <el-tag type='info' effect='dark'>禁用</el-tag>
             },
-            data: [
+            data: () => [
               { key: false, value: '禁用', type: 'info' },
               { key: true, value: '启用', type: 'success' }
             ]

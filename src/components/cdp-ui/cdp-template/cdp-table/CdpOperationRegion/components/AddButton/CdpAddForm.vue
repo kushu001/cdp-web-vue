@@ -8,7 +8,7 @@
               <el-input v-if="item.formConfig.type=='input'" v-model="form[item.formConfig.name]" style="width:100%" :name="item.formConfig.name" :placeholder="`请输入${item.label}`" />
               <el-input-number v-if="item.formConfig.type=='number'" v-model="form[item.formConfig.name]" style="width:100%" :name="item.formConfig.name" :placeholder="`请输入${item.label}`" />
               <el-select v-if="item.formConfig.type=='select'" v-model="form[item.formConfig.name]" style="width:100%" :multiple="item.formConfig.multiple" :filterable="item.formConfig.filterable" :placeholder="`请选择${item.label}`">
-                <el-option v-for="it in item.data" :key="it.key" :label="it.value" :value="it.key" />
+                <el-option v-for="it in item.result" :key="it.key" :label="it.value" :value="it.key" />
               </el-select>
               <el-switch v-if="item.formConfig.type=='switch'" v-model="form[item.formConfig.name]" style="width:100%" :name="item.formConfig.name" />
               <el-date-picker v-if="item.formConfig.type=='date'" v-model="form[item.formConfig.name]" type="date" />
@@ -22,7 +22,7 @@
               <el-input v-if="item.formConfig.type=='input'" v-model="form[item.formConfig.name]" style="width:100%" :name="item.formConfig.name" :placeholder="`请输入${item.label}`" />
               <el-input-number v-if="item.formConfig.type=='number'" v-model="form[item.formConfig.name]" style="width:100%" :name="item.formConfig.name" :placeholder="`请输入${item.label}`" />
               <el-select v-if="item.formConfig.type=='select'" v-model="form[item.formConfig.name]" style="width:100%" :multiple="item.formConfig.multiple" :filterable="item.formConfig.filterable" :placeholder="`请选择${item.label}`">
-                <el-option v-for="it in item.data" :key="it.key" :label="it.value" :value="it.key" />
+                <el-option v-for="it in item.result" :key="it.key" :label="it.value" :value="it.key" />
               </el-select>
               <el-switch v-if="item.formConfig.type=='switch'" v-model="form[item.formConfig.name]" style="width:100%" :name="item.formConfig.name" />
               <el-date-picker v-if="item.formConfig.type=='date'" v-model="form[item.formConfig.name]" type="date" />
@@ -55,7 +55,6 @@
 <script>
 import CdpSelectTable from '@/components/cdp-ui/CdpSelectTable'
 import CdpUserSelectTable from '@/views/components/cdp-user-select-table'
-import { fetchList } from '@/api/api'
 
 export default {
   components: {
@@ -89,7 +88,11 @@ export default {
       rules: {}
     }
   },
+  mounted() {
+    console.log('mounted')
+  },
   created() {
+    console.log('created')
     const rules = {}
     for (let i = 0; i < this.columns.length; i++) {
       if (this.columns[i].formConfig.rules.length > 0) {
@@ -99,18 +102,13 @@ export default {
     this.rules = rules
   },
   methods: {
-    openHandler() {
+    async openHandler() {
       for (let i = 0; i < this.columns.length; i++) {
-        if (this.columns[i].formConfig && this.columns[i].formConfig.url && this.columns[i].formConfig.type !== 'select-table') {
-          fetchList({}, this.columns[i].formConfig.url).then(({ data }) => {
-            this.columns[i].data = data.data.map(item => ({
-              key: item[this.columns[i].formConfig.key],
-              value: item[this.columns[i].formConfig.value]
-            }))
-            this.$forceUpdate() // 强制渲染
-          })
+        if (this.columns[i].formConfig && this.columns[i].data) {
+          this.columns[i].result = await this.columns[i].data()
         }
       }
+      this.$forceUpdate()
     },
     closeHandler() {
       this.$emit('update:visible', !this.visible)

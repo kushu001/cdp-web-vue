@@ -105,9 +105,9 @@ export default {
             render: ({ status }) => {
               return status ? <el-tag type='success' effect='dark'>通过</el-tag> : <el-tag type='info' effect='dark'>新建</el-tag>
             },
-            data: [
-              { key: 0, value: '新建', type: 'success' },
-              { key: 1, value: '通过', type: 'info' }
+            data: () => [
+              { key: 0, value: '新建', type: 'info' },
+              { key: 1, value: '通过', type: 'success' }
             ]
           },
           {

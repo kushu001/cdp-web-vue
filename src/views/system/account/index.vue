@@ -5,6 +5,7 @@
 </template>
 <script>
 import CdpTable from '@/components/cdp-ui/cdp-template/cdp-table'
+import { fetchList } from '@/api/api'
 
 export default {
   components: {
@@ -78,6 +79,16 @@ export default {
                 }
                 )}
               </div>
+            },
+            data: async() => {
+              let result = []
+              const { data } = await fetchList({}, '/api/v1/role/all')
+              result = data.data.map(item => ({
+                key: item['id'],
+                value: item['name']
+              }))
+              console.log(result)
+              return result
             }
           },
           {
@@ -94,7 +105,7 @@ export default {
             render: ({ enabled }) => {
               return enabled ? <el-tag type='success' effect='dark'>启用</el-tag> : <el-tag type='info' effect='dark'>禁用</el-tag>
             },
-            data: [
+            data: () => [
               { key: false, value: '禁用', type: 'info' },
               { key: true, value: '启用', type: 'success' }
             ]
