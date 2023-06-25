@@ -2,7 +2,7 @@
   <div>
     <cdp-search-region v-if="layout.includes('search')" ref="searchRegion" v-model="searchForm" :conditions="columns" :search="searchHandler" />
     <cdp-operation-region
-      v-if="layout.includes('operation')"
+      v-if="!(tableConfig.hOpn && !tableConfig.hOpn.default)"
       :columns="columns"
       :select-ids="selectIds"
       :search-form="searchForm"
@@ -18,7 +18,7 @@
       v-slot:default="slotProps"
       v-model="selectIds"
       style="margin-top: 10px"
-      :selection="tableConfig.selection"
+      :selection="!(tableConfig.hOpn && !tableConfig.hOpn.default)"
       :columns="columns"
       :title="tableConfig.title"
       :url="tableConfig.url"
@@ -50,7 +50,6 @@ export default {
   },
   data() {
     const layout = ['search', 'operation', 'table']
-
     const columns = this.tableConfig.columns.map(item => {
       return {
         ...item,
