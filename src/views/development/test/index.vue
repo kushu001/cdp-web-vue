@@ -1,36 +1,13 @@
 <template>
-  <div>
-    <div v-for="(row, index) in tableData" :key="index">
-      <sub-component-c v-for="(column, index2) in columns" :key="index2" :render="column.render" :item="row" :value="row[column.key]" />
-    </div>
+  <div id="container">
+    hello
   </div>
 </template>
-<script>
-import SubComponentC from './components/SubComponentC'
-export default {
-  components: {
-    SubComponentC
-  },
-  data() {
-    return {
-      tableData: [
-        { name: '张三' },
-        { name: '李四' }
-      ],
-      columns: [
-        {
-          title: '姓名',
-          key: 'name',
-          render: (row) => {
-            if (row.name === '张三') {
-              return (<div style='color:red'>{ row.name} </div>)
-            } else {
-              return (<div style='color:blue'>{ row.name }</div>)
-            }
-          }
-        }
-      ]
-    }
+<style lang="scss">
+  #container {
+    height: 100%;
+    width: 100px;
+    background-color: red;
   }
-}
-</script>
+</style>
+
