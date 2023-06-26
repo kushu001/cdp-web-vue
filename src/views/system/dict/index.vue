@@ -113,7 +113,7 @@ export default {
             label: '状态',
             align: 'center',
             searchConfig: {
-              hidden: true
+              type: 'select'
             },
             formConfig: {
               type: 'select'
@@ -126,7 +126,7 @@ export default {
                 case 4: return <el-tag type='danger' effect='dark'>拒绝</el-tag>
               }
             },
-            data: [
+            data: () => [
               { key: 1, value: '新建', type: 'success' },
               { key: 2, value: '进行中', type: 'info' },
               { key: 3, value: '通过', type: 'warning' },
