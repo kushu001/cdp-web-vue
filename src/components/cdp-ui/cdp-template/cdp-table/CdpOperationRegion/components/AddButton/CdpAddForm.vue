@@ -88,11 +88,7 @@ export default {
       rules: {}
     }
   },
-  mounted() {
-    console.log('mounted')
-  },
   created() {
-    console.log('created')
     const rules = {}
     for (let i = 0; i < this.columns.length; i++) {
       if (this.columns[i].formConfig.rules.length > 0) {

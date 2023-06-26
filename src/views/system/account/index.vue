@@ -64,7 +64,8 @@ export default {
               rules: [{ required: true, message: '角色不能为空', trigger: 'blur' }]
             },
             searchConfig: {
-              hidden: true
+              type: 'select',
+              multiple: true
             },
             label: '角色',
             render: (record, value) => {
@@ -84,7 +85,7 @@ export default {
                 key: item['id'],
                 value: item['name']
               }))
-              console.log(result)
+              // console.log(result)
               return result
             }
           },

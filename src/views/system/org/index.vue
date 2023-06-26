@@ -41,6 +41,7 @@ export default {
         title: '部门',
         url: '/api/v1/org',
         pagination: false,
+        operations: ['add'],
         columns: [
           {
             name: 'name',
