@@ -70,6 +70,12 @@ export default {
       tableConfig: {
         title: '字典项',
         url: '',
+        hOpn: {
+          default: [
+            { name: 'AddButton' },
+            { name: 'BatchDeleteButton' }
+          ]
+        },
         columns: [
           {
             name: 'name',
