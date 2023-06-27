@@ -115,28 +115,21 @@ export default {
             }
           },
           {
-            name: 'status',
+            name: 'enabled',
             label: '状态',
             align: 'center',
             searchConfig: {
               type: 'select'
             },
             formConfig: {
-              type: 'select'
+              type: 'switch'
             },
-            render: ({ status }) => {
-              switch (status) {
-                case 1: return <el-tag type='success' effect='dark'>新建</el-tag>
-                case 2: return <el-tag type='info' effect='dark'>进行中</el-tag>
-                case 3: return <el-tag type='warning' effect='dark'>通过</el-tag>
-                case 4: return <el-tag type='danger' effect='dark'>拒绝</el-tag>
-              }
+            render: ({ enabled }) => {
+              return enabled ? <el-tag type='success' effect='dark'>启用</el-tag> : <el-tag type='info' effect='dark'>禁用</el-tag>
             },
             data: () => [
-              { key: 1, value: '新建', type: 'success' },
-              { key: 2, value: '进行中', type: 'info' },
-              { key: 3, value: '通过', type: 'warning' },
-              { key: 4, value: '拒绝', type: 'danger' }
+              { key: 0, value: '禁用', type: 'info' },
+              { key: 1, value: '启用', type: 'success' }
             ]
           },
           {
