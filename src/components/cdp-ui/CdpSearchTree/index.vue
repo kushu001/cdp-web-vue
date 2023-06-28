@@ -8,6 +8,7 @@
       ref="tree"
       :data="treeData"
       node-key="id"
+      :style="`height: ${tableHeight}px; overflow:auto`"
       :default-expanded-keys="expandedKeys"
       :default-checked-keys="defaultKeys"
       :show-checkbox="showCheckbox"
@@ -75,6 +76,7 @@ export default {
   },
   data() {
     return {
+      tableHeight: window.innerHeight - 200,
       filterText: '',
       treeData: [],
       highlightCurrent: false,
@@ -116,6 +118,12 @@ export default {
     this.expandedKeys = this.defaultExpandedKeys.length > 0 ? this.defaultExpandedKeys : this.defaultKeys
     // console.log("created.....",this.expandedKeys)
     this.queryList(this.url)
+  },
+  mounted() {
+    // 注：window.onresize只能在项目内触发1次
+    window.addEventListener('resize', () => {
+      this.tableHeight = window.innerHeight - 200
+    })
   },
   methods: {
     queryList(url) {

@@ -5,25 +5,28 @@
       <el-tabs tab-position="left">
         <el-tab-pane label="菜单权限" style="margin-right:10px">
           <cdp-search-tree :key="keys.menuKey" v-model="menus" placeholder="输入关键字进行过滤" :props="{label:'title'}" url="/api/v1/menu/type/0" :show-checkbox="true" />
-          <div class="footer">
+          <!-- <div class="footer">
             <el-row :gutter="20">
               <el-col :span="12" :offset="6"><el-button type="primary" @click="authorizedMenus">保存</el-button></el-col>
             </el-row>
-          </div>
+          </div> -->
         </el-tab-pane>
         <el-tab-pane label="功能权限">
           <cdp-search-tree :key="keys.operationKey" v-model="operations" placeholder="输入关键字进行过滤" :props="{label:'title'}" url="/api/v1/menu/type/1" :show-checkbox="true" />
-          <div class="footer">
+          <!-- <div class="footer">
             <el-row :gutter="20">
               <el-col :span="12" :offset="6"><el-button type="primary" @click="authorizedOperations">保存</el-button></el-col>
             </el-row>
-          </div>
+          </div> -->
         </el-tab-pane>
-        <!-- <el-tab-pane label="接口权限">
-          <cdp-table :table-config="resourceTableConfig" />
-        </el-tab-pane>
-        <el-tab-pane label="数据权限">数据权限</el-tab-pane> -->
+        <el-tab-pane label="接口权限">开发中...</el-tab-pane>
+        <el-tab-pane label="数据权限">开发中...</el-tab-pane>
       </el-tabs>
+      <div class="footer">
+        <el-row :gutter="20">
+          <el-col><el-button type="primary" @click="authorizedOperations">保存</el-button></el-col>
+        </el-row>
+      </div>
     </el-drawer>
   </span>
 </template>
