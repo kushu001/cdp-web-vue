@@ -18,6 +18,12 @@ export default {
         title: '部门',
         url: '/api/v1/org',
         pagination: false,
+        hOpn: {
+          default: [
+            { name: 'AddButton' },
+            { name: 'BatchDeleteButton' }
+          ]
+        },
         rOpn: {
           default: [
             { name: 'AddButton', path: '/system/org/components' },
