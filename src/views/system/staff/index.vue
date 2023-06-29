@@ -43,11 +43,17 @@ export default {
           deleteUrl: '',
           viewUrl: ''
         },
+        hOpn: {
+          default: [
+            { name: 'AddButton' },
+            { name: 'BatchDeleteButton' }
+          ]
+        },
         rOpn: {
           default: [
-            { name: 'ViewButton', permissions: ['system:role:view'] },
-            { name: 'EditButton', permissions: ['system:role:edit'] },
-            { name: 'DeleteButton', permissions: ['system:role:delete'] },
+            { name: 'ViewButton', permissions: ['system:user:view'] },
+            { name: 'EditButton', permissions: ['system:user:edit'] },
+            { name: 'DeleteButton', permissions: ['system:user:delete'] },
             { name: 'Audit', path: '/system/staff/components' }
           ]
         },
