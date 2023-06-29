@@ -1,6 +1,6 @@
 <template>
   <span>
-    <el-button type="text" style="margin-left:10px" size="small" @click="dialogFormHandler">新 增</el-button>
+    <el-button type="text" style="margin-left:10px" size="small" @click="dialogFormHandler">新增子级</el-button>
     <el-dialog title="新增子公司/部门" :visible.sync="dialogVisible" :append-to-body="true">
       <el-form ref="form" :inline="true" :model="form" :rules="rules" label-width="120px">
         <el-form-item label="公司/部门名称" prop="name">
