@@ -10,7 +10,7 @@
           </template>
         </el-table-column>
       </template>
-      <el-table-column fixed="right" align="center" label="操作" width="200">
+      <el-table-column v-if="!(!rOpn || !rOpn.default)" fixed="right" align="center" label="操作" width="200">
         <template slot-scope="scope">
           <cdp-table-operation
             :scope="scope"
