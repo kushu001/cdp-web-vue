@@ -43,6 +43,7 @@ export default {
   data() {
     return {
       tableConfig: {
+        selection: false,
         hOpn: {
           default: false
         },

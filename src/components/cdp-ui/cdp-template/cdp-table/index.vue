@@ -18,7 +18,7 @@
       v-slot:default="slotProps"
       v-model="selectIds"
       style="margin-top: 10px"
-      :selection="!(tableConfig.hOpn && !tableConfig.hOpn.default)"
+      :selection="tableConfig.selection"
       :columns="columns"
       :title="tableConfig.title"
       :url="tableConfig.url"
