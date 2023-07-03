@@ -24,8 +24,8 @@
       :url="tableConfig.url"
       :r-opn="tableConfig.rOpn"
       :pagination="tableConfig.pagination"
-      :is-operation-hidden="tableConfig.isOperationHidden"
       :parent="tableConfig.parent"
+      :flipping-memory="tableConfig.flippingMemory"
       v-on="$listeners"
     >
       <slot name="tableOperations" :row="slotProps.scope.row" />

@@ -1,6 +1,6 @@
 <template>
   <div style="margin:0 20px">
-    <el-table :data="tableData" border row-key="id" size="mini" @select="select" @select-all="selectAll">
+    <el-table ref="multipleTable" :data="tableData" border row-key="id" size="mini" @select="select" @select-all="selectAll">
       <el-table-column v-if="selection && pagination" type="selection" width="55" />
       <!-- <el-table-column type="index" :index="calIndex"></el-table-column> -->
       <template v-for="column in columns">
@@ -42,10 +42,6 @@ export default {
     CdpTableColumnItem
   },
   props: {
-    isOperationHidden: {
-      type: Boolean,
-      default: false
-    },
     value: {
       type: Array,
       default: () => ([])
@@ -89,6 +85,10 @@ export default {
         limit: 10,
         total: 0
       })
+    },
+    flippingMemory: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -103,8 +103,9 @@ export default {
         deleteUrl: '',
         exportUrl: ''
       },
-      ids: null,
-      created: false
+      ids: [],
+      created: false,
+      selectedAllMap: new Map()
     }
   },
   watch: {
@@ -118,7 +119,7 @@ export default {
   methods: {
     searchHandler(searchForm) {
       // 重新查询时，勾选列表的数据置空
-      this.ids = null
+      // this.ids = []
       if (!!this.url && this.url.constructor === Object) {
         this.innerUrl.queryUrl = this.url.queryUrl
         this.innerUrl.editUrl = this.url.editUrl
@@ -142,18 +143,49 @@ export default {
           if (this.pagination) {
             this.tableData = [...response.data.data.records]
             this.paginationConfig.total = response.data.data.total
+            if (this.flippingMemory) {
+              this.$nextTick(() => {
+                this.tableData.forEach(item => {
+                  if (this.ids.find(id => item.id === id) > 0) {
+                    this.$refs.multipleTable.toggleRowSelection(item)
+                  }
+                })
+              })
+            }
           } else {
             this.tableData = buildTree({ data: [...response.data.data] })
           }
         })
       }
     },
-    select(selection, row) {
-      this.ids = selection.map(item => item.id)
+    select(rows, row) {
+      if (this.flippingMemory) {
+        const selected = rows.length && rows.indexOf(row) !== -1
+        if (!selected) {
+          this.ids = this.ids.filter(id => id !== row.id)
+        } else {
+          this.ids.push(row.id)
+        }
+        this.ids = [...new Set(this.ids)]
+      } else {
+        this.ids = rows.map(item => item.id)
+      }
       this.$emit('input', this.ids)
     },
-    selectAll(selection) {
-      this.ids = selection.map(item => item.id)
+    selectAll(rows) {
+      if (this.flippingMemory) {
+        if (rows.length > 0) {
+          this.ids.push(...rows.map(item => item.id))
+          this.selectedAllMap.set(this.paginationConfig.page, rows.map(item => item.id))
+        } else {
+          const deletedIds = this.selectedAllMap.get(this.paginationConfig.page)
+          this.ids = this.ids.filter(item => !deletedIds.includes(item))
+          this.selectedAllMap.delete(this.paginationConfig.page)
+        }
+        this.ids = [...new Set(this.ids)]
+      } else {
+        this.ids = rows.map(item => item.id)
+      }
       this.$emit('input', this.ids)
     },
     sizeChangeHandler(pageSize) {
