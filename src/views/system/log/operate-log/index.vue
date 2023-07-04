@@ -13,7 +13,9 @@ export default {
       tableConfig: {
         url: '/api/v1/operate-log',
         selection: false,
-        isOperationHidden: true,
+        hOpn: {
+          default: false
+        },
         columns: [
           {
             name: 'user',

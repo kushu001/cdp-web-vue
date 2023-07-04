@@ -1,5 +1,5 @@
 <template>
-  <cdp-table :table-config="tableConfig" />
+  <cdp-table v-model="ids" :table-config="tableConfig" />
 </template>
 <script>
 import CdpTable from '@/components/cdp-ui/cdp-template/cdp-table'
@@ -10,10 +10,13 @@ export default {
   },
   data() {
     return {
+      ids: [76],
       tableConfig: {
         url: '/api/v1/login-log',
         selection: false,
-        isOperationHidden: true,
+        hOpn: {
+          default: false
+        },
         columns: [
           {
             name: 'user',
