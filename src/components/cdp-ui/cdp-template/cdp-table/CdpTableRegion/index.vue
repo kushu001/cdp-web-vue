@@ -109,10 +109,6 @@ export default {
     }
   },
   watch: {
-    value(val) {
-      this.ids = val
-      this.searchHandler(this.form)
-    },
     url(val) {
       this.searchHandler(this.form)
     }
@@ -146,15 +142,16 @@ export default {
           if (this.pagination) {
             this.tableData = [...response.data.data.records]
             this.paginationConfig.total = response.data.data.total
-            if (this.flippingMemory) {
-              this.$nextTick(() => {
-                this.tableData.forEach(item => {
-                  if (this.ids.find(id => item.id === id) > 0) {
-                    this.$refs.multipleTable.toggleRowSelection(item)
-                  }
-                })
+            this.$nextTick(() => {
+              this.tableData.forEach(item => {
+                if (this.ids.find(id => item.id === id) > 0) {
+                  this.$refs.multipleTable.toggleRowSelection(item)
+                }
               })
-            }
+              if (!this.flippingMemory) {
+                this.ids = []
+              }
+            })
           } else {
             this.tableData = buildTree({ data: [...response.data.data] })
           }

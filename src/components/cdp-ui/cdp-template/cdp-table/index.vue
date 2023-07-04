@@ -92,16 +92,13 @@ export default {
     }
     return {
       innerUrl,
-      selectIds: [],
+      selectIds: this.value,
       layout: !this.tableConfig.layout ? layout : this.tableConfig.layout,
       searchForm: {},
       columns
     }
   },
   watch: {
-    value(val) {
-      this.selectIds = !val ? [] : val
-    },
     selectIds(newVal, oldVal) {
       this.$emit('input', newVal)
     },
