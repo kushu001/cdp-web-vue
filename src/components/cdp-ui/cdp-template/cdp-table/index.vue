@@ -43,6 +43,10 @@ export default {
     CdpTableRegion
   },
   props: {
+    value: {
+      type: Array,
+      default: () => ([])
+    },
     tableConfig: {
       type: Object,
       default: () => ({})
@@ -86,7 +90,6 @@ export default {
       innerUrl.exportUrl = `${this.tableConfig.url}/export`
       innerUrl.viewUrl = this.tableConfig.url
     }
-
     return {
       innerUrl,
       selectIds: [],
@@ -96,6 +99,12 @@ export default {
     }
   },
   watch: {
+    value(val) {
+      this.selectIds = !val ? [] : val
+    },
+    selectIds(newVal, oldVal) {
+      this.$emit('input', newVal)
+    },
     tableConfig: {
       handler(newTableConfig, oldTableConfig) {
         if (!!newTableConfig.url && newTableConfig.url.constructor === Object) {

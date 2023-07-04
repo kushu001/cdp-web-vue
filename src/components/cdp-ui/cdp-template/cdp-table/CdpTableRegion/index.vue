@@ -103,12 +103,16 @@ export default {
         deleteUrl: '',
         exportUrl: ''
       },
-      ids: [],
+      ids: this.value,
       created: false,
       selectedAllMap: new Map()
     }
   },
   watch: {
+    value(val) {
+      this.ids = val
+      this.searchHandler(this.form)
+    },
     url(val) {
       this.searchHandler(this.form)
     }
@@ -119,7 +123,6 @@ export default {
   methods: {
     searchHandler(searchForm) {
       // 重新查询时，勾选列表的数据置空
-      // this.ids = []
       if (!!this.url && this.url.constructor === Object) {
         this.innerUrl.queryUrl = this.url.queryUrl
         this.innerUrl.editUrl = this.url.editUrl

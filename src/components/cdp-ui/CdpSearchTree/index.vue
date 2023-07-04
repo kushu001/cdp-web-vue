@@ -103,11 +103,9 @@ export default {
       this.defaultKeys = getAllLeaf({ data: defaultTreeDatas }).map(item => item.id)
       this.$refs.tree.setCheckedKeys(this.defaultKeys)
       this.expandedKeys = this.defaultKeys
-      console.log('watch.....', this.expandedKeys)
     },
     defaultExpandedKeys(val) {
       this.expandedKeys = val
-      // console.log(`watch2...:${this.expandedKeys}`)
     }
   },
   created() {
@@ -116,7 +114,6 @@ export default {
       ...this.props
     }
     this.expandedKeys = this.defaultExpandedKeys.length > 0 ? this.defaultExpandedKeys : this.defaultKeys
-    // console.log("created.....",this.expandedKeys)
     this.queryList(this.url)
   },
   mounted() {
