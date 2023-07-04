@@ -10,7 +10,7 @@
           </template>
         </el-table-column>
       </template>
-      <el-table-column v-if="!(!rOpn || !rOpn.default)" fixed="right" align="center" label="操作" width="200">
+      <el-table-column v-if="Object.keys(rOpn).length===0 || rOpn.default" fixed="right" align="center" label="操作" width="200">
         <template slot-scope="scope">
           <cdp-table-operation
             :scope="scope"
@@ -92,6 +92,7 @@ export default {
     }
   },
   data() {
+    console.log('tableregion', Object.keys(this.rOpn).length === 0 || this.rOpn.default)
     return {
       searchForm: {},
       tableData: [],

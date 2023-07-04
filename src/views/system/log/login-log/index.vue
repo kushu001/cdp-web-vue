@@ -17,6 +17,9 @@ export default {
         hOpn: {
           default: false
         },
+        rOpn: {
+          default: false
+        },
         columns: [
           {
             name: 'user',
