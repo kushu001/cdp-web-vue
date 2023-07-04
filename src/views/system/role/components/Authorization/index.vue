@@ -4,7 +4,7 @@
     <el-drawer title="授权" :visible.sync="drawer" :size="size" :append-to-body="true">
       <el-tabs tab-position="left" @tab-click="handlerTabs">
         <el-tab-pane label="菜单权限" style="margin-right:10px">
-          <cdp-search-tree :key="keys.menuKey" v-model="menus" placeholder="输入关键字进行过滤" :props="{label:'title'}" url="/api/v1/menu/type/0" :show-checkbox="true" />
+          <cdp-search-tree :key="tabsConfig.keys.menuKey" v-model="tabsConfig.menus" placeholder="输入关键字进行过滤" :props="{label:'title'}" url="/api/v1/menu/type/0" :show-checkbox="true" />
           <!-- <div class="footer">
             <el-row :gutter="20">
               <el-col :span="12" :offset="6"><el-button type="primary" @click="authorizedMenus">保存</el-button></el-col>
@@ -12,7 +12,7 @@
           </div> -->
         </el-tab-pane>
         <el-tab-pane label="功能权限">
-          <cdp-search-tree :key="keys.operationKey" v-model="operations" placeholder="输入关键字进行过滤" :props="{label:'title'}" url="/api/v1/menu/type/1" :show-checkbox="true" />
+          <cdp-search-tree :key="tabsConfig.keys.operationKey" v-model="tabsConfig.operations" placeholder="输入关键字进行过滤" :props="{label:'title'}" url="/api/v1/menu/type/1" :show-checkbox="true" />
           <!-- <div class="footer">
             <el-row :gutter="20">
               <el-col :span="12" :offset="6"><el-button type="primary" @click="authorizedOperations">保存</el-button></el-col>
@@ -20,7 +20,7 @@
           </div> -->
         </el-tab-pane>
         <el-tab-pane label="接口权限">
-          <cdp-table v-if="index==='2'" v-model="resources" :table-config="tableConfig" />
+          <cdp-table v-if="tabsConfig.index==='2'" v-model="tabsConfig.resources" :table-config="tableConfig" />
         </el-tab-pane>
         <el-tab-pane label="数据权限">开发中...</el-tab-pane>
       </el-tabs>
@@ -51,11 +51,13 @@ export default {
     return {
       drawer: false,
       size: '25%',
-      menus: [],
-      operations: [],
-      resources: [],
-      index: '0',
-      keys: { menuKey: 1, operationKey: 1 },
+      tabsConfig: {
+        menus: [],
+        operations: [],
+        resources: [],
+        index: '0',
+        keys: { menuKey: 1, operationKey: 1 }
+      },
       tableConfig: {
         title: '资源信息',
         url: '/api/v1/resource',
@@ -105,41 +107,41 @@ export default {
   methods: {
     handlerTabs(tab, event) {
       this.size = tab.index === '2' ? '50%' : '25%'
-      this.index = tab.index
+      this.tabsConfig.index = tab.index
     },
     hanlderSave() {
-      if (this.index === '0') {
+      if (this.tabsConfig.index === '0') {
         this.authorizedMenus()
       }
-      if (this.index === '1') {
+      if (this.tabsConfig.index === '1') {
         this.authorizedOperations()
       }
-      if (this.index === '2') {
+      if (this.tabsConfig.index === '2') {
         this.authorizedResources()
       }
     },
     async authorizedDialog() {
       this.drawer = true
-      this.keys.menuKey += 1
-      this.keys.operationKey += 1
+      this.tabsConfig.keys.menuKey += 1
+      this.tabsConfig.keys.operationKey += 1
       this.item = { ...this.row }
       const resMenus = await menus(this.item.id)
       if (resMenus.data.code === 200) {
-        this.menus = resMenus.data.data
+        this.tabsConfig.menus = resMenus.data.data
       }
 
       const resOperations = await operations(this.item.id)
       if (resOperations.data.code === 200) {
-        this.operations = resOperations.data.data
+        this.tabsConfig.operations = resOperations.data.data
       }
 
       const resResources = await resources(this.item.id)
       if (resResources.data.code === 200) {
-        this.resources = resResources.data.data
+        this.tabsConfig.resources = resResources.data.data
       }
     },
     async authorizedMenus() {
-      const res = await authorizedMenus(this.item.id, { permissions: [...this.menus.map(item => item.id)] })
+      const res = await authorizedMenus(this.item.id, { permissions: [...this.tabsConfig.menus.map(item => item.id)] })
       if (res.data.code === 200) {
         this.$message({
           message: '授权成功',
@@ -149,7 +151,7 @@ export default {
       }
     },
     async authorizedOperations() {
-      const res = await authorizedOperations(this.item.id, { permissions: [...this.operations.map(item => item.id)] })
+      const res = await authorizedOperations(this.item.id, { permissions: [...this.tabsConfig.operations.map(item => item.id)] })
       if (res.data.code === 200) {
         this.$message({
           message: '授权成功',
@@ -159,7 +161,7 @@ export default {
       }
     },
     async authorizedResources() {
-      const res = await authorizedResources(this.item.id, { permissions: [...this.resources] })
+      const res = await authorizedResources(this.item.id, { permissions: [...this.tabsConfig.resources] })
       if (res.data.code === 200) {
         this.$message({
           message: '授权成功',
