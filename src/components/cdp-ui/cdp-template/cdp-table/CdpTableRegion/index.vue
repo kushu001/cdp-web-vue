@@ -179,7 +179,7 @@ export default {
           this.selectedAllMap.set(this.paginationConfig.page, rows.map(item => item.id))
         } else {
           const deletedIds = this.selectedAllMap.get(this.paginationConfig.page)
-          this.ids = this.ids.filter(item => !deletedIds.includes(item))
+          this.ids = !deletedIds ? [] : this.ids.filter(item => !deletedIds.includes(item))
           this.selectedAllMap.delete(this.paginationConfig.page)
         }
         this.ids = [...new Set(this.ids)]
