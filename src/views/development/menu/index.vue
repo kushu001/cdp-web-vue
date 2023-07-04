@@ -31,19 +31,19 @@
                 <el-radio-group v-model="form.type" style="width:100%">
                   <el-radio label="0">菜单</el-radio>
                   <el-radio label="1">按钮</el-radio>
-                  <!-- <el-radio label="2">接口</el-radio> -->
+                  <el-radio label="2">接口</el-radio>
                   <!-- <el-radio v-if="Object.keys(data).length > 0" label="1">操作</el-radio> -->
                 </el-radio-group>
               </el-form-item>
             </el-col>
-            <el-col v-if="form.type==='1'" :span="12">
+            <el-col v-if="form.type!=='0'" :span="12">
               <el-form-item label="权限标识" prop="permission">
                 <el-input v-model="form.permission" style="width:100%" />
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
-            <el-col :span="12">
+            <el-col v-if="form.type!=='2'" :span="12">
               <el-form-item label="图标" prop="icon">
                 <cdp-select-icon v-model="form.icon" style="width:100%" />
               </el-form-item>
@@ -54,7 +54,7 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row>
+          <el-row v-if="form.type==='0'">
             <el-col :span="12">
               <el-form-item label="是否启用" prop="enabled">
                 <el-switch v-model="form.enabled" />
