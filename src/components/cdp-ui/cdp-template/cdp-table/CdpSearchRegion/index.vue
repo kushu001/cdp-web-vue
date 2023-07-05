@@ -3,7 +3,7 @@
     <span v-for="condition in formItems" :key="condition.searchConfig.name">
       <el-form-item v-show="condition.searchConfig.isShow" :label="condition.label" :prop="condition.searchConfig.name">
         <el-input v-if="condition.searchConfig.type=='input'" v-model="form[condition.searchConfig.name]" :name="condition.searchConfig.name" :placeholder="`请输入${condition.label}`" />
-        <el-select v-if="condition.searchConfig.type=='select'" v-model="form[condition.searchConfig.name]" :multiple="condition.searchConfig.multiple" :placeholder="`请选择${condition.label}`">
+        <el-select v-if="condition.searchConfig.type=='select'" v-model="form[condition.searchConfig.name]" :name="condition.searchConfig.name" :multiple="condition.searchConfig.multiple" :placeholder="`请选择${condition.label}`">
           <el-option v-for="item in condition.result" :key="item.key" :label="item.value" :value="item.key" />
         </el-select>
         <el-date-picker v-if="condition.searchConfig.type=='date'" v-model="form[condition.searchConfig.name]" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" />
@@ -58,7 +58,7 @@ export default {
     })
 
     return {
-      form: [...formItems].map(item => item.name).reduce((obj, cur, index) => {
+      form: [...formItems].map(item => item.searchConfig.name).reduce((obj, cur, index) => {
         obj[cur] = ''
         return obj
       }, {}),

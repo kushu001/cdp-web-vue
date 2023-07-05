@@ -92,7 +92,6 @@ export default {
     }
   },
   data() {
-    console.log('tableregion', Object.keys(this.rOpn).length === 0 || this.rOpn.default)
     return {
       searchForm: {},
       tableData: [],
