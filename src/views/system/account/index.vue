@@ -64,6 +64,7 @@ export default {
               rules: [{ required: true, message: '角色不能为空', trigger: 'blur' }]
             },
             searchConfig: {
+              name: 'role_ids',
               type: 'select',
               multiple: true
             },
