@@ -1,5 +1,5 @@
 <template>
-  <el-button type="text" size="mini" @click="auditHandler">审 核</el-button>
+  <el-button v-if="row.status === 0" type="text" size="mini" @click="auditHandler">审 核</el-button>
 </template>
 <script>
 import { audit } from '../../api/staff'
