@@ -41,6 +41,13 @@ export default {
             }
           },
           {
+            name: 'code',
+            label: '部门编码',
+            formConfig: {
+              rules: [{ required: true, message: '请输入部门编码', trigger: 'blur' }]
+            }
+          },
+          {
             name: 'manager',
             formConfig: {
               name: 'manager_id',
