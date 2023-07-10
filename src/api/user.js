@@ -17,7 +17,7 @@ export function getProfile() {
 
 export function logout() {
   return request({
-    url: '/vue-element-admin/user/logout',
+    url: '/api/v1/logout',
     method: 'post'
   })
 }
