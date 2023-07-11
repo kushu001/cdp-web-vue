@@ -6,7 +6,7 @@
     </el-input>
     <el-dialog :title="`选择${title}`" :fullscreen="true" width="1000px" :visible.sync="dialogTableVisible" :append-to-body="true" :before-close="handleClose">
       <el-card>
-        <cdp-table ref="table" :table-config="tableConfig" @conformHandler="conformHandler" />
+        <cdp-table ref="table" :table-config="tableConfig" @confirmHandler="confirmHandler" />
       </el-card>
     </el-dialog>
   </div>
@@ -68,7 +68,7 @@ export default {
       this.$refs.table.resetSearchForm()
       this.dialogTableVisible = false
     },
-    conformHandler(row) {
+    confirmHandler(row) {
       this.val = row.name
       this.dialogTableVisible = false
       this.$emit('input', row.id)

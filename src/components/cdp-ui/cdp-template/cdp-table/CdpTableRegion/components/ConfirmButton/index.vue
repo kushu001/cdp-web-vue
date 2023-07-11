@@ -1,5 +1,5 @@
 <template>
-  <el-button type="primary" @click="conformHandler">确认</el-button>
+  <el-button type="primary" @click="confirmHandler">确认</el-button>
 </template>
 <script>
 export default {
@@ -10,8 +10,8 @@ export default {
     }
   },
   methods: {
-    conformHandler() {
-      this.$emit('conformHandler', this.row)
+    confirmHandler() {
+      this.$emit('confirmHandler', this.row)
     }
   }
 }
