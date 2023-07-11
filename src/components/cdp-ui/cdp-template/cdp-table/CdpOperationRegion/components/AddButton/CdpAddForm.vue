@@ -14,6 +14,7 @@
               <el-date-picker v-if="item.formConfig.type=='date'" v-model="form[item.formConfig.name]" type="date" />
               <!-- <el-input v-if="item.formConfig.type=='textarea'" v-model="form[item.formConfig.name]" style="width:100%" :rows="5" type="textarea" /> -->
               <cdp-user-select-table v-if="item.formConfig.type=='user-select-table'" v-model="form[item.formConfig.name]" style="width:100%" />
+              <cdp-post-select-table v-if="item.formConfig.type=='post-select-table'" v-model="form[item.formConfig.name]" style="width:100%" />
               <cdp-select-table v-if="item.formConfig.type=='select-table'" v-model="form[item.formConfig.name]" :columns="item.formConfig.columns" :url="item.formConfig.url" style="width:100%" />
             </el-form-item>
           </el-col>
@@ -28,6 +29,7 @@
               <el-date-picker v-if="item.formConfig.type=='date'" v-model="form[item.formConfig.name]" type="date" />
               <!-- <el-input v-if="item.formConfig.type=='textarea'" v-model="form[item.formConfig.name]" style="width:100%" :rows="5" type="textarea" /> -->
               <cdp-user-select-table v-if="item.formConfig.type=='user-select-table'" v-model="form[item.formConfig.name]" style="width:100%" />
+              <cdp-post-select-table v-if="item.formConfig.type=='post-select-table'" v-model="form[item.formConfig.name]" style="width:100%" />
               <cdp-select-table v-if="item.formConfig.type=='select-table'" v-model="form[item.formConfig.name]" :columns="item.formConfig.columns" :url="item.formConfig.url" style="width:100%" />
             </el-form-item>
           </el-col>
@@ -55,11 +57,13 @@
 <script>
 import CdpSelectTable from '@/components/cdp-ui/CdpSelectTable'
 import CdpUserSelectTable from '@/views/components/cdp-user-select-table'
+import CdpPostSelectTable from '@/views/components/cdp-post-select-table'
 
 export default {
   components: {
     CdpUserSelectTable,
-    CdpSelectTable
+    CdpSelectTable,
+    CdpPostSelectTable
   },
   props: {
     visible: {
@@ -124,3 +128,8 @@ export default {
   }
 }
 </script>
+<style scoped>
+.el-input {
+  font-size: 14px;
+}
+</style>

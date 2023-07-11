@@ -93,6 +93,14 @@ export default {
             width: 200
           },
           {
+            name: 'post_name',
+            formConfig: {
+              name: 'post_id',
+              type: 'post-select-table'
+            },
+            label: '岗位'
+          },
+          {
             name: 'address',
             label: '地址',
             width: 200

@@ -23,13 +23,9 @@ export default {
       type: [String, Number],
       default: null
     },
-    columns: {
-      type: Array,
-      default: () => ([])
-    },
-    url: {
-      type: String,
-      default: null
+    tableConfig: {
+      type: Object,
+      default: () => ({})
     },
     name: {
       type: String,
@@ -42,17 +38,6 @@ export default {
   },
   data() {
     return {
-      tableConfig: {
-        selection: false,
-        hOpn: {
-          default: false
-        },
-        rOpn: {
-          default: [{ name: 'ConfirmButton' }]
-        },
-        url: this.url,
-        columns: this.columns
-      },
       val: '',
       dialogTableVisible: false
     }
@@ -60,7 +45,7 @@ export default {
   watch: {
     value(val) {
       if (val) {
-        get(`${this.url}/${val}`).then(({ data: res }) => {
+        get(`${this.tableConfig.url}/${val}`).then(({ data: res }) => {
           if (res.code === 200) {
             const { data } = res
             this.val = data[this.name]

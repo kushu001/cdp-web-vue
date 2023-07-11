@@ -1,7 +1,7 @@
 <template>
   <el-button type="success" size="mini" icon="el-icon-plus" @click="addDialogHandler">
     新增
-    <cdp-add-form ref="child" :visible.sync="visible" :title="title" :columns="columns" @addHandler="addHandler" />
+    <cdp-add-form ref="child" :visible.sync="visible" :title="title" :columns="innerColumns" @addHandler="addHandler" />
   </el-button>
 </template>
 
@@ -43,7 +43,13 @@ export default {
     }
   },
   data() {
+    const innerColumns = this.columns.filter(item => {
+      console.log(item.name, !item.formConfig.hidden)
+      return !item.formConfig.hidden
+    })
+    console.log(innerColumns)
     return {
+      innerColumns,
       visible: false
     }
   },

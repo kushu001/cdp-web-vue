@@ -1,5 +1,5 @@
 <template>
-  <cdp-select-table v-model="userId" :title="title" :columns="columns" :url="url" style="width:200px" />
+  <cdp-select-table v-model="userId" :title="title" :table-config="tableConfig" style="width:200px" />
 </template>
 <script>
 import CdpSelectTable from '@/components/cdp-ui/CdpSelectTable'
@@ -16,24 +16,33 @@ export default {
   },
   data() {
     return {
-      url: '/api/v1/user',
+      tableConfig: {
+        selection: false,
+        hOpn: {
+          default: false
+        },
+        rOpn: {
+          default: [{ name: 'ConfirmButton' }]
+        },
+        url: '/api/v1/user',
+        columns: [
+          {
+            name: 'name',
+            label: '姓名'
+          },
+          {
+            name: 'phone',
+            label: '电话'
+          },
+          {
+            name: 'dept_name',
+            label: '部门',
+            width: 200
+          }
+        ]
+      },
       userId: this.value,
-      title: '人员',
-      columns: [
-        {
-          name: 'name',
-          label: '姓名'
-        },
-        {
-          name: 'phone',
-          label: '电话'
-        },
-        {
-          name: 'dept_name',
-          label: '部门',
-          width: 200
-        }
-      ]
+      title: '人员'
     }
   },
   watch: {
