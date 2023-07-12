@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :title="`修改${title}`" :append-to-body="true" :visible.sync="visible" :before-close="closeHandler" @opened="openHandler">
+  <el-dialog v-el-drag-dialog :title="`修改${title}`" :append-to-body="true" :visible.sync="visible" :before-close="closeHandler" @opened="openHandler">
     <el-form ref="form" :model="form" :rules="rules" label-width="120px" size="mini">
       <el-row>
         <span v-for="(item, index) in columns" :key="index">
@@ -59,12 +59,16 @@ import CdpSelectTable from '@/components/cdp-ui/CdpSelectTable'
 import CdpUserSelectTable from '@/views/components/cdp-user-select-table'
 import CdpPostSelectTable from '@/views/components/cdp-post-select-table'
 import { get } from '@/api/api'
+import elDragDialog from '@/directive/el-drag-dialog'
 
 export default {
   components: {
     CdpUserSelectTable,
     CdpSelectTable,
     CdpPostSelectTable
+  },
+  directives: {
+    elDragDialog
   },
   props: {
     title: {
