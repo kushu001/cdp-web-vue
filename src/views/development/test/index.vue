@@ -1,48 +1,31 @@
 <template>
-  <el-form :label-position="labelPosition" label-width="80px" :model="formLabelAlign">
-    <el-row>
-      <el-col :span="10">
-        <el-form-item label="活动形式" size="mini">
-          <el-input v-model="formLabelAlign.type" style="width:100%" />
-        </el-form-item>
-      </el-col>
-      <el-col :span="10">
-        <el-form-item label="选择人员" size="mini">
-          <!-- <el-input v-model="formLabelAlign.type" style="width:100%">
-            <el-button slot="prepend" icon="el-icon-refresh-left" size="default" title="重置" />
-            <el-button slot="append" icon="el-icon-search" size="default" />
-          </el-input> -->
-          <cdp-post-select-table style="width:100%" />
-        </el-form-item>
-      </el-col>
-      <el-col :span="10">
-        <el-form-item label="名称">
-          <el-input v-model="formLabelAlign.name" style="width:100%" />
-        </el-form-item>
-      </el-col>
-      <el-col :span="10">
-        <el-form-item label="活动区域">
-          <el-input v-model="formLabelAlign.region" style="width:100%" />
-        </el-form-item>
-      </el-col>
-    </el-row>
-  </el-form>
+  <div>
+    <cdp-transfer-select v-model="value" :data="data" title="选择城市" />
+  </div>
 </template>
 
 <script>
-import CdpPostSelectTable from '@/views/components/cdp-post-select-table'
+import CdpTransferSelect from '@/components/cdp-ui/CdpTransferSelect'
+
 export default {
   components: {
-    CdpPostSelectTable
+    CdpTransferSelect
   },
   data() {
+    const generateData = _ => {
+      const data = []
+      const cities = ['上海', '北京', '广州', '深圳', '南京', '西安', '成都']
+      cities.forEach((city, index) => {
+        data.push({
+          label: city,
+          key: index
+        })
+      })
+      return data
+    }
     return {
-      labelPosition: 'right',
-      formLabelAlign: {
-        name: '',
-        region: '',
-        type: ''
-      }
+      data: generateData(),
+      value: [0, 1, 3, 4]
     }
   }
 }
