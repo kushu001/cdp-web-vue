@@ -15,6 +15,7 @@
               <!-- <el-input v-if="item.formConfig.type=='textarea'" v-model="form[item.formConfig.name]" :disabled="item.formConfig.updateDisabled" style="width:100%;" :rows="5" type="textarea" /> -->
               <cdp-user-select-table v-if="item.formConfig.type=='user-select-table'" v-model="form[item.formConfig.name]" :columns="item.formConfig.columns" :url="item.formConfig.url" style="width:100%" />
               <cdp-post-select-table v-if="item.formConfig.type=='post-select-table'" v-model="form[item.formConfig.name]" :columns="item.formConfig.columns" :url="item.formConfig.url" style="width:100%" />
+              <cdp-transfer-select v-if="item.formConfig.type=='transfer-select'" v-model="form[item.formConfig.name]" :columns="item.formConfig.columns" :data="item.result" :title="`选择${item.label}`" />
               <cdp-select-table v-if="item.formConfig.type=='select-table'" v-model="form[item.formConfig.name]" style="width:100%" />
             </el-form-item>
           </el-col>
@@ -30,6 +31,7 @@
               <!-- <el-input v-if="item.formConfig.type=='textarea'" v-model="form[item.formConfig.name]" :disabled="item.formConfig.updateDisabled" style="width:100%;" :rows="5" type="textarea" /> -->
               <cdp-user-select-table v-if="item.formConfig.type=='user-select-table'" v-model="form[item.formConfig.name]" :columns="item.formConfig.columns" :url="item.formConfig.url" style="width:100%" />
               <cdp-post-select-table v-if="item.formConfig.type=='post-select-table'" v-model="form[item.formConfig.name]" :columns="item.formConfig.columns" :url="item.formConfig.url" style="width:100%" />
+              <cdp-transfer-select v-if="item.formConfig.type=='transfer-select'" v-model="form[item.formConfig.name]" :columns="item.formConfig.columns" :data="item.result" :title="`选择${item.label}`" />
               <cdp-select-table v-if="item.formConfig.type=='select-table'" v-model="form[item.formConfig.name]" style="width:100%" />
             </el-form-item>
           </el-col>
@@ -58,6 +60,7 @@
 import CdpSelectTable from '@/components/cdp-ui/CdpSelectTable'
 import CdpUserSelectTable from '@/views/components/cdp-user-select-table'
 import CdpPostSelectTable from '@/views/components/cdp-post-select-table'
+import CdpTransferSelect from '@/components/cdp-ui/CdpTransferSelect'
 import { get } from '@/api/api'
 import elDragDialog from '@/directive/el-drag-dialog'
 
@@ -65,7 +68,8 @@ export default {
   components: {
     CdpUserSelectTable,
     CdpSelectTable,
-    CdpPostSelectTable
+    CdpPostSelectTable,
+    CdpTransferSelect
   },
   directives: {
     elDragDialog
