@@ -59,6 +59,13 @@ export default {
         },
         columns: [
           {
+            name: 'code',
+            label: '编码',
+            formConfig: {
+              rules: [{ required: true, message: '请输入编码', trigger: 'blur' }]
+            }
+          },
+          {
             name: 'name',
             label: '姓名',
             formConfig: {
@@ -93,16 +100,38 @@ export default {
             width: 200
           },
           {
+            name: 'email',
+            label: 'Email',
+            width: 200
+          },
+          {
             name: 'post_name',
             formConfig: {
               name: 'post_id',
-              type: 'post-select-table'
+              type: 'transfer-select',
+              rules: [
+                { required: true, message: '请选择岗位', trigger: 'blur' }
+              ]
             },
-            label: '岗位'
+            label: '岗位',
+            data: async() => {
+              let result = []
+              const { data } = await fetchList({}, '/api/v1/post/all')
+              result = data.data.map(item => ({
+                key: item['id'],
+                label: `${item['name']}(${item['code']})`
+              }))
+              return result
+            }
           },
           {
             name: 'address',
             label: '地址',
+            width: 200
+          },
+          {
+            name: 'home_address',
+            label: '家庭地址',
             width: 200
           },
           {
