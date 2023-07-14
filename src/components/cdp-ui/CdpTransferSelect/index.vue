@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-input v-model="inputValue" readonly>
+    <el-input v-model="inputValue" readonly :placeholder="placeholder">
       <el-button slot="append" icon="el-icon-search" @click="visible = true" />
     </el-input>
     <el-dialog v-el-drag-dialog :append-to-body="true" :visible.sync="visible" width="625px" :title="title">
@@ -34,6 +34,10 @@ export default {
     data: {
       type: Array,
       default: () => ([])
+    },
+    placeholder: {
+      type: String,
+      default: '请选择'
     }
   },
   data() {
@@ -43,6 +47,13 @@ export default {
       innerValue: this.value,
       filterMethod(query, item) {
         return item.label.indexOf(query) > -1
+      }
+    }
+  },
+  watch: {
+    value(val) {
+      if (!val[0]) {
+        this.inputValue = ''
       }
     }
   },

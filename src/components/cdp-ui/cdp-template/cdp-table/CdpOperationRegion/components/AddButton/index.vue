@@ -44,10 +44,9 @@ export default {
   },
   data() {
     const innerColumns = this.columns.filter(item => {
-      console.log(item.name, !item.formConfig.hidden)
       return !item.formConfig.hidden
     })
-    console.log(innerColumns)
+
     return {
       innerColumns,
       visible: false
