@@ -126,7 +126,6 @@ export default {
             })
           })
         } else {
-          console.log('error submit!!')
           this.$message({
             type: 'danger',
             message: '新建失败'
@@ -147,7 +146,6 @@ export default {
             })
           })
         } else {
-          console.log('error submit!!')
           this.$message({
             type: 'danger',
             message: '更新失败'
@@ -190,27 +188,22 @@ export default {
       }
     },
     clickHanlder(data, node, isClicked) {
-      // console.log(data)
       this.form = { ...data }
       this.isNew = !isClicked
       this.parentTitle = ''
     },
     resetFormHandler() {
       const type = this.form.type
-      // console.log(type)
       this.$refs.form.resetFields()
       this.form = { ...this.form, id: undefined, type: type }
       this.isNew = true
-      // console.log(this.form)
     },
     resetSubFormHandler() {
       this.parentTitle = this.form.title
       const type = this.form.type
-      // console.log(type)
       this.$refs.form.resetFields()
       this.form = { ...this.form, id: undefined, pid: this.form.id, type: type }
       this.isNew = true
-      // console.log(this.form)
     }
   }
 }
