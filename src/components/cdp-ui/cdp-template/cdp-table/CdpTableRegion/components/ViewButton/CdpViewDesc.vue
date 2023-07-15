@@ -12,10 +12,10 @@
         <template slot="label">
           {{ item.label }}
         </template>
-        <span v-if="item.type=='select'">
-          <span v-if="!item.formConfig.multiple && item.data().find(it=>it.key==form[item.name]) ">
-            <el-tag v-if="form[item.name] != null || form[item.name] != ''" :type="item.data().find(it=>it.key==form[item.name]).type" effect="plain">
-              {{ item.data().find(it=>it.key==form[item.name]).value }}
+        <span v-if="item.type=='select' && item.result">
+          <span v-if="!item.formConfig.multiple && item.result.find(it=>it.key==form[item.name]) ">
+            <el-tag v-if="form[item.name] != null || form[item.name] != ''" :type="item.result.find(it=>it.key==form[item.name]).type" effect="plain">
+              {{ item.result.find(it=>it.key==form[item.name]).value }}
             </el-tag>
           </span>
           <span v-else-if="form[item.name] != null && form[item.name] != ''">
@@ -64,8 +64,8 @@ export default {
   },
   data() {
     return {
-      form: [...this.columns].map(item => item.name).reduce((obj, cur, index) => {
-        obj[cur] = ''
+      form: [...this.columns].reduce((obj, cur, index) => {
+        obj[cur['name']] = cur['type'] === 'switch' ? false : ''
         return obj
       }, {}),
       rules: {}
@@ -75,7 +75,7 @@ export default {
     closeHandler() {
       this.$emit('update:visible', !this.visible)
     },
-    openHandler() {
+    async openHandler() {
       get(`${this.url}\\${this.id}`).then(({ data }) => {
         if (data.code === 200) {
           this.form = { ...data.data }
@@ -86,6 +86,13 @@ export default {
           })
         }
       })
+
+      for (let i = 0; i < this.columns.length; i++) {
+        if (this.columns[i].formConfig && this.columns[i].data) {
+          this.columns[i].result = await this.columns[i].data()
+        }
+      }
+      this.$forceUpdate()
     }
   }
 }
