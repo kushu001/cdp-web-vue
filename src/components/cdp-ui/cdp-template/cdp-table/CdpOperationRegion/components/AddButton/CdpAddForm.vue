@@ -100,6 +100,14 @@ export default {
       rules: {}
     }
   },
+  watch: {
+    columns: {
+      handler(newValue, oldValue) {
+        console.log(newValue)
+      },
+      deep: true
+    }
+  },
   created() {
     const rules = {}
     for (let i = 0; i < this.columns.length; i++) {
@@ -115,6 +123,7 @@ export default {
         if (this.columns[i].formConfig && this.columns[i].data) {
           this.columns[i].result = await this.columns[i].data()
         }
+        this.form[this.columns[i].formConfig.name] = await this.columns[i].formConfig.defaultValue(this.columns[i].formConfig, this.columns[i])
       }
       this.$forceUpdate()
     },

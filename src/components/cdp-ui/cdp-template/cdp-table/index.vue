@@ -62,11 +62,9 @@ export default {
           type: 'input',
           multiple: false,
           filterable: false,
-          key: 'key',
-          value: 'value',
-          url: '',
           hidden: false,
           rules: [],
+          defaultValue: async() => (undefined),
           ...item.formConfig
         },
         type: item.formConfig ? item.formConfig.type : 'input'
