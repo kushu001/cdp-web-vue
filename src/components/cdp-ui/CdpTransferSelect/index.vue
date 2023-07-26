@@ -5,7 +5,7 @@
     </el-input>
     <el-dialog v-el-drag-dialog :append-to-body="true" :visible.sync="visible" width="625px" :title="title">
       <el-transfer
-        v-model="innerValue"
+        v-model="value"
         filterable
         :filter-method="filterMethod"
         filter-placeholder="请输入关键字"
@@ -43,8 +43,7 @@ export default {
   data() {
     return {
       visible: false,
-      inputValue: this.value.map(item => this.data.filter(it => it.key === item)[0]).map(item => item.label).join(','),
-      innerValue: this.value,
+      inputValue: this.value.length > 0 ? this.value.map(item => this.data.filter(it => it.key === item)[0]).map(item => item.label).join(',') : undefined,
       filterMethod(query, item) {
         return item.label.indexOf(query) > -1
       }
@@ -52,8 +51,17 @@ export default {
   },
   watch: {
     value(val) {
-      if (!val[0]) {
+      if (!val || val.length <= 0 || this.data.length <= 0 || !val[0]) {
         this.inputValue = ''
+      } else if (this.data.length > 0) {
+        this.inputValue = this.value.length > 0 ? this.value.map(item => this.data.filter(it => it.key === item)[0]).map(item => item.label).join(',') : undefined
+      }
+    },
+    data(data) {
+      if (!this.value || this.value.length <= 0 || data.length <= 0 || !this.value[0]) {
+        this.inputValue = ''
+      } else if (this.data.length > 0) {
+        this.inputValue = this.value.length > 0 ? this.value.map(item => this.data.filter(it => it.key === item)[0]).map(item => item.label).join(',') : undefined
       }
     }
   },
