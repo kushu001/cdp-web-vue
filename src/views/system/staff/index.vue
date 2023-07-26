@@ -34,6 +34,7 @@ export default {
   },
   data() {
     return {
+      id: -1,
       tableConfig: {
         title: '人员',
         url: {
@@ -72,17 +73,17 @@ export default {
               rules: [{ required: true, message: '请输入姓名', trigger: 'blur' }]
             }
           },
-          {
-            name: 'dept_name',
-            label: '部门',
-            width: 200,
-            searchConfig: {
-              hidden: true
-            },
-            formConfig: {
-              hidden: true
-            }
-          },
+          // {
+          //   name: 'dept_name',
+          //   label: '部门',
+          //   width: 200,
+          //   searchConfig: {
+          //     hidden: true
+          //   },
+          //   formConfig: {
+          //     hidden: true
+          //   }
+          // },
           {
             name: 'id_number',
             label: '身份证号',
@@ -105,13 +106,42 @@ export default {
             width: 200
           },
           {
-            name: 'post_name',
+            name: 'org_names',
+            label: '部门',
+            width: 300,
             formConfig: {
-              name: 'post_id',
+              name: 'org_ids',
               type: 'transfer-select',
-              rules: [
-                { required: true, message: '请选择岗位', trigger: 'blur' }
-              ]
+              defaultValue: () => {
+                return [this.id]
+              }
+            },
+            data: async() => {
+              let result = []
+              const { data } = await fetchList({}, '/api/v1/org')
+              result = data.data.map(item => ({
+                key: item['id'],
+                label: `${item['name']}(${item['code']})`
+              }))
+              return result
+            },
+            render: (record, value) => {
+              return <div>
+                {value.split(',').map((item, index) => {
+                  return <el-tag type={['success', 'info', 'warning', 'danger'][index % 4]} style='margin: 3px 3px'>
+                    {item}
+                  </el-tag>
+                }
+                )}
+              </div>
+            }
+          },
+          {
+            name: 'post_names',
+            width: 200,
+            formConfig: {
+              name: 'post_ids',
+              type: 'transfer-select'
             },
             label: '岗位',
             data: async() => {
@@ -122,6 +152,16 @@ export default {
                 label: `${item['name']}(${item['code']})`
               }))
               return result
+            },
+            render: (record, value) => {
+              return <div>
+                {value.split(',').map((item, index) => {
+                  return <el-tag type={['success', 'info', 'warning', 'danger'][index % 4]} style='margin: 3px 3px'>
+                    {item}
+                  </el-tag>
+                }
+                )}
+              </div>
             }
           },
           {
@@ -196,12 +236,12 @@ export default {
           data: data
         })
         this.tableConfig.url = {
-          queryUrl: `/api/v1/user/org/${data[0].code}`,
+          queryUrl: `/api/v1/user/org/${data[0].id}`,
           addUrl: `/api/v1/user/org/${data[0].id}`,
           editUrl: `/api/v1/user`,
           viewUrl: `/api/v1/user`,
           deleteUrl: `/api/v1/user`,
-          exportUrl: `/api/v1/user/org/${data[0].code}`,
+          exportUrl: `/api/v1/user/org/${data[0].id}`,
           importUrl: `/api/v1/user/org/${data[0].code}`
         }
       }
@@ -213,13 +253,14 @@ export default {
       return data[this.defaultProps.label].indexOf(value) !== -1
     },
     handleNodeClick(data) {
+      this.id = data['id']
       this.tableConfig.url = {
-        queryUrl: `/api/v1/user/org/${data['code']}`,
+        queryUrl: `/api/v1/user/org/${data['id']}`,
         addUrl: `/api/v1/user/org/${data['id']}`,
         editUrl: `/api/v1/user`,
         viewUrl: `/api/v1/user`,
         deleteUrl: `/api/v1/user`,
-        exportUrl: `/api/v1/user/org/${data['code']}`,
+        exportUrl: `/api/v1/user/org/${data['id']}`,
         importUrl: `/api/v1/user/org/${data['code']}`
       }
     }
