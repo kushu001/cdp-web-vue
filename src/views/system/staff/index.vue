@@ -127,12 +127,12 @@ export default {
             },
             render: (record, value) => {
               return <div>
-                {value.split(',').map((item, index) => {
+                {value ? value.split(',').map((item, index) => {
                   return <el-tag type={['success', 'info', 'warning', 'danger'][index % 4]} style='margin: 3px 3px'>
                     {item}
                   </el-tag>
                 }
-                )}
+                ) : ''}
               </div>
             }
           },
@@ -155,12 +155,12 @@ export default {
             },
             render: (record, value) => {
               return <div>
-                {value.split(',').map((item, index) => {
+                {value ? value.split(',').map((item, index) => {
                   return <el-tag type={['success', 'info', 'warning', 'danger'][index % 4]} style='margin: 3px 3px'>
                     {item}
                   </el-tag>
                 }
-                )}
+                ) : ''}
               </div>
             }
           },
