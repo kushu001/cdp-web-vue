@@ -109,6 +109,9 @@ export default {
             name: 'org_names',
             label: '部门',
             width: 300,
+            searchConfig: {
+              hidden: true
+            },
             formConfig: {
               name: 'org_ids',
               type: 'transfer-select',
@@ -139,6 +142,9 @@ export default {
           {
             name: 'post_names',
             width: 200,
+            searchConfig: {
+              hidden: true
+            },
             formConfig: {
               name: 'post_ids',
               type: 'transfer-select'
