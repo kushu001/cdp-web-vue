@@ -99,7 +99,7 @@ export default {
   data() {
     return {
       form: [...this.columns].reduce((obj, cur, index) => {
-        obj[cur['name']] = cur['type'] === 'switch' ? false : ''
+        obj[cur['name']] = cur['type'] === 'switch' ? false : undefined
         return obj
       }, {}),
       rules: {}

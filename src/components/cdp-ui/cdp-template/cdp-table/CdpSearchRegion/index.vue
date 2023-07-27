@@ -7,6 +7,7 @@
           <el-option v-for="item in condition.result" :key="item.key" :label="item.value" :value="item.key" />
         </el-select>
         <el-date-picker v-if="condition.searchConfig.type=='date'" v-model="form[condition.searchConfig.name]" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" />
+        <cdp-transfer-select v-if="condition.searchConfig.type=='transfer-select'" v-model="form[condition.searchConfig.name]" :data="condition.result" :title="`选择${condition.label}`" :placeholder="`请选择${condition.label}`" />
       </el-form-item>
     </span>
     <el-form-item>
@@ -17,7 +18,11 @@
   </el-form>
 </template>
 <script>
+import CdpTransferSelect from '@/components/cdp-ui/CdpTransferSelect'
 export default {
+  components: {
+    CdpTransferSelect
+  },
   props: {
     conditions: {
       type: Array,
@@ -41,9 +46,6 @@ export default {
           name: item.name,
           type: 'input',
           multiple: false,
-          key: 'key',
-          value: 'value',
-          url: '',
           hidden: false,
           ...item.searchConfig
         }
@@ -59,7 +61,7 @@ export default {
 
     return {
       form: [...formItems].map(item => item.searchConfig.name).reduce((obj, cur, index) => {
-        obj[cur] = ''
+        obj[cur] = undefined
         return obj
       }, {}),
       formItems,
