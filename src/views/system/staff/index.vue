@@ -249,7 +249,7 @@ export default {
       return data[this.defaultProps.label].indexOf(value) !== -1
     },
     handleNodeClick(data) {
-      this.ids.push(data['id'])
+      this.ids.splice(0, 1, data['id'])
       this.tableConfig.url = {
         queryUrl: `/api/v1/user/org/${data['id']}`,
         addUrl: `/api/v1/user/org/${data['id']}`,
