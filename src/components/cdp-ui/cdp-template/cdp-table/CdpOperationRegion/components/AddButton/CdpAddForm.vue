@@ -30,7 +30,6 @@
               <cdp-transfer-select v-if="item.formConfig.type=='transfer-select'" v-model="form[item.formConfig.name]" :name="item.formConfig.name" :data="item.result" :title="`选择${item.label}`" :placeholder="`请选择${item.label}`" />
               <cdp-select-table v-if="item.formConfig.type=='select-table'" v-model="form[item.formConfig.name]" :columns="item.formConfig.columns" :url="item.formConfig.url" style="width:100%" />
             </el-form-item>
-            {{ item.formConfig.name }} {{ form[item.formConfig.name] }}
           </el-col>
           <el-col v-if="item.formConfig.type=='textarea'" :span="24">
             <el-form-item v-if="!item.formConfig.hidden" :label="item.label" :prop="item.formConfig.name">
