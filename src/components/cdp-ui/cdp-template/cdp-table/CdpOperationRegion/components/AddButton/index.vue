@@ -43,7 +43,22 @@ export default {
     }
   },
   data() {
-    const innerColumns = this.columns.filter(item => {
+    const innerColumns = this.columns.map(item => {
+      return {
+        ...item,
+        formConfig: {
+          name: item.name,
+          type: 'input',
+          multiple: false,
+          filterable: false,
+          hidden: false,
+          rules: [],
+          defaultValue: async() => (undefined),
+          ...item.formConfig
+        },
+        type: item.formConfig ? item.formConfig.type : 'input'
+      }
+    }).filter(item => {
       return !item.formConfig.hidden
     })
 

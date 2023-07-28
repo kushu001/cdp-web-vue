@@ -34,7 +34,7 @@ export default {
   },
   data() {
     return {
-      id: -1,
+      ids: [],
       tableConfig: {
         title: '人员',
         url: {
@@ -73,17 +73,6 @@ export default {
               rules: [{ required: true, message: '请输入姓名', trigger: 'blur' }]
             }
           },
-          // {
-          //   name: 'dept_name',
-          //   label: '部门',
-          //   width: 200,
-          //   searchConfig: {
-          //     hidden: true
-          //   },
-          //   formConfig: {
-          //     hidden: true
-          //   }
-          // },
           {
             name: 'id_number',
             label: '身份证号',
@@ -115,8 +104,9 @@ export default {
             formConfig: {
               name: 'org_ids',
               type: 'transfer-select',
+              rules: [{ required: true, message: '请选择部门', trigger: 'change' }],
               defaultValue: () => {
-                return [this.id]
+                return this.ids
               }
             },
             data: async() => {
@@ -259,7 +249,7 @@ export default {
       return data[this.defaultProps.label].indexOf(value) !== -1
     },
     handleNodeClick(data) {
-      this.id = data['id']
+      this.ids.push(data['id'])
       this.tableConfig.url = {
         queryUrl: `/api/v1/user/org/${data['id']}`,
         addUrl: `/api/v1/user/org/${data['id']}`,

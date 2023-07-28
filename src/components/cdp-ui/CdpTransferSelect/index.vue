@@ -44,7 +44,7 @@ export default {
     return {
       visible: false,
       inputValue: this._filterDatas(this.value, this.data),
-      innerValue: [],
+      innerValue: this.value,
       filterMethod(query, item) {
         return item.label.indexOf(query) > -1
       }
