@@ -104,7 +104,7 @@ export default {
             formConfig: {
               name: 'org_ids',
               type: 'transfer-select',
-              rules: [{ required: true, message: '请选择部门', trigger: 'change' }],
+              rules: [{ required: true, message: '请选择部门', trigger: 'blur' }],
               defaultValue: () => {
                 return this.ids
               }
@@ -137,7 +137,8 @@ export default {
             },
             formConfig: {
               name: 'post_ids',
-              type: 'transfer-select'
+              type: 'transfer-select',
+              rules: [{ required: true, message: '请选择岗位', trigger: 'blur' }]
             },
             label: '岗位',
             data: async() => {
