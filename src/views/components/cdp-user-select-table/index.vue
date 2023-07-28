@@ -27,6 +27,10 @@ export default {
         url: '/api/v1/user',
         columns: [
           {
+            name: 'code',
+            label: '编码'
+          },
+          {
             name: 'name',
             label: '姓名'
           },
@@ -35,9 +39,34 @@ export default {
             label: '电话'
           },
           {
-            name: 'dept_name',
+            name: 'org_names',
             label: '部门',
-            width: 200
+            width: 200,
+            render: (record, value) => {
+              return <div>
+                {value ? value.split(',').map((item, index) => {
+                  return <el-tag type={['success', 'info', 'warning', 'danger'][index % 4]} style='margin: 3px 3px'>
+                    {item}
+                  </el-tag>
+                }
+                ) : ''}
+              </div>
+            }
+          },
+          {
+            name: 'post_names',
+            label: '岗位',
+            width: 200,
+            render: (record, value) => {
+              return <div>
+                {value ? value.split(',').map((item, index) => {
+                  return <el-tag type={['success', 'info', 'warning', 'danger'][index % 4]} style='margin: 3px 3px'>
+                    {item}
+                  </el-tag>
+                }
+                ) : ''}
+              </div>
+            }
           }
         ]
       },
