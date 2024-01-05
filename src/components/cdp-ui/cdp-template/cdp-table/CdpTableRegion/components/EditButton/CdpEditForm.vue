@@ -11,7 +11,7 @@
                 <el-option v-for="it in item.result" :key="it.key" :label="it.value" :value="it.key" />
               </el-select>
               <el-switch v-if="item.formConfig.type=='switch'" v-model="form[item.formConfig.name]" style="width:100%" :name="item.formConfig.name" />
-              <el-date-picker v-if="item.formConfig.type=='date'" v-model="form[item.formConfig.name]" :disabled="!item.formConfig.edit?false:!item.formConfig.edit.disabled?false:true" type="date" />
+              <el-date-picker v-if="item.formConfig.type=='date'" v-model="form[item.formConfig.name]" :disabled="!item.formConfig.edit?false:!item.formConfig.edit.disabled?false:true" type="date" value-format="yyyy-MM-dd" />
               <cdp-user-select-table v-if="item.formConfig.type=='user-select-table'" v-model="form[item.formConfig.name]" :columns="item.formConfig.columns" :url="item.formConfig.url" style="width:100%" />
               <cdp-transfer-select v-if="item.formConfig.type=='transfer-select'" v-model="form[item.formConfig.name]" :columns="item.formConfig.columns" :data="item.result" :title="`选择${item.label}`" :placeholder="`请选择${item.label}`" />
               <cdp-select-table v-if="item.formConfig.type=='select-table'" v-model="form[item.formConfig.name]" style="width:100%" />
@@ -25,7 +25,7 @@
                 <el-option v-for="it in item.result" :key="it.key" :label="it.value" :value="it.key" />
               </el-select>
               <el-switch v-if="item.formConfig.type=='switch'" v-model="form[item.formConfig.name]" style="width:100%" :name="item.formConfig.name" />
-              <el-date-picker v-if="item.formConfig.type=='date'" v-model="form[item.formConfig.name]" :disabled="!item.formConfig.edit?false:!item.formConfig.edit.disabled?false:true" type="date" />
+              <el-date-picker v-if="item.formConfig.type=='date'" v-model="form[item.formConfig.name]" :disabled="!item.formConfig.edit?false:!item.formConfig.edit.disabled?false:true" type="date" value-format="yyyy-MM-dd" />
               <cdp-user-select-table v-if="item.formConfig.type=='user-select-table'" v-model="form[item.formConfig.name]" :columns="item.formConfig.columns" :url="item.formConfig.url" style="width:100%" />
               <cdp-transfer-select v-if="item.formConfig.type=='transfer-select'" v-model="form[item.formConfig.name]" :columns="item.formConfig.columns" :data="item.result" :title="`选择${item.label}`" :placeholder="`请选择${item.label}`" />
               <cdp-select-table v-if="item.formConfig.type=='select-table'" v-model="form[item.formConfig.name]" style="width:100%" />

@@ -6,7 +6,7 @@
         <el-select v-if="condition.searchConfig.type=='select'" v-model="form[condition.searchConfig.name]" :name="condition.searchConfig.name" :multiple="condition.searchConfig.multiple" :placeholder="`请选择${condition.label}`">
           <el-option v-for="item in condition.result" :key="item.key" :label="item.value" :value="item.key" />
         </el-select>
-        <el-date-picker v-if="condition.searchConfig.type=='date'" v-model="form[condition.searchConfig.name]" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" />
+        <el-date-picker v-if="condition.searchConfig.type=='date'" v-model="form[condition.searchConfig.name]" type="daterange" value-format="yyyy-MM-dd" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" />
         <cdp-transfer-select v-if="condition.searchConfig.type=='transfer-select'" v-model="form[condition.searchConfig.name]" :data="condition.result" :title="`选择${condition.label}`" :placeholder="`请选择${condition.label}`" />
       </el-form-item>
     </span>
