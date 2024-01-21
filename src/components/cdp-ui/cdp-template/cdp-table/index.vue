@@ -123,7 +123,7 @@ export default {
   },
   methods: {
     searchHandler(form) {
-      this.$refs.table.searchHandler(form)
+      this.$refs.table.searchHandler(form, 1)
     },
     resetSearchForm() {
       this.$refs.searchRegion.resetHandler()

@@ -117,7 +117,7 @@ export default {
     this.searchHandler(this.form)
   },
   methods: {
-    searchHandler(searchForm) {
+    searchHandler(searchForm, currentPage) {
       // 重新查询时，勾选列表的数据置空
       if (!!this.url && this.url.constructor === Object) {
         this.innerUrl.queryUrl = this.url.queryUrl
@@ -137,6 +137,11 @@ export default {
         ...this.paginationConfig,
         ...searchForm
       }
+
+      if (currentPage) {
+        this.paginationConfig.page = currentPage
+      }
+
       if (this.innerUrl.queryUrl) {
         fetchList(this.paginationConfig, this.innerUrl.queryUrl).then(response => {
           if (this.pagination) {

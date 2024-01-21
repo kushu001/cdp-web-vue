@@ -24,12 +24,12 @@
           <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown">
-          <router-link to="/profile">
+          <!-- <router-link to="/profile">
             <el-dropdown-item>简介</el-dropdown-item>
           </router-link>
           <router-link to="/">
             <el-dropdown-item>仪表盘</el-dropdown-item>
-          </router-link>
+          </router-link> -->
           <a target="_blank" href="https://github.com/kushu001/cdp">
             <el-dropdown-item>Github-[cdp]</el-dropdown-item>
           </a>
@@ -39,12 +39,32 @@
           <!-- <a target="_blank" href="https://panjiachen.github.io/vue-element-admin-site/#/">
             <el-dropdown-item>文档</el-dropdown-item>
           </a> -->
+          <el-dropdown-item @click.native="resetPasswordWindow">
+            <span style="display:block;">重置密码</span>
+          </el-dropdown-item>
           <el-dropdown-item divided @click.native="logout">
             <span style="display:block;">登出</span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
+    <el-dialog title="重置密码" :visible.sync="resetPasswordVisble" width="30%" :append-to-body="true">
+      <el-form ref="form" :model="form" label-position="right" :rules="rules">
+        <el-form-item label="旧新密码" :label-width="formLabelWidth" prop="old_password">
+          <el-input v-model="form.old_password" type="password" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="新密码" :label-width="formLabelWidth" prop="new_password">
+          <el-input v-model="form.new_password" type="password" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="确认密码" :label-width="formLabelWidth" prop="confirm_password">
+          <el-input v-model="form.confirm_password" type="password" autocomplete="off" />
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="resetPasswordVisble = false">取 消</el-button>
+        <el-button type="primary" @click="resetPassword">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -56,6 +76,7 @@ import ErrorLog from '@/components/ErrorLog'
 import Screenfull from '@/components/Screenfull'
 import SizeSelect from '@/components/SizeSelect'
 import Search from '@/components/HeaderSearch'
+import { resetPassword } from './api/login'
 
 export default {
   components: {
@@ -65,6 +86,28 @@ export default {
     Screenfull,
     SizeSelect,
     Search
+  },
+  data() {
+    return {
+      resetPasswordVisble: false,
+      formLabelWidth: '100px',
+      form: {
+        old_password: '',
+        new_password: '',
+        confirm_password: ''
+      },
+      rules: {
+        old_password: [
+          { required: true, message: '旧密码不能为空', trigger: 'blur' }
+        ],
+        new_password: [
+          { required: true, message: '新密码不能为空', trigger: 'blur' }
+        ],
+        confirm_password: [
+          { required: true, message: '确认密码不能为空', trigger: 'blur' }
+        ]
+      }
+    }
   },
   computed: {
     ...mapGetters([
@@ -81,6 +124,41 @@ export default {
       await this.$store.dispatch('user/logout')
       // this.$router.push(`/login?redirect=${this.$route.fullPath}`)
       this.$router.push(`/login`)
+    },
+    resetPasswordWindow() {
+      this.resetPasswordVisble = true
+    },
+    resetPassword() {
+      this.$refs['form'].validate((valid) => {
+        if (valid) {
+          if (this.form.old_password === this.form.new_password) {
+            this.$message({
+              type: 'error',
+              message: '新密码不能与旧密码相同'
+            })
+          } else if (this.form.new_password !== this.form.confirm_password) {
+            this.$message({
+              type: 'error',
+              message: '两次密码不一致'
+            })
+          } else {
+            debugger
+            resetPassword(this.form).then(({ data }) => {
+              debugger
+              if (data.code === 200) {
+                this.$message({
+                  type: 'success',
+                  message: '密码重置成功'
+                })
+                this.resetPasswordVisble = false
+                this.$refs.form.resetFields()
+              }
+            })
+          }
+        } else {
+          return false
+        }
+      })
     }
   }
 }
