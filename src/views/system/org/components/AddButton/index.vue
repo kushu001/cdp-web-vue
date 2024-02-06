@@ -10,7 +10,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="部门代码" prop="code">
+            <el-form-item label="部门编码" prop="code">
               <el-input v-model="form.code" style="width:100%" />
             </el-form-item>
           </el-col>
@@ -57,8 +57,7 @@ export default {
         pid: 0
       },
       rules: {
-        name: [{ required: true, message: '请输入公司/部门名称', trigger: 'blur' }],
-        manager_id: [{ required: true, message: '请选择负责人' }]
+        name: [{ required: true, message: '请输入公司/部门名称', trigger: 'blur' }]
       }
     }
   },

@@ -42,17 +42,13 @@ export default {
           },
           {
             name: 'code',
-            label: '部门编码',
-            formConfig: {
-              rules: [{ required: true, message: '请输入部门编码', trigger: 'blur' }]
-            }
+            label: '部门编码'
           },
           {
             name: 'manager',
             formConfig: {
               name: 'manager_id',
-              type: 'user-select-table',
-              rules: [{ required: true, message: '请选择负责人' }]
+              type: 'user-select-table'
             },
             label: '部门负责人'
           },
