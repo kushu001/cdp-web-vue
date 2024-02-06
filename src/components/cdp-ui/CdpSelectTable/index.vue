@@ -56,6 +56,16 @@ export default {
       }
     }
   },
+  created() {
+    if (this.value) {
+      get(`${this.tableConfig.url}/${this.value}`).then(({ data: res }) => {
+        if (res.code === 200) {
+          const { data } = res
+          this.val = data[this.name]
+        }
+      })
+    }
+  },
   methods: {
     searchHandler(form) {
       this.$refs.table.searchHandler(form)
